@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import FirstColumn from './components/FirstColumn.vue';
-import SecondColumn from './components/SecondColumn.vue';
-import ThirdColumn from './components/ThirdColumn.vue';
+import FirstColumn from './components/columns/FirstColumn.vue';
+import SecondColumn from './components/columns/SecondColumn.vue';
+import ThirdColumn from './components/columns/ThirdColumn.vue';
 
 export default {
   name: 'app',

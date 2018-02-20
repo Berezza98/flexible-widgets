@@ -1,24 +1,16 @@
 <template>
   <div class="firstColumn">
-      <firstColumnButton v-for="item in mainMenu" :key="item.id" :tile="item.text" :image="item.img"></firstColumnButton>
+      <firstColumnButton v-for="item in mainMenu" :key="item.id" :tile="item.text" :image="item.img" :path="item.path"></firstColumnButton>
   </div>
 </template>
 
 <script>
-    import FirstColumnButton from './FirstColumnButton.vue';
+    import FirstColumnButton from '../buttons/FirstColumnButton.vue';
+    import mainMenu from '../../data/mainMenu.js';
     export default{
         data(){
             return {
-                mainMenu: [{
-                    text: "Home",
-                    img: "@assets/text.png",
-                    id: 1
-                },
-                {
-                    text: "Text",
-                    img: "/assets/logo.png",
-                    id: 2
-                }]
+                mainMenu
             }
         },
         components: {
