@@ -25,13 +25,14 @@ export default{
         },
         created(){
             this.$http.get('http://localhost:3300/getFonts').then(({body}) => {
-                this.fonts = body.sort((m, n) => {
-                    if(m.name > n.name){
-                        return 1;
-                    }else{
-                        return 0;
-                    }
+                body.sort((a, b) => {
+                   if(a.name.toLowerCase() > b.name.toLowerCase()){ 
+                    return 1;
+                   }else{
+                    return -1;
+                   }
                 });
+                this.fonts = body;
                 this.downloading = false;
             });
         }
