@@ -24,12 +24,14 @@
     .secondColumnButton{
         width: 95%;
         height: 100px;
+        flex-basis: 100px;
         cursor: pointer;
         box-sizing: border-box;
         border: 1px dotted black;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: auto;
         margin-bottom: 10px;
         background: rgba(0, 0, 0, 0.3);
         transition: all 0.5s;

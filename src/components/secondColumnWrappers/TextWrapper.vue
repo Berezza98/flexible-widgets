@@ -25,7 +25,13 @@ export default{
         },
         created(){
             this.$http.get('http://localhost:3300/getFonts').then(({body}) => {
-                this.fonts = body;
+                this.fonts = body.sort((m, n) => {
+                    if(m.name > n.name){
+                        return 1;
+                    }else{
+                        return 0;
+                    }
+                });
                 this.downloading = false;
             });
         }
@@ -36,9 +42,6 @@ export default{
     .textWrapper{
         height: 100%;
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         padding-top: 10px;
         box-sizing: border-box;
     }
