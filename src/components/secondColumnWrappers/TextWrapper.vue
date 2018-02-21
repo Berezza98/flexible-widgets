@@ -1,26 +1,41 @@
 <template>
-  <div class="textWrapper">
-      <secondColumnButton v-for="font in fonts" :tile="font.name" :key="font.id"></secondColumnButton>
-      <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
-  </div>
+    <div class="searchWrap">
+        <Search></Search>
+        <div class="textWrapper">
+            <FontButton v-for="font in currentFonts" :tile="font.name" :key="font.id"></FontButton>
+            <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
+        </div>
+    </div>
 </template>
 
 <script>
-import SecondColumnButton from '../buttons/SecondColumnButton.vue';
+import FontButton from '../buttons/FontButton.vue';
+import Search from '../Search.vue';
 
 export default{
     data(){
             return{
                 fonts: [],
-                downloading: true
+                downloading: true,
+                searchText: ""
             }
         },
         components: {
-            'secondColumnButton': SecondColumnButton
+            FontButton,
+            Search
         },
         methods: {
             getImg(pic){
                 return require('../../assets/'+pic)
+            }
+        },
+        computed: {
+            currentFonts(){
+                return this.fonts.filter(item => {
+                    if(item.name.toLowerCase().indexOf(this.$store.state.searchingData.toLowerCase()) !== -1){
+                        return true;
+                    }
+                });
             }
         },
         created(){
@@ -41,15 +56,23 @@ export default{
 
 <style scoped>
     .textWrapper{
-        height: 100%;
+        height: calc(100% - 100px);
         width: 100%;
         padding-top: 10px;
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: scroll;
+    }
+
+    .searchWrap{
+        height: 100%;
     }
 
     .loader{
-        margin: auto;
-        widows: 100px;
+        width: 100px;
         height: 100px;
+        margin: auto;
     }
 </style>

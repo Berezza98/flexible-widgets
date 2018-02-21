@@ -31,10 +31,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: auto;
         margin-bottom: 10px;
         background: rgba(0, 0, 0, 0.3);
         transition: all 0.5s;
+        flex-shrink: 0;
     }
 
     .secondColumnButton:hover{

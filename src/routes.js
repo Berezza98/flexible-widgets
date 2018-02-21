@@ -1,5 +1,6 @@
 import TextWrapper from './components/secondColumnWrappers/TextWrapper.vue';
 import ImagesWrapper from './components/secondColumnWrappers/ImagesWrapper.vue';
+import ShapesWrapper from './components/secondColumnWrappers/ShapesWrapper.vue';
 
 export default [
     {
@@ -12,7 +13,7 @@ export default [
     },
     {
         path: "/shapes",
-        component: TextWrapper
+        component: ShapesWrapper
     },
     {
         path: "/templates",
