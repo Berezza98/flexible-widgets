@@ -37,13 +37,13 @@
         height: 200px;
         width: 95%;
         margin-bottom: 10px;
-        flex-shrink: 0;
-        display: flex;
+        /* flex-shrink: 0; */
+        /* display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-around; */
         transition: all 0.5s;
-        cursor: pointer;
+        text-align: center;
     }
 
     .shapeWrapper:hover{
