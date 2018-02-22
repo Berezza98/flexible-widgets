@@ -1,18 +1,23 @@
 <template>
   <div class="secondColumn">
       <div class="container">
+          <search-block></search-block>
           <router-view></router-view>
       </div>
   </div>
 </template>
 
 <script>
+    import Search from '../search.vue';
 
     export default{
         data(){
             return{
                 
             }
+        },
+        components: {
+            'search-block': Search
         }
     }
 </script>

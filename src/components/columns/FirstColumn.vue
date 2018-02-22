@@ -1,11 +1,11 @@
 <template>
   <div class="firstColumn">
-      <MainMenuButton v-for="item in mainMenu" :key="item.id" :tile="item.text" :image="item.img" :path="item.path"></MainMenuButton>
+      <main-menu-button v-for="item in mainMenu" :key="item.id" :tile="item.text" :image="item.img" :path="item.path"></main-menu-button>
   </div>
 </template>
 
 <script>
-    import MainMenuButton from '../buttons/MainMenuButton.vue';
+    import MainMenuButton from '../buttons/mainMenuButton.vue';
     import mainMenu from '../../data/mainMenu.js';
     export default{
         data(){
@@ -14,7 +14,7 @@
             }
         },
         components: {
-            MainMenuButton
+            'main-menu-button': MainMenuButton
         }
     }
 </script>

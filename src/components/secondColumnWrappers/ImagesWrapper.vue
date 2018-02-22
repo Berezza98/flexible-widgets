@@ -1,16 +1,12 @@
 <template>
-    <div class="searchWrap">
-        <Search></Search>
-        <div class="images">
-            <imageBlock v-for="(source, index) in sources" :imageSource="source" :key="index"></imageBlock>
-            <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
-        </div>
+    <div class="images">
+        <image-block v-for="(source, index) in sources" :imageSource="source" :key="index"></image-block>
+        <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
 </template>
 
 <script>
-    import Image from '../Image.vue';
-    import Search from '../Search.vue';
+    import Image from '../image.vue';
 
     export default{
         data(){
@@ -19,14 +15,13 @@
                 downloading: true
             }
         },
+        components: {
+            'image-block': Image
+        },
         methods: {
             getImg(pic){
                 return require('../../assets/'+pic)
             }
-        },
-        components: {
-            'imageBlock': Image,
-            Search
         },
         created(){
             this.$http.get('http://localhost:3300/getImages').then(({body}) => {
@@ -47,10 +42,6 @@
         padding-top: 10px;
         box-sizing: border-box;
         overflow-y: scroll;
-    }
-
-    .searchWrap{
-        height: 100%;
     }
 
     .loader{

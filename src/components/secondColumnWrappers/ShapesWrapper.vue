@@ -1,22 +1,14 @@
 <template>
-<div class="searchWrap">
-    <Search></Search>
     <div class="shapes">
-      <ShapeButton v-for="(shape, index) in correctShapes" :key="index" :imageSource="shape.src" :tile="shape.name"></ShapeButton>
+      <shape-button v-for="(shape, index) in correctShapes" :key="index" :imageSource="shape.src" :tile="shape.name"></shape-button>
     </div>
-</div>
 </template>
 
 <script>
     import interact from 'interactjs';
     import ShapeButton from '../buttons/ShapeButton.vue';
-    import Search from '../Search.vue';
 
     export default{
-        components: {
-            ShapeButton,
-            Search
-        },
         data(){
             return{
                 shapes: [
@@ -39,6 +31,9 @@
                 ]
             }
         },
+        components: {
+            'shape-button': ShapeButton
+        },
         methods: {
 
         },
@@ -56,8 +51,6 @@
         created(){
             interact('.shapeWrapper')
             .draggable({
-                // enable inertial throwing
-                inertia: false,
                 // keep the element within the area of it's parent
                 restrict: {
                 },
@@ -102,8 +95,6 @@
                 restrictSize: {
                 min: { width: 100, height: 50 },
                 },
-
-                inertia: true,
             })
             .on('resizemove', function (event) {
                 var target = event.target,
@@ -130,9 +121,6 @@
 </script>
 
 <style scoped>
-    .searchWrap{
-        height: 100%;
-    }
     .shapes{
         height: calc(100% - 100px);
         width: 100%;

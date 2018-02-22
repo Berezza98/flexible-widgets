@@ -1,16 +1,12 @@
 <template>
-    <div class="searchWrap">
-        <Search></Search>
-        <div class="textWrapper">
-            <FontButton v-for="font in currentFonts" :tile="font.name" :key="font.id"></FontButton>
-            <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
-        </div>
+    <div class="textWrapper">
+        <font-button v-for="font in currentFonts" :tile="font.name" :key="font.id"></font-button>
+        <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
 </template>
 
 <script>
-import FontButton from '../buttons/FontButton.vue';
-import Search from '../Search.vue';
+import FontButton from '../buttons/fontButton.vue';
 
 export default{
     data(){
@@ -21,8 +17,7 @@ export default{
             }
         },
         components: {
-            FontButton,
-            Search
+            'font-button': FontButton
         },
         methods: {
             getImg(pic){
@@ -64,10 +59,6 @@ export default{
         flex-direction: column;
         align-items: center;
         overflow-y: scroll;
-    }
-
-    .searchWrap{
-        height: 100%;
     }
 
     .loader{

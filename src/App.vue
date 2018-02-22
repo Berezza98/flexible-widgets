@@ -1,22 +1,25 @@
 <template>
   <div id="app">
-    <firstColumn></firstColumn>
-    <secondColumn></secondColumn>
-    <thirdColumn></thirdColumn>
+    <first-column></first-column>
+    <second-column></second-column>
+    <third-column></third-column>
   </div>
 </template>
 
 <script>
-import FirstColumn from './components/columns/FirstColumn.vue';
-import SecondColumn from './components/columns/SecondColumn.vue';
-import ThirdColumn from './components/columns/ThirdColumn.vue';
+import FirstColumn from './components/columns/firstColumn.vue';
+import SecondColumn from './components/columns/secondColumn.vue';
+import ThirdColumn from './components/columns/thirdColumn.vue';
 
 export default {
   name: 'app',
   components: {
-    'firstColumn' : FirstColumn,
-    'secondColumn' : SecondColumn,
-    'thirdColumn' : ThirdColumn
+    'first-column' : FirstColumn,
+    'second-column' : SecondColumn,
+    'third-column' : ThirdColumn
+  },
+  methods: {
+    
   }
 }
 </script>
