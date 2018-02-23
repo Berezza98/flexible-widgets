@@ -1,41 +1,28 @@
 <template>
   <div class="thirdColumn">
-
+      <choose-orientation v-if="!orientation"></choose-orientation>
+      <canvas-block v-if="orientation" :typeOfCanvas="orientation"></canvas-block>
   </div>
 </template>
 
 <script>
-    import interact from 'interactjs';
+    import Canvas from '../layouts/canvas.vue';
+    import ChooseOrientation from '../layouts/chooseOrientation.vue';
 
     export default{
-        components: {
-            
+        data(){
+            return{
+
+            }
         },
-        created(){
-            interact('.thirdColumn').dropzone({
-                accept: '.shapeWrapper',
-                overlap: 0.3,
-                ondropactivate: function (event) {
-                    event.target.classList.add('drop-active');
-                },
-                ondragenter: function (event) {
-                    var draggableElement = event.relatedTarget,
-                    dropzoneElement = event.target;
-                    dropzoneElement.classList.add('drop-target');
-                    draggableElement.classList.add('can-drop');
-                },
-                ondragleave: function (event) {
-                    event.target.classList.remove('drop-target');
-                    event.relatedTarget.classList.remove('can-drop');
-                },
-                ondrop: function (event) {
-                    console.log('dropped');
-                },
-                ondropdeactivate: function (event){
-                    event.target.classList.remove('drop-active');
-                    event.target.classList.remove('drop-target');
-                }
-            });
+        computed: {
+            orientation(){
+                return this.$store.getters.getOrientation;
+            }
+        },
+        components: {
+            'canvas-block': Canvas,
+            'choose-orientation': ChooseOrientation
         }
     }
 </script>
@@ -44,7 +31,8 @@
     .thirdColumn{
         width: 65%;
         height: 100%;
-        background: rgb(137, 141, 143)
+        background: rgb(137, 141, 143);
+        display: flex;
     }
 </style>
 
