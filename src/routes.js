@@ -1,6 +1,6 @@
-import TextWrapper from './components/secondColumnWrappers/TextWrapper.vue';
-import ImagesWrapper from './components/secondColumnWrappers/ImagesWrapper.vue';
-import ShapesWrapper from './components/secondColumnWrappers/ShapesWrapper.vue';
+import TextWrapper from './components/secondColumnWrappers/textWrapper.vue';
+import ImagesWrapper from './components/secondColumnWrappers/imagesWrapper.vue';
+import ShapesWrapper from './components/secondColumnWrappers/shapesWrapper.vue';
 
 export default [
     {

@@ -6,7 +6,7 @@
 
 <script>
     import interact from 'interactjs';
-    import ShapeButton from '../buttons/ShapeButton.vue';
+    import ShapeButton from '../buttons/shapeButton.vue';
 
     export default{
         data(){
