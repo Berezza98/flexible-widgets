@@ -2,9 +2,7 @@
     <div class="shapeWrapper">
         <img class="shapeImage" :src="getImg(imageSource)">
         <h2 class="tile">{{tile}}</h2>
-        <div class="elementToShow">
-            <div :is="correctComponent"></div>
-        </div>
+        <component :is="correctComponent"></component>
     </div>
 </template>
 
@@ -97,6 +95,8 @@
         justify-content: space-around;
         transition: background 0.5s;
         text-align: center;
+        position: relative;
+        z-index: 1;
     }
 
     .shapeWrapper:hover{

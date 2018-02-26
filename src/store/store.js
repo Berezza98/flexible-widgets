@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
     state: {
         searchingData: "", //FOR SEARCH COMPONENT
         currentOrientation: "",
-        readyForCreateWidget: false
+        readyForCreateWidget: false,
+        currentScale: 1
     },
     getters: {
         getOrientation(state){
@@ -24,6 +25,9 @@ export const store = new Vuex.Store({
         },
         createWidget(state){
             state.readyForCreateWidget = true;
+        },
+        changeScale(state, value){
+            state.currentScale = value;
         }
     }
 });

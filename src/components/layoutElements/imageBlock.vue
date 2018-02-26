@@ -1,5 +1,5 @@
 <template>
-    <div class="rectangle elementToClone"></div>
+    <img class="image elementToClone" :src="imageSource">
 </template>
 
 <script>
@@ -8,11 +8,20 @@
     export default{
         data(){
             return{
-                
+
             }
         },
+        props: {
+            imageSource: {
+                type: String,
+                required: true
+            }
+        },
+        methods: {
+
+        },
         created(){
-            interact('.rectangle')
+            interact('.image')
             .draggable({
                 restrict: {
                     restriction: ".canvas"
@@ -24,8 +33,8 @@
                     console.log(event);
                 }
             }).resizable({
-                edges: { bottom: true, right: true},
                 squareResize: true,
+                edges: { bottom: true, right: true},
             }).on('resizemove', function (event) {
                 let target = event.target,
                 x = (parseFloat(target.getAttribute('data-x')) || 0),
@@ -66,15 +75,12 @@
         display: block;
     }
 
-    .rectangle{
-        height: 100px;
-        width: 100px;
-        box-sizing: border-box;
-        border: 2px solid black;
-        position: absolute;
+    .image{
+        height: 300px;
+        width: 300px;
     }
 
-    .rectangle.active{
+    .image.active{
         border: 2px dotted black;
     }
 </style>

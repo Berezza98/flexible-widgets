@@ -1,7 +1,5 @@
 <template>
-  <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
-
-  </div>
+    <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'width: ' + 960*currentScale + 'px; ' + 'height: ' + 540*currentScale + 'px'"></div>
 </template>
 
 <script>
@@ -13,6 +11,11 @@
 
             }
         },
+        computed: {
+            currentScale(){
+                return this.$store.state.currentScale;
+            }
+        },
         props: {
             typeOfCanvas: {
                 type: String,
@@ -21,7 +24,7 @@
         },
         created(){
             interact('.canvas').dropzone({
-                accept: '.shapeWrapper',
+                accept: '.shapeWrapper, .secondColumnButton, .image_template',
                 overlap: 1,
                 ondropactivate: function (event) {
                     event.target.classList.add('drop-active');
@@ -46,7 +49,7 @@
                     };
                     console.log(correctPosition);
                     let droppableZone = document.querySelector('.canvas');
-                    let currentElementClone = event.relatedTarget.querySelector('.shape').cloneNode(true);
+                    let currentElementClone = event.relatedTarget.querySelector('.elementToClone').cloneNode(true);
                     console.log(currentElementClone.style);
                     droppableZone.appendChild(currentElementClone);
                     currentElementClone.style.webkitTransform = currentElementClone.style.transform = 'translate(' + correctPosition.x + 'px,' + correctPosition.y + 'px)';
@@ -57,9 +60,13 @@
 </script>
 
 <style scoped>
+    .scaleWrapper{
+        height: 100%;
+        width: 100%;
+        display: flex;
+    }
     .canvas{
         background: white;
-        margin: auto;
         overflow: hidden;
     }
 

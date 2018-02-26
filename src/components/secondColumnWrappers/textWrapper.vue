@@ -8,6 +8,7 @@
 <script>
 import FontButton from '../buttons/fontButton.vue';
 
+
 export default{
     data(){
             return{
@@ -59,6 +60,7 @@ export default{
         flex-direction: column;
         align-items: center;
         overflow-y: scroll;
+        overflow-x: hidden;
     }
 
     .loader{

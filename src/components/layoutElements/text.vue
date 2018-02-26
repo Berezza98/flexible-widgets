@@ -1,18 +1,18 @@
 <template>
-    <div class="rectangle elementToClone"></div>
+    <textarea class="textBlock elementToClone" type="text" v-model="inputText"></textarea>
 </template>
 
 <script>
     import interact from 'interactjs';
 
-    export default{
+    export default {
         data(){
             return{
-                
+                inputText: ""
             }
         },
         created(){
-            interact('.rectangle')
+            interact('.textBlock')
             .draggable({
                 restrict: {
                     restriction: ".canvas"
@@ -24,8 +24,8 @@
                     console.log(event);
                 }
             }).resizable({
-                edges: { bottom: true, right: true},
                 squareResize: true,
+                edges: { bottom: true, right: true},
             }).on('resizemove', function (event) {
                 let target = event.target,
                 x = (parseFloat(target.getAttribute('data-x')) || 0),
@@ -58,23 +58,22 @@
 </script>
 
 <style scoped>
+    .textBlock{
+        resize: none;
+        border: none;
+        font-size: 30px;
+        background: lightblue;
+    }
+
+    .textBlock:hover{
+        cursor: move;
+    }
+
     .elementToClone{
-        display: none;
+        display: none;    
     }
 
     .canvas .elementToClone{
-        display: block;
-    }
-
-    .rectangle{
-        height: 100px;
-        width: 100px;
-        box-sizing: border-box;
-        border: 2px solid black;
-        position: absolute;
-    }
-
-    .rectangle.active{
-        border: 2px dotted black;
+        display: block;    
     }
 </style>

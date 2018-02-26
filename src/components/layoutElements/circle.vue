@@ -1,7 +1,5 @@
 <template>
-    <div class="shape">
-        <div class="circle"></div>
-    </div>
+    <div class="circle elementToClone"></div>
 </template>
 
 <script>
@@ -60,11 +58,11 @@
 </script>
 
 <style scoped>
-    .shape{
+    .elementToClone{
         display: none;
     }
 
-    .canvas .shape{
+    .canvas .elementToClone{
         display: block;
     }
 
