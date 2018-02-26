@@ -1,9 +1,7 @@
 <template>
   <div class="secondColumnButton">
         <h2 class="buttonName">{{tile}}</h2>
-        <div class="elementToShow">
-            <text-interactive></text-interactive>
-        </div>
+        <text-interactive></text-interactive>
   </div>
 </template>
 
@@ -38,6 +36,7 @@
                 onmove: dragMoveListener,
                 onend(event){
                     let container = document.querySelector('.textWrapper');
+                    container.classList.remove('hideOverflow');
                     let {x, y} = startPositions;
                     event.target.style.webkitTransform = event.target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
                     event.target.setAttribute('data-x', x);
@@ -46,6 +45,7 @@
                 },
                 onstart(event){
                     let container = document.querySelector('.textWrapper');
+                    container.classList.add('hideOverflow');
                     startPositions = {
                         x: event.dx,
                         y: event.dy

@@ -63,6 +63,11 @@ export default{
         overflow-x: hidden;
     }
 
+    .hideOverflow{
+        overflow-x: initial;
+        overflow-y: initial;
+    }
+
     .loader{
         width: 100px;
         height: 100px;

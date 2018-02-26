@@ -17,7 +17,6 @@
                 restrict: {
                     restriction: ".canvas"
                 },
-                autoScroll: false,
                 onmove: dragMoveListener,
                 onend(event){
                     event.target.classList.remove('active');

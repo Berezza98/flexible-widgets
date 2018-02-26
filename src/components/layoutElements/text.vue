@@ -1,5 +1,5 @@
 <template>
-    <textarea class="textBlock elementToClone" type="text" v-model="inputText"></textarea>
+    <textarea class="textBlock elementToClone" type="text" v-model="inputText" value="inputText"></textarea>
 </template>
 
 <script>
@@ -8,7 +8,7 @@
     export default {
         data(){
             return{
-                inputText: ""
+                inputText: "Here will be your text"
             }
         },
         created(){
@@ -62,7 +62,8 @@
         resize: none;
         border: none;
         font-size: 30px;
-        background: lightblue;
+        position: absolute;
+        background: transparent;
     }
 
     .textBlock:hover{
@@ -70,7 +71,7 @@
     }
 
     .elementToClone{
-        display: none;    
+        display: none;  
     }
 
     .canvas .elementToClone{

@@ -1,10 +1,12 @@
 <template>
-    <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'width: ' + 960*currentScale + 'px; ' + 'height: ' + 540*currentScale + 'px'"></div>
+    <div class="canvas_wrapper">
+        <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'transform: scale('+ currentScale +');'"></div>
+    </div> 
 </template>
 
 <script>
     import interact from 'interactjs';
-
+    // <!-'transform: scale('+ currentScale +');'-> :style="'width: '+ 960*currentScale + 'px; ' + 'height: '+ 540*currentScale + 'px; '"
     export default{
         data(){
             return{
@@ -51,6 +53,8 @@
                     let droppableZone = document.querySelector('.canvas');
                     let currentElementClone = event.relatedTarget.querySelector('.elementToClone').cloneNode(true);
                     console.log(currentElementClone.style);
+                    currentElementClone.setAttribute("data-x", correctPosition.x);
+                    currentElementClone.setAttribute("data-y", correctPosition.y);
                     droppableZone.appendChild(currentElementClone);
                     currentElementClone.style.webkitTransform = currentElementClone.style.transform = 'translate(' + correctPosition.x + 'px,' + correctPosition.y + 'px)';
                 }
@@ -60,14 +64,20 @@
 </script>
 
 <style scoped>
-    .scaleWrapper{
+    .canvas_wrapper{
         height: 100%;
         width: 100%;
+        overflow: auto;
         display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .canvas{
         background: white;
         overflow: hidden;
+        transform-origin: 0 0;
+        position: relative;
+        margin: 100px;
     }
 
     .portrait{

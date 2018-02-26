@@ -47,6 +47,7 @@ body{
 }
 /* optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-    background: #FF0000;
+    background: black;
+    border-radius: 10px;
 }
 </style>
