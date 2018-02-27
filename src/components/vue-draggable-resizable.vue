@@ -131,7 +131,7 @@ export default {
       type: Boolean, default: false
     },
     dropZone: {
-      type: String, default: false
+      type: String, default: ""
     },
     returnToStartPosition: {
       type: Boolean, default: false, require: false
