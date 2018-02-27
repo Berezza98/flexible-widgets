@@ -1,6 +1,8 @@
 <template>
     <div class="shapes">
-      <shape-button v-for="(shape, index) in correctShapes" :key="index" :imageSource="shape.src" :tile="shape.name" :correctComponent="shape.component"></shape-button>
+      <shape-button v-for="(shape, index) in correctShapes" :key="index" :imageSource="shape.src" :tile="shape.name" :correctComponent="shape.component">
+
+      </shape-button>
     </div>
 </template>
 
@@ -14,22 +16,22 @@
                     {
                         name: "rectangle",
                         src: "rectangle.png",
-                        component: "rectangle-shape"
+                        component: "rectangle-block"
                     },
                     {
                         name: "square",
                         src: "square.png",
-                        component: "rectangle-shape"
+                        component: "rectangle-block"
                     },
                     {
                         name: "ellipse",
                         src: "ellipse.png",
-                        component: "circle-shape"
+                        component: "circle-block"
                     },
                     {
                         name: "circle",
                         src: "circle.png",
-                        component: "circle-shape"
+                        component: "circle-block"
                     }
                 ]
             }
@@ -64,8 +66,6 @@
         padding-top: 10px;
         box-sizing: border-box;
         position: relative;
-        /* overflow-y: auto;
-        overflow-x: hidden; */
     }
 
     .searchWrap{

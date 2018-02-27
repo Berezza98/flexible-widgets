@@ -44,11 +44,6 @@
         overflow-y: scroll;
     }
 
-    .hideOverflow{
-        overflow-y: initial;
-        overflow-x: initial;
-    }
-
     .loader{
         margin: auto;
         widows: 100px;

@@ -9,7 +9,8 @@ export const store = new Vuex.Store({
         searchingData: "", //FOR SEARCH COMPONENT
         currentOrientation: "",
         readyForCreateWidget: false,
-        currentScale: 1
+        currentScale: 1,
+        draggableInsideCanvas: []
     },
     getters: {
         getOrientation(state){
@@ -28,6 +29,9 @@ export const store = new Vuex.Store({
         },
         changeScale(state, value){
             state.currentScale = value;
+        },
+        addElementInsideCanvas(state, obj){
+            state.draggableInsideCanvas.push(obj);
         }
     }
 });

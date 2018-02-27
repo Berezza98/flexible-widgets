@@ -6,6 +6,10 @@ import VueRouter from 'vue-router'
 import routes from './routes';
 import {store} from './store/store';
 
+import VueDraggableResizable from './components/vue-draggable-resizable.vue';
+
+Vue.component('draggable', VueDraggableResizable);
+
 Vue.use(VueResource);
 Vue.use(VueRouter);
 

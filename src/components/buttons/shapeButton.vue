@@ -1,17 +1,17 @@
 <template>
     <div class="shapeWrapper">
-        <img class="shapeImage" :src="getImg(imageSource)">
-        <h2 class="tile">{{tile}}</h2>
-        <component :is="correctComponent"></component>
+        <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
+            <div class="inside_draggable">
+                <img draggable="false" class="shapeImage" :src="getImg(imageSource)">
+                <h2 class="tile">{{tile}}</h2>
+            </div>
+        </draggable>
     </div>
 </template>
 
 <script>
     import Rectangle from '../layoutElements/rectangle.vue';
     import Circle from '../layoutElements/circle.vue';
-
-
-    import interact from 'interactjs';
     
     export default{
         data(){
@@ -39,43 +39,12 @@
         },
         methods: {
             getImg(pic){
-                return require('../../assets/shapes/'+pic)
-            }
-        },
-        created(){
-            let startPositions = null;
-            interact('.shapeWrapper')
-            .draggable({
-                restrict: {
-                    restriction: "#app"
-                },
-                autoScroll: false,
-                onmove: dragMoveListener,
-                onend(event){
-                    console.log(event);
-                    let {x, y} = startPositions;
-                    event.target.style.webkitTransform = event.target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-                    event.target.setAttribute('data-x', x);
-                    event.target.setAttribute('data-y', y);
-                    event.target.classList.remove('can-drop');
-                },
-                onstart(event){
-                    startPositions = {
-                        x: event.dx,
-                        y: event.dy
-                    };
-                }
-            });
-
-            function dragMoveListener(event) {
-                let target = event.target,
-                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-                target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
-
-                target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);
+                return require('../../assets/shapes/'+pic);
+            },
+            droppedInside(){
+                this.$store.commit("addElementInsideCanvas", {
+                    name: this.correctComponent
+                });
             }
         }
     }
@@ -83,20 +52,26 @@
 
 <style scoped>
     .shapeWrapper{
-        border: 2px dotted black;
         background: rgba(0, 0, 0, 0.3);
         height: 200px;
         width: 95%;
         margin-bottom: 10px;
         flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
         transition: background 0.5s;
         text-align: center;
         position: relative;
         z-index: 1;
+    }
+
+    .inside_draggable{
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border: 2px dotted black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
     }
 
     .shapeWrapper:hover{

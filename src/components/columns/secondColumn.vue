@@ -2,7 +2,7 @@
   <div class="secondColumn">
       <div class="container">
           <search-block></search-block>
-          <router-view></router-view>
+          <router-view v-if="readyForCreateWidget"></router-view>
       </div>
   </div>
 </template>
@@ -18,6 +18,11 @@
         },
         components: {
             'search-block': Search
+        },
+        computed: {
+            readyForCreateWidget(){
+                return this.$store.state.readyForCreateWidget
+            } 
         }
     }
 </script>

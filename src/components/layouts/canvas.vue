@@ -1,21 +1,35 @@
 <template>
     <div class="canvas_wrapper">
-        <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'transform: scale('+ currentScale +');'"></div>
+        <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'transform: scale('+ currentScale +');'">
+            <component v-for="(element, index) in draggableInsideCanvas" :key="index" :is="element.name" v-bind="element.props"></component>
+        </div>
     </div> 
 </template>
 
 <script>
-    import interact from 'interactjs';
+    import Text from '../layoutElements/text.vue';
+    import Image from '../layoutElements/imageBlock.vue';
+    import Rectangle from '../layoutElements/rectangle.vue';
+    import Circle from '../layoutElements/circle.vue';
     // <!-'transform: scale('+ currentScale +');'-> :style="'width: '+ 960*currentScale + 'px; ' + 'height: '+ 540*currentScale + 'px; '"
     export default{
         data(){
             return{
-
+                
             }
+        },
+        components: {
+            'text-block': Text,
+            'image-block': Image,
+            'rectangle-block': Rectangle,
+            'circle-block': Circle
         },
         computed: {
             currentScale(){
                 return this.$store.state.currentScale;
+            },
+            draggableInsideCanvas(){
+                return this.$store.state.draggableInsideCanvas;
             }
         },
         props: {
@@ -23,42 +37,6 @@
                 type: String,
                 required: true
             }
-        },
-        created(){
-            interact('.canvas').dropzone({
-                accept: '.shapeWrapper, .secondColumnButton, .image_template',
-                overlap: 1,
-                ondropactivate: function (event) {
-                    event.target.classList.add('drop-active');
-                },
-                ondragenter: function (event) {
-                    let draggableElement = event.relatedTarget,
-                    dropzoneElement = event.target;
-                    draggableElement.classList.add('can-drop');
-                },
-                ondragleave: function (event) {
-                    event.relatedTarget.classList.remove('can-drop');
-                },
-                ondrop: function (event) {
-                    console.log(event);
-                    let positionOfCanvas = document.querySelector('.canvas').getBoundingClientRect();
-                    let positionOfElement = event.relatedTarget.getBoundingClientRect();
-
-                    console.log(positionOfCanvas,positionOfElement);
-                    let correctPosition = {
-                        x: event.dragEvent.clientX - positionOfCanvas.left,
-                        y: event.dragEvent.clientY - positionOfCanvas.top
-                    };
-                    console.log(correctPosition);
-                    let droppableZone = document.querySelector('.canvas');
-                    let currentElementClone = event.relatedTarget.querySelector('.elementToClone').cloneNode(true);
-                    console.log(currentElementClone.style);
-                    currentElementClone.setAttribute("data-x", correctPosition.x);
-                    currentElementClone.setAttribute("data-y", correctPosition.y);
-                    droppableZone.appendChild(currentElementClone);
-                    currentElementClone.style.webkitTransform = currentElementClone.style.transform = 'translate(' + correctPosition.x + 'px,' + correctPosition.y + 'px)';
-                }
-            });
         }
     }
 </script>
