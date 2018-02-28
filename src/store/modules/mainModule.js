@@ -41,7 +41,7 @@ export default {
 
             state.draggableInsideCanvas.splice(index, 1);
         },
-        chnageCurrentActiveElement(state, id){
+        changeCurrentActiveElement(state, id){
             state.currentActiveElement = id;
         }
     }

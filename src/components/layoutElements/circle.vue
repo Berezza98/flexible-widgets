@@ -26,7 +26,7 @@
         methods: {
             addPanel(value){
                 this.showPanel = value;
-                this.$store.commit('chnageCurrentActiveElement', this.id, {module: "main"});
+                this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
             }
         }
     }

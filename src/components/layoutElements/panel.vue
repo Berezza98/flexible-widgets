@@ -13,7 +13,7 @@
     export default{
         data(){
             return {
-                backgroundColor: ""
+                
             }
         },
         methods: {
@@ -24,6 +24,14 @@
         computed: {
             getActiveEl(){
                 return this.$store.state.main.currentActiveElement;
+            },
+            backgroundColor :{
+                get(){
+                    return this.$store.state.activeElement.backgroundColor;
+                },
+                set(value){
+                    this.$store.commit("changeBackgroundColor", value, {module: "activeElement"})
+                }
             }
         }
     }
