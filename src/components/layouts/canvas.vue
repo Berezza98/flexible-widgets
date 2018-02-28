@@ -1,7 +1,7 @@
 <template>
     <div class="canvas_wrapper">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'transform: scale('+ currentScale +');'">
-            <component v-for="(element, index) in draggableInsideCanvas" :key="index" :is="element.name" v-bind="element.props"></component>
+            <component v-for="(element, index) in draggableInsideCanvas" :key="index" :is="element.name" :id="element.id" v-bind="element.props"></component>
         </div>
     </div> 
 </template>

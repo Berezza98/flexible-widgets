@@ -10,7 +10,9 @@ export const store = new Vuex.Store({
         currentOrientation: "",
         readyForCreateWidget: false,
         currentScale: 1,
-        draggableInsideCanvas: []
+        IDOfElement: 0,
+        draggableInsideCanvas: [],
+        currentActiveElement: 0
     },
     getters: {
         getOrientation(state){
@@ -31,7 +33,22 @@ export const store = new Vuex.Store({
             state.currentScale = value;
         },
         addElementInsideCanvas(state, obj){
+            obj.id = state.IDOfElement++;
             state.draggableInsideCanvas.push(obj);
+        },
+        deleteElementFromCanvas(state, id){
+            let index = state.draggableInsideCanvas.findIndex((element, index, array) => {
+                if(element.id === id){
+                    return true;
+                }else{
+                   return false; 
+                }
+            });
+
+            state.draggableInsideCanvas.splice(index, 1);
+        },
+        chnageCurrentActiveElement(state, id){
+            state.currentActiveElement = id;
         }
     }
 });

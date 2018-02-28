@@ -6,7 +6,7 @@
       draggable: draggable,
       resizable: resizable,
       active: enabled,
-      dragging: dragging,
+      customDragging: dragging,
       resizing: resizing,
       insideDropZone: insideDropZone
     }"
