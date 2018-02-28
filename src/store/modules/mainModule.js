@@ -4,7 +4,6 @@ export default {
         currentOrientation: "",
         readyForCreateWidget: false,
         currentScale: 1,
-        IDOfElement: 0,
         draggableInsideCanvas: [],
         currentActiveElement: 0
     },
@@ -27,7 +26,7 @@ export default {
             state.currentScale = value;
         },
         addElementInsideCanvas(state, obj){
-            obj.id = state.IDOfElement++;
+            obj.id = new Date().getTime();
             state.draggableInsideCanvas.push(obj);
         },
         deleteElementFromCanvas(state, id){

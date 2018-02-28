@@ -1,7 +1,10 @@
 <template>
     <div class="panel">
         <div class="button">
-            <input v-model="backgroundColor" type="color">
+            <input v-model="backgroundColor" type="color" />
+        </div>
+        <div class="button">
+            <input v-model="opacity" />
         </div>
         <div class="button" @click="deleteElement">
             <h2>Del</h2>
@@ -32,6 +35,14 @@
                 set(value){
                     this.$store.commit("changeBackgroundColor", value, {module: "activeElement"})
                 }
+            },
+            opacity :{
+                get(){
+                    return this.$store.state.activeElement.opacity;
+                },
+                set(value){
+                    this.$store.commit("changeOpacity", value, {module: "activeElement"})
+                }
             }
         }
     }
@@ -55,6 +66,11 @@
         background: salmon;
         box-sizing: border-box;
         border-right: 1px solid black;
+    }
+
+    input{
+        height: 80%;
+        width: 80%;
     }
 
     .button h2{

@@ -33,9 +33,13 @@
             backgroundColor(){
                 return this.$store.state.activeElement.backgroundColor;
             },
+            opacity(){
+                return this.$store.state.activeElement.opacity;
+            },
             styles(){
                 return {
-                    backgroundColor: this.backgroundColor
+                    backgroundColor: this.backgroundColor,
+                    opacity: this.opacity
                 }
             }
         }

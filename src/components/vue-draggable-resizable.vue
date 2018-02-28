@@ -161,6 +161,19 @@ export default {
 
     this.elmW = 0
     this.elmH = 0
+
+    this.$watch('width', (newValue) => {
+      console.log('width: ', newValue);
+    });
+    this.$watch('height', (newValue) => {
+      console.log('height: ', newValue);
+    });
+    this.$watch('top', (newValue) => {
+      console.log('top: ', newValue);
+    });
+    this.$watch('left', (newValue) => {
+      console.log('left: ', newValue);
+    });
   },
   mounted: function () {
     document.documentElement.addEventListener('mousemove', this.handleMove, true)

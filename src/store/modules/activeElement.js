@@ -1,6 +1,7 @@
 export default {
     state: {
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        opacity: 1
     },
     getters: {
         
@@ -8,6 +9,9 @@ export default {
     mutations: {
         changeBackgroundColor(state, value){
             state.backgroundColor = value;
+        },
+        changeOpacity(state, value){
+            state.opacity = value;
         }
     }
 }
