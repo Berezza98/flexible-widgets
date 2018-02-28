@@ -24,7 +24,7 @@
             droppedInside(){
                 this.$store.commit("addElementInsideCanvas", {
                     name: "text-block"
-                });
+                }, {module: "main"});
             }
         },
         props: {

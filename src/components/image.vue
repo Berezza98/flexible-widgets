@@ -27,7 +27,7 @@
                     props: {
                         imageSource: this.imageSource
                     }
-                });
+                }, {module: "main"});
             }
         },
         props: {

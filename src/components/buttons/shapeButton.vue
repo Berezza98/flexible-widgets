@@ -44,7 +44,7 @@
             droppedInside(){
                 this.$store.commit("addElementInsideCanvas", {
                     name: this.correctComponent
-                });
+                }, {module: "main"});
             }
         }
     }
@@ -61,6 +61,7 @@
         text-align: center;
         position: relative;
         z-index: 1;
+        user-select: none;
     }
 
     .inside_draggable{

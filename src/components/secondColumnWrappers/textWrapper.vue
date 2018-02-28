@@ -28,7 +28,7 @@ export default{
         computed: {
             currentFonts(){
                 return this.fonts.filter(item => {
-                    if(item.name.toLowerCase().indexOf(this.$store.state.searchingData.toLowerCase()) !== -1){
+                    if(item.name.toLowerCase().indexOf(this.$store.state.main.searchingData.toLowerCase()) !== -1){
                         return true;
                     }
                 });

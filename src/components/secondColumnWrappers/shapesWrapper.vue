@@ -1,7 +1,6 @@
 <template>
     <div class="shapes">
       <shape-button v-for="(shape, index) in correctShapes" :key="index" :imageSource="shape.src" :tile="shape.name" :correctComponent="shape.component">
-
       </shape-button>
     </div>
 </template>
@@ -45,7 +44,7 @@
         computed: {
             correctShapes(){
                 return this.shapes.filter(shape => {
-                    if(shape.name.toLowerCase().indexOf(this.$store.state.searchingData.toLowerCase()) !== -1){
+                    if(shape.name.toLowerCase().indexOf(this.$store.state.main.searchingData.toLowerCase()) !== -1){
                         return true;
                     }else{
                         return false;

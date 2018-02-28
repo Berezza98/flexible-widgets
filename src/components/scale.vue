@@ -13,7 +13,7 @@ export default {
     },
     computed: {
         currentScale(){
-            return this.$store.state.currentScale
+            return this.$store.state.main.currentScale
         }
     },
     mounted(){
@@ -33,7 +33,7 @@ export default {
         });
 
         slider.noUiSlider.on('update', (value) => {
-            this.$store.commit('changeScale', value[0])
+            this.$store.commit('changeScale', value[0], {module: "main"})
         });
     }
 }

@@ -13,7 +13,7 @@
         data(){
             return{
                 inputText: "Here will be your text",
-                showPanel: true
+                showPanel: false
             }
         },
         components: {
@@ -22,7 +22,7 @@
         methods: {
             addPanel(value){
                 this.showPanel = value;
-                this.$store.commit('chnageCurrentActiveElement', this.id);
+                this.$store.commit('chnageCurrentActiveElement', this.id, {module: "main"});
             }
         },
         props: {
@@ -43,9 +43,5 @@
         background: transparent;
         height: 100%;
         width: 100%;
-    }
-
-    .panel{
-
     }
 </style>

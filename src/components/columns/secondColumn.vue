@@ -21,7 +21,7 @@
         },
         computed: {
             readyForCreateWidget(){
-                return this.$store.state.readyForCreateWidget
+                return this.$store.state.main.readyForCreateWidget
             } 
         }
     }

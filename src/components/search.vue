@@ -15,18 +15,18 @@
         computed: {
             search: {
                 get(){
-                    return this.$store.state.searchingData;
+                    return this.$store.state.main.searchingData;
                 },
                 set(value){
-                    this.$store.commit('changeSearchingData', value);
-                    console.log(this.$store.state.searchingData);
+                    this.$store.commit('changeSearchingData', value, {module: "main"});
+                    console.log(this.$store.state.main.searchingData);
                 }
             } 
         },
         methods: {
             clearSearch(){
-                this.$store.commit('changeSearchingData', "");
-                console.log(this.$store.state.searchingData);
+                this.$store.commit('changeSearchingData', "", {module: "main"});
+                console.log(this.$store.state.main.searchingData);
             }
         }
     }

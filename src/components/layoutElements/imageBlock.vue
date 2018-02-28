@@ -11,7 +11,7 @@
     export default{
         data(){
             return{
-                showPanel: true
+                showPanel: false
             }
         },
         components: {
@@ -30,7 +30,7 @@
         methods: {
             addPanel(value){
                 this.showPanel = value;
-                this.$store.commit('chnageCurrentActiveElement', this.id);
+                this.$store.commit('chnageCurrentActiveElement', this.id, {module: "main"});
             }
         }
     }

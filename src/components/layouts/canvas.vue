@@ -26,10 +26,10 @@
         },
         computed: {
             currentScale(){
-                return this.$store.state.currentScale;
+                return this.$store.state.main.currentScale;
             },
             draggableInsideCanvas(){
-                return this.$store.state.draggableInsideCanvas;
+                return this.$store.state.main.draggableInsideCanvas;
             }
         },
         props: {

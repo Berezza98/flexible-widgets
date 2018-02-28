@@ -24,8 +24,8 @@
         },
         methods: {
             chooseOrientation(orientation){
-                this.$store.commit('changeOrientation', orientation);
-                this.$store.commit('createWidget');
+                this.$store.commit('changeOrientation', orientation, {module: "main"});
+                this.$store.commit('createWidget', {module: "main"});
             }
         }
     }

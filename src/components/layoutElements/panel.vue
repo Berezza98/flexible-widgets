@@ -1,5 +1,8 @@
 <template>
     <div class="panel">
+        <div class="button">
+            <input v-model="backgroundColor" type="color">
+        </div>
         <div class="button" @click="deleteElement">
             <h2>Del</h2>
         </div>
@@ -10,17 +13,17 @@
     export default{
         data(){
             return {
-
+                backgroundColor: ""
             }
         },
         methods: {
             deleteElement(id){
-                this.$store.commit("deleteElementFromCanvas", this.getActiveEl);
+                this.$store.commit("deleteElementFromCanvas", this.getActiveEl, {module: "main"});
             }
         },
         computed: {
             getActiveEl(){
-                return this.$store.state.currentActiveElement;
+                return this.$store.state.main.currentActiveElement;
             }
         }
     }
@@ -34,6 +37,7 @@
         height: 50px;
         background: slategrey;
         width: 200px;
+        display: flex;
     }
 
     .button{
@@ -41,6 +45,8 @@
         height: 100%;
         width: 30%;
         background: salmon;
+        box-sizing: border-box;
+        border-right: 1px solid black;
     }
 
     .button h2{
