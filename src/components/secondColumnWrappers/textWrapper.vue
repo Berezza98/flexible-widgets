@@ -1,6 +1,6 @@
 <template>
     <div class="textWrapper">
-        <font-button v-for="font in currentFonts" :tile="font.name" :key="font.id"></font-button>
+        <font-button v-for="(font, index) in currentFonts" :tile="font" :key="index"></font-button>
         <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
 </template>
@@ -12,8 +12,7 @@ import FontButton from '../buttons/fontButton.vue';
 export default{
     data(){
             return{
-                fonts: [],
-                downloading: true,
+                downloading: false,
                 searchText: ""
             }
         },
@@ -26,26 +25,33 @@ export default{
             }
         },
         computed: {
+            availableFonts(){
+                return this.$store.state.main.availableFonts.length > 0 ? this.$store.state.main.availableFonts : [];
+            },
             currentFonts(){
-                return this.fonts.filter(item => {
-                    if(item.name.toLowerCase().indexOf(this.$store.state.main.searchingData.toLowerCase()) !== -1){
+                return this.availableFonts.filter(item => {
+                    if(item.toLowerCase().indexOf(this.$store.state.main.searchingData.toLowerCase()) !== -1){
                         return true;
                     }
                 });
             }
         },
         created(){
-            this.$http.get('http://localhost:3300/getFonts').then(({body}) => {
-                body.sort((a, b) => {
-                   if(a.name.toLowerCase() > b.name.toLowerCase()){ 
-                    return 1;
-                   }else{
-                    return -1;
-                   }
+            if(this.availableFonts.length === 0){
+                this.downloading = true;
+                this.$http.get('http://localhost:3300/getFonts').then(({body}) => {
+                    body.sort((a, b) => {
+                    if(a.toLowerCase() > b.toLowerCase()){ 
+                        return 1;
+                    }else{
+                        return -1;
+                    }
                 });
-                this.fonts = body;
+                this.$store.commit('changeAvailableFonts', body, {module: "main"});
                 this.downloading = false;
-            });
+                });
+            }
+            
         }
 }
 </script>

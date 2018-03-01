@@ -27,11 +27,17 @@
                     name: 'text-block',
                     id,
                     props: {
-                        
+                        textValue: "Here will be your text"
                     },
                     styles: {
-                        background: "transparent",
-                        opacity: 1
+                        background: "#ffffff",
+                        opacity: 1,
+                        color: "#000000",
+                        'font-family': this.tile,
+                        'font-size': "20px",
+                        'font-weight': "normal",
+                        'font-style': "normal",
+                        'text-decoration': "none"
                     }
                 }, {module: "main"});
             }

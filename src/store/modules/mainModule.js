@@ -1,12 +1,47 @@
 export default {
     state: {
         searchingData: "", //FOR SEARCH COMPONENT
+        availableFonts: [],
         currentOrientation: "",
         readyForCreateWidget: false,
         currentScale: 1,
-        draggableInsideCanvas: [{id: 1519896654142, name:"text-block", props: {x: 138, y: 94, height: 100, width: 200, textValue: "Hello from data"}, styles: {background: "#bfbfe7", opacity: 1}},
-        {id: 1519898211903, name:"circle-block", props: {x: 400, y: 124, height: 310, width: 366}, styles: {background: "#000001", opacity: 1}}],
-        currentActiveElement: 0
+        draggableInsideCanvas: [
+            {
+            id: 1519896654142, 
+            name:"text-block", 
+            props: {
+                x: 138, 
+                y: 94, 
+                height: 100, 
+                width: 200, 
+                textValue: "Hello from data"
+            }, 
+            styles: {
+                background: "#bfbfe7", 
+                opacity: 1, 
+                color: "#000000", 
+                'font-family': 'cursive', 
+                'font-size': '22px', 
+                'font-weight': "normal", 
+                'font-style': "normal", 
+                'text-decoration': "none"
+            }
+        },
+        {
+            id: 1519898211903, 
+            name:"circle-block", 
+            props: {
+                x: 400, 
+                y: 124, 
+                height: 310, 
+                width: 366
+            }, styles: {
+                background: "#000001", 
+                opacity: 1
+            }
+        }
+    ],
+        currentActiveElement: 0,
     },
     getters: {
         getOrientation(state){
@@ -20,6 +55,9 @@ export default {
         changeSearchingData(state, value){
             state.searchingData = value;
         },
+        changeAvailableFonts(state, value){
+            state.availableFonts = value;
+        },
         changeOrientation(state, value){
             state.currentOrientation = value;
         },
@@ -29,6 +67,7 @@ export default {
         changeScale(state, value){
             state.currentScale = value;
         },
+        // WORK WITH ELEMENTS
         addElementInsideCanvas(state, obj){
             state.draggableInsideCanvas.push(obj);
         },
@@ -66,6 +105,10 @@ export default {
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.background = value;
         },
+        changeColor(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.styles.color = value;
+        },
         changeOpacity(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.opacity = value;
@@ -73,6 +116,19 @@ export default {
         changeInputText(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.textValue = value;
+        },
+        changeFontFamily(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.styles['font-family'] = value;
+        },
+        changeFontSize(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.styles['font-size'] = value;
+        },
+        underline(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            let textDecoration = value === true ? 'underline' : 'none';
+            element.styles['text-decoration'] = textDecoration;
         }
         
     }

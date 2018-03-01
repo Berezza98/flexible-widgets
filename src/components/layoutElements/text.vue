@@ -1,7 +1,7 @@
 <template>
-        <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" @update:active="addPanel">
+        <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
             <textarea :style="styles" class="textBlock" type="text" v-model="inputText" value="inputText"></textarea>
-            <panel-block v-if="showPanel"></panel-block>
+            <panel-block @closePanel="showPanel= false" v-if="showPanel"></panel-block>
         </draggable>
     
 </template>
