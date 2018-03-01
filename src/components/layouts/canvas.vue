@@ -1,7 +1,7 @@
 <template>
     <div class="canvas_wrapper">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'transform: scale('+ currentScale +');'">
-            <component v-for="(element, index) in draggableInsideCanvas" :key="index" :is="element.name" :id="element.id" v-bind="element.props"></component>
+            <component v-for="(element, index) in draggableInsideCanvas" :key="index" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
         </div>
     </div> 
 </template>
@@ -11,7 +11,7 @@
     import Image from '../layoutElements/imageBlock.vue';
     import Rectangle from '../layoutElements/rectangle.vue';
     import Circle from '../layoutElements/circle.vue';
-    // <!-'transform: scale('+ currentScale +');'-> :style="'width: '+ 960*currentScale + 'px; ' + 'height: '+ 540*currentScale + 'px; '"
+    
     export default{
         data(){
             return{

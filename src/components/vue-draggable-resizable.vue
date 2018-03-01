@@ -138,6 +138,9 @@ export default {
     },
     setParentSizes: {
       type: Boolean, default: false, require: false
+    },
+    id: {
+      type: Number, require: true
     }
   },
 
@@ -162,18 +165,30 @@ export default {
     this.elmW = 0
     this.elmH = 0
 
-    this.$watch('width', (newValue) => {
-      console.log('width: ', newValue);
-    });
-    this.$watch('height', (newValue) => {
-      console.log('height: ', newValue);
-    });
-    this.$watch('top', (newValue) => {
-      console.log('top: ', newValue);
-    });
-    this.$watch('left', (newValue) => {
-      console.log('left: ', newValue);
-    });
+    
+
+    if(this.resizable){ // IF INSIDE THE CANVAS
+      this.$store.commit("changeCurrentActiveElement", this.id, {module: "main"});
+
+      this.$store.commit('changeWidthOfActiveElement', this.width, {module: "main"});
+      this.$store.commit('changeHeightOfActiveElement', this.height, {module: "main"});
+      this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
+      this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});
+
+      this.$watch('width', (newValue) => {
+        this.$store.commit('changeWidthOfActiveElement', newValue, {module: "main"});
+      });
+      this.$watch('height', (newValue) => {
+        this.$store.commit('changeHeightOfActiveElement', newValue, {module: "main"});
+      });
+      this.$watch('top', (newValue) => {
+        this.$store.commit('changeYOfActiveElement', newValue, {module: "main"});
+      });
+      this.$watch('left', (newValue) => {
+        this.$store.commit('changeXOfActiveElement', newValue, {module: "main"});
+      });
+    }
+
   },
   mounted: function () {
     document.documentElement.addEventListener('mousemove', this.handleMove, true)

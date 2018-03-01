@@ -42,8 +42,17 @@
                 return require('../../assets/shapes/'+pic);
             },
             droppedInside(){
+                let id = new Date().getTime();
                 this.$store.commit("addElementInsideCanvas", {
-                    name: this.correctComponent
+                    name: this.correctComponent,
+                    id,
+                    props: {
+                        
+                    },
+                    styles: {
+                        background: "transparent",
+                        opacity: 1
+                    }
                 }, {module: "main"});
             }
         }

@@ -22,10 +22,16 @@
         },
         methods: {
             droppedInside(){
+                let id = new Date().getTime();
                 this.$store.commit("addElementInsideCanvas", {
-                    name: "image-block",
+                    name: 'image-block',
+                    id,
                     props: {
                         imageSource: this.imageSource
+                    },
+                    styles: {
+                        background: "transparent",
+                        opacity: 1
                     }
                 }, {module: "main"});
             }

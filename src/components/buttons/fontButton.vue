@@ -22,8 +22,17 @@
         },
         methods: {
             droppedInside(){
+                let id = new Date().getTime();
                 this.$store.commit("addElementInsideCanvas", {
-                    name: "text-block"
+                    name: 'text-block',
+                    id,
+                    props: {
+                        
+                    },
+                    styles: {
+                        background: "transparent",
+                        opacity: 1
+                    }
                 }, {module: "main"});
             }
         },

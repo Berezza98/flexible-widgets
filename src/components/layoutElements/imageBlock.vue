@@ -1,6 +1,6 @@
 <template>
-    <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :w="400" :h="200" @update:active="addPanel">
-        <img class="image" draggable="false" :src="imageSource">
+    <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" @update:active="addPanel">
+        <img :style="styles" class="image" draggable="false" :src="imageSource">
         <panel-block v-if="showPanel"></panel-block>
     </draggable>
 </template>
@@ -24,6 +24,30 @@
             },
             id: {
                 type: Number,
+                required: true
+            },
+            width: {
+                type: Number,
+                default: 300
+            },
+            height: {
+                type: Number,
+                default: 200
+            },
+            x: {
+                type: Number,
+                default: 0
+            },
+            y: {
+                type: Number,
+                default: 0
+            },
+            styles: {
+                type: Object,
+                required: true
+            },
+            imageSource: {
+                type: String,
                 required: true
             }
         },

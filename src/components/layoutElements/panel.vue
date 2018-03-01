@@ -1,10 +1,10 @@
 <template>
     <div class="panel">
         <div class="button">
-            <input v-model="backgroundColor" type="color" />
+            <input type="color" v-model="background"/>
         </div>
         <div class="button">
-            <input v-model="opacity" />
+            <input v-model="opacity"/>
         </div>
         <div class="button" @click="deleteElement">
             <h2>Del</h2>
@@ -16,34 +16,34 @@
     export default{
         data(){
             return {
-                
+
             }
         },
         methods: {
             deleteElement(id){
-                this.$store.commit("deleteElementFromCanvas", this.getActiveEl, {module: "main"});
+                this.$store.commit("deleteElementFromCanvas", {module: "main"});
             }
         },
         computed: {
-            getActiveEl(){
-                return this.$store.state.main.currentActiveElement;
+            activeElement(){
+                return this.$store.getters.getActiveElement;
             },
-            backgroundColor :{
+            background: {
                 get(){
-                    return this.$store.state.activeElement.backgroundColor;
-                },
+                    return this.activeElement.styles.background;
+                }, 
                 set(value){
-                    this.$store.commit("changeBackgroundColor", value, {module: "activeElement"})
+                    this.$store.commit("changeBackground", value, {module: "main"});
                 }
             },
-            opacity :{
+            opacity: {
                 get(){
-                    return this.$store.state.activeElement.opacity;
-                },
+                    return this.activeElement.styles.opacity
+                }, 
                 set(value){
-                    this.$store.commit("changeOpacity", value, {module: "activeElement"})
+                    this.$store.commit("changeOpacity", value, {module: "main"});
                 }
-            }
+            },
         }
     }
 </script>
