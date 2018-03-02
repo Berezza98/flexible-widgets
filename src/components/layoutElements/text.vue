@@ -1,9 +1,10 @@
 <template>
-        <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
-            <textarea :style="styles" class="textBlock" type="text" v-model="inputText" value="inputText"></textarea>
-            <panel-block @closePanel="showPanel= false" v-if="showPanel"></panel-block>
-        </draggable>
-    
+    <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
+        <div class="textBlock" :style="styles">
+            <p contenteditable="true" @blur="editContent">{{inputText}}</p>
+        </div>
+        <panel-block @closePanel="showPanel= false" v-if="showPanel"></panel-block>
+    </draggable>
 </template>
 
 <script>
@@ -22,6 +23,11 @@
             addPanel(value){
                 this.showPanel = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
+            },
+            editContent(event){
+                let text = event.target.innerText;
+                console.log(text);
+                this.inputText = text;
             }
         },
         computed: {
@@ -69,12 +75,21 @@
 
 <style scoped>
     .textBlock{
-        resize: none;
-        border: none;
-        font-size: 30px;
         position: absolute;
-        background: transparent;
         height: 100%;
         width: 100%;
+        display: flex;
+    }
+    .textBlock p{
+        user-select: none;
+        outline: none;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+    }
+    textarea{
+        resize: none;
+        border: none;
+        background: transparent;
     }
 </style>

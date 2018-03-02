@@ -15,9 +15,25 @@
         <div class="button" @click="underline">
             <h2>Und</h2>
         </div>
+        <div class="button" @click="bold">
+            <h2>B</h2>
+        </div>
+        <div class="button" @click="italic">
+            <h2>I</h2>
+        </div>
         <div class="button">
             <select v-model="selectFont">
                 <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
+            </select>
+        </div>
+        <div class="button">
+            <select v-model="textAlign">
+                <option v-for="(align, index) in ['left', 'right', 'center']" :key="index" :value="align">{{align}}</option>
+            </select>
+        </div>
+        <div class="button">
+            <select v-model="verticalAlign">
+                <option v-for="(align, index) in [{name: 'top', value: 'flex-start'}, {name: 'center', value: 'center'}, {name: 'bottom', value: 'flex-end'}]" :key="index" :value="align.value">{{align.name}}</option>
             </select>
         </div>
         <div class="button" @click="deleteElement">
@@ -46,6 +62,14 @@
             underline(){
                 let currentState = this.underlineEl === 'none' ? false : true;
                 this.underlineEl = !currentState;
+            },
+            bold(){
+                let currentState = this.boldEl === 'normal' ? false : true;
+                this.boldEl = !currentState;
+            },
+            italic(){
+                let currentState = this.italicEl === 'normal' ? false : true;
+                this.italicEl = !currentState;
             }
         },
         computed: {
@@ -101,6 +125,38 @@
                 }, 
                 set(value){
                     this.$store.commit("underline", value, {module: "main"});
+                }
+            },
+            textAlign: {
+                get(){
+                    return this.activeElement.styles['text-align'];
+                }, 
+                set(value){
+                    this.$store.commit("textAlign", value, {module: "main"});
+                }
+            },
+            verticalAlign: {
+                get(){
+                    return this.activeElement.styles['align-items'];
+                }, 
+                set(value){
+                    this.$store.commit("verticalAlign", value, {module: "main"});
+                }
+            },
+            boldEl: {
+                get(){
+                    return this.activeElement.styles['font-weight'];
+                }, 
+                set(value){
+                    this.$store.commit("textBold", value, {module: "main"});
+                }
+            },
+            italicEl: {
+                get(){
+                    return this.activeElement.styles['font-style'];
+                }, 
+                set(value){
+                    this.$store.commit("textItalic", value, {module: "main"});
                 }
             }
         }

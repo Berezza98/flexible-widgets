@@ -37,7 +37,9 @@
                         'font-size': "20px",
                         'font-weight': "normal",
                         'font-style': "normal",
-                        'text-decoration': "none"
+                        'text-decoration': "none",
+                        'text-align': "left",
+                        'align-self': "flex-start"
                     }
                 }, {module: "main"});
             }

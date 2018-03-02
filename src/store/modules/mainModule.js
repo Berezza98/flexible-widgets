@@ -22,9 +22,11 @@ export default {
                 color: "#000000", 
                 'font-family': 'cursive', 
                 'font-size': '22px', 
-                'font-weight': "normal", 
-                'font-style': "normal", 
-                'text-decoration': "none"
+                'font-weight': "bold", 
+                'font-style': "italic", 
+                'text-decoration': "none",
+                'text-align': "center",
+                'align-items': "flex-start"
             }
         },
         {
@@ -129,6 +131,24 @@ export default {
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let textDecoration = value === true ? 'underline' : 'none';
             element.styles['text-decoration'] = textDecoration;
+        },
+        textBold(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            let bold = value === true ? 'bold' : 'normal';
+            element.styles['font-weight'] = bold;
+        },
+        textItalic(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            let italic = value === true ? 'italic' : 'normal';
+            element.styles['font-style'] = italic;
+        },
+        textAlign(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.styles['text-align'] = value;
+        },
+        verticalAlign(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.styles['align-items'] = value;
         }
         
     }
