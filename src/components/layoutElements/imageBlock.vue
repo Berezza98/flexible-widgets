@@ -1,21 +1,25 @@
 <template>
     <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
-        <img :style="styles" class="image" draggable="false" :src="imageSource">
-        <panel-block @closePanel="showPanel= false" v-if="showPanel"></panel-block>
+        <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
+        <panel-block @closePanel="closePanel" @cropImage="crop" v-if="showPanel && !cropState"></panel-block>
+        <crop v-if="cropState" :imageSrc="imageSource" @closeCropping="closeCrop"></crop>
     </draggable>
 </template>
 
 <script>
     import Panel from './panel.vue';
+    import Crop from '../crop.vue';
     
     export default{
         data(){
             return{
-                showPanel: false
+                showPanel: false,
+                cropState: false
             }
         },
         components: {
-            'panel-block': Panel
+            'panel-block': Panel,
+            'crop': Crop
         },
         props: {
             imageSource: {
@@ -55,6 +59,18 @@
             addPanel(value){
                 this.showPanel = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
+            },
+            closePanel(){
+                this.showPanel= false; 
+                this.cropState= false;
+            },
+            closeCrop(){
+                this.showPanel= true;
+                this.cropState= false;
+            },
+            crop(){
+                this.showPanel= false;
+                this.cropState= true;
             }
         }
     }

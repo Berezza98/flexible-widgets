@@ -1,40 +1,43 @@
 <template>
     <div class="panel">
-        <div class="button">
+        <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
             <input type="color" v-model="background"/>
         </div>
-        <div class="button">
+        <div v-if="elementType === 'text'" class="button">
             <input type="color" v-model="color"/>
         </div>
         <div class="button">
             <input v-model="opacity"/>
         </div>
-        <div class="button">
+        <div v-if="elementType === 'text'" class="button">
             <input v-model="fontSize"/>
         </div>
-        <div class="button" @click="underline">
+        <div v-if="elementType === 'text'" class="button" @click="underline">
             <h2>Und</h2>
         </div>
-        <div class="button" @click="bold">
+        <div v-if="elementType === 'text'" class="button" @click="bold">
             <h2>B</h2>
         </div>
-        <div class="button" @click="italic">
+        <div v-if="elementType === 'text'" class="button" @click="italic">
             <h2>I</h2>
         </div>
-        <div class="button">
+        <div v-if="elementType === 'text' || elementType === ''" class="button">
             <select v-model="selectFont">
                 <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
             </select>
         </div>
-        <div class="button">
+        <div v-if="elementType === 'text' || elementType === ''" class="button">
             <select v-model="textAlign">
                 <option v-for="(align, index) in ['left', 'right', 'center']" :key="index" :value="align">{{align}}</option>
             </select>
         </div>
-        <div class="button">
+        <div v-if="elementType === 'text' || elementType === ''" class="button">
             <select v-model="verticalAlign">
                 <option v-for="(align, index) in [{name: 'top', value: 'flex-start'}, {name: 'center', value: 'center'}, {name: 'bottom', value: 'flex-end'}]" :key="index" :value="align.value">{{align.name}}</option>
             </select>
+        </div>
+        <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
+            <h2>Crop</h2>
         </div>
         <div class="button" @click="deleteElement">
             <h2>Del</h2>
@@ -70,11 +73,18 @@
             italic(){
                 let currentState = this.italicEl === 'normal' ? false : true;
                 this.italicEl = !currentState;
+            },
+            cropImage(){
+                this.$emit('cropImage');
             }
         },
         computed: {
             activeElement(){
+                console.log(this.$store.getters.getActiveElement);
                 return this.$store.getters.getActiveElement;
+            },
+            elementType(){
+                return this.activeElement.props.type;
             },
             fonts(){
                 return this.$store.state.main.availableFonts;
@@ -169,8 +179,6 @@
         bottom: -60px;
         left: 0px;
         height: 50px;
-        background: slategrey;
-        width: 500px;
         display: flex;
     }
 

@@ -27,6 +27,7 @@
                     name: 'image-block',
                     id,
                     props: {
+                        type: "image",
                         imageSource: this.imageSource
                     },
                     styles: {

@@ -10,6 +10,7 @@ export default {
             id: 1519896654142, 
             name:"text-block", 
             props: {
+                type: "text",
                 x: 138, 
                 y: 94, 
                 height: 100, 
@@ -36,7 +37,8 @@ export default {
                 x: 400, 
                 y: 124, 
                 height: 310, 
-                width: 366
+                width: 366,
+                type: "shape"
             }, styles: {
                 background: "#000001", 
                 opacity: 1
@@ -102,6 +104,10 @@ export default {
         changeYOfActiveElement(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.y = value;
+        },
+        changeImageSource(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.props.imageSource = value;
         },
         changeBackground(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);

@@ -47,7 +47,7 @@
                     name: this.correctComponent,
                     id,
                     props: {
-                        
+                        type: "shape"
                     },
                     styles: {
                         background: "transparent",

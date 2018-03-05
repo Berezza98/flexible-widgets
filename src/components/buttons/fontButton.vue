@@ -27,6 +27,7 @@
                     name: 'text-block',
                     id,
                     props: {
+                        type: "text",
                         textValue: "Here will be your text"
                     },
                     styles: {
