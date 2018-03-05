@@ -1,6 +1,6 @@
 export default {
     state: {
-        searchingData: "", //FOR SEARCH COMPONENT
+        searchingData: "", //FOR SEARCH COMPONENT //
         availableFonts: [],
         currentOrientation: "",
         readyForCreateWidget: false,
