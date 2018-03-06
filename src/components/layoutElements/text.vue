@@ -26,7 +26,6 @@
             },
             editContent(event){
                 let text = event.target.innerText;
-                console.log(text);
                 this.inputText = text;
             }
         },

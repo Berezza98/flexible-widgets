@@ -37,6 +37,12 @@
                 type: String,
                 required: true
             }
+        },
+        updated(){
+            console.log('canvas updated');
+        },
+        destroyed(){
+            console.log('canvas destroyed');
         }
     }
 </script>

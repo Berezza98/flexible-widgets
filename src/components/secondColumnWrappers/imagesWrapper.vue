@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import Image from '../image.vue';
+    import Image from '../buttons/imageButton.vue';
 
     export default{
         data(){

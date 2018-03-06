@@ -19,14 +19,12 @@
                 },
                 set(value){
                     this.$store.commit('changeSearchingData', value, {module: "main"});
-                    console.log(this.$store.state.main.searchingData);
                 }
             } 
         },
         methods: {
             clearSearch(){
                 this.$store.commit('changeSearchingData', "", {module: "main"});
-                console.log(this.$store.state.main.searchingData);
             }
         }
     }

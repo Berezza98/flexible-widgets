@@ -262,6 +262,7 @@ export default {
     },
     elmDown: function (e) {
       const target = e.target || e.srcElement
+      this.zIndex = 9999;
 
       if (this.$el.contains(target)) {
         if (
@@ -285,6 +286,7 @@ export default {
       }
     },
     deselect: function (e) {
+      this.zIndex = 2;
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
 

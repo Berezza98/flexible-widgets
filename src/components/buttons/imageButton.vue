@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import ImageBlock from './layoutElements/imageBlock.vue';
+    import ImageBlock from '../layoutElements/imageBlock.vue';
 
     export default{
         data(){

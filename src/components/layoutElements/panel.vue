@@ -80,7 +80,6 @@
         },
         computed: {
             activeElement(){
-                console.log(this.$store.getters.getActiveElement);
                 return this.$store.getters.getActiveElement;
             },
             elementType(){

@@ -5,46 +5,7 @@ export default {
         currentOrientation: "",
         readyForCreateWidget: false,
         currentScale: 1,
-        draggableInsideCanvas: [
-            {
-            id: 1519896654142, 
-            name:"text-block", 
-            props: {
-                type: "text",
-                x: 138, 
-                y: 94, 
-                height: 100, 
-                width: 200, 
-                textValue: "Hello from data"
-            }, 
-            styles: {
-                background: "#bfbfe7", 
-                opacity: 1, 
-                color: "#000000", 
-                'font-family': 'cursive', 
-                'font-size': '22px', 
-                'font-weight': "bold", 
-                'font-style': "italic", 
-                'text-decoration': "none",
-                'text-align': "center",
-                'align-items': "flex-start"
-            }
-        },
-        {
-            id: 1519898211903, 
-            name:"circle-block", 
-            props: {
-                x: 400, 
-                y: 124, 
-                height: 310, 
-                width: 366,
-                type: "shape"
-            }, styles: {
-                background: "#000001", 
-                opacity: 1
-            }
-        }
-    ],
+        draggableInsideCanvas: [],
         currentActiveElement: 0,
     },
     getters: {
@@ -58,6 +19,9 @@ export default {
     mutations: {
         changeSearchingData(state, value){
             state.searchingData = value;
+        },
+        selectTemplate(state, value){
+            state.draggableInsideCanvas = value;
         },
         changeAvailableFonts(state, value){
             state.availableFonts = value;
