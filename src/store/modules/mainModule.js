@@ -23,6 +23,12 @@ export default {
         selectTemplate(state, value){
             state.draggableInsideCanvas = value;
         },
+        changeIdOfElements(state){
+            state.draggableInsideCanvas.map(el => {
+                el.id += new Date().valueOf();
+                return el;
+            });
+        },
         changeAvailableFonts(state, value){
             state.availableFonts = value;
         },

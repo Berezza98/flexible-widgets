@@ -28,6 +28,7 @@
             },
             save(){
                 html2canvas(document.querySelector(".canvas"), {allowTaint : true}).then(canvas => {
+                    this.$store.commit('changeIdOfElements', {module: "main"});
                     return {
                         image: canvas.toDataURL(),
                         name: this.name,
@@ -36,6 +37,7 @@
                 }).then((obj) => {
                     return this.$http.post('http://localhost:3300/setTemplate', obj);
                 }).then(() => {
+                    this.$store.commit('selectTemplate', [] , {module: "main"});
                     this.$emit('closeModal');
                 });
             }

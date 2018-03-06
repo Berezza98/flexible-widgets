@@ -51,9 +51,6 @@
         },
         computed: {
 
-        },
-        destroyed(){
-            console.log('rectangle destroyed');
         }
     }
 </script>

@@ -22,7 +22,6 @@
         },
         methods: {
             selectTemplate(){
-                console.log(this.templObj.data);
                 this.$store.commit('selectTemplate', this.templObj.data , {module: "main"});
             }
         }

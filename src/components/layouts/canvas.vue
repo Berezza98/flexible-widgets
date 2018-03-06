@@ -1,7 +1,7 @@
 <template>
     <div class="canvas_wrapper">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'transform: scale('+ currentScale +');'">
-            <component v-for="(element, index) in draggableInsideCanvas" :key="index" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
+            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
         </div>
     </div> 
 </template>
@@ -37,12 +37,6 @@
                 type: String,
                 required: true
             }
-        },
-        updated(){
-            console.log('canvas updated');
-        },
-        destroyed(){
-            console.log('canvas destroyed');
         }
     }
 </script>
