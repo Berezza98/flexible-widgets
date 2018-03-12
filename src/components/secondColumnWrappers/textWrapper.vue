@@ -58,7 +58,7 @@ export default{
 
 <style scoped>
     .textWrapper{
-        height: calc(100% - 100px);
+        height: calc(100% - 70px);
         width: 100%;
         padding-top: 10px;
         box-sizing: border-box;

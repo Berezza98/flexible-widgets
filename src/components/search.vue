@@ -1,7 +1,6 @@
 <template>
     <div class="search">
-        <input v-model="search" type="text" class="searchBox">
-        <img class="cancel" :src="require('../assets/cancel.png')" @click="clearSearch()">
+        <el-input class="searchBox" placeholder="search" prefix-icon="el-icon-search" v-model="search" :clearable="true" size="large"></el-input>
     </div>
 </template>
 
@@ -32,9 +31,8 @@
 
 <style scoped>
     .search{
-        height: 100px;
+        height: 70px;
         width: 100%;
-        background: rgb(104, 98, 90);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -42,16 +40,6 @@
     }
 
     .searchBox{
-        width: 95%;
-        height: 40px;
-        font-size: 30px
-    }
-
-    .cancel{
-        position: absolute;
-        height: 20px;
-        width: 20px;
-        right: 30px;
-        cursor: pointer;
+        font-size: 1em;
     }
 </style>

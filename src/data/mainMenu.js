@@ -1,25 +1,25 @@
 export default[
 {
     "text": "Text",
-    "img": "text.png",
+    "img": "title",
     "path": "/",
     "id": 1
 },
 {
     "text": "Pictures",
-    "img": "picture.png",
+    "img": "insert_photo",
     "path": "/pictures",
     "id": 2
 },
 {
     "text": "Shapes",
-    "img": "square.png",
+    "img": "widgets",
     "path": "/shapes",
     "id": 3
 },
 {
     "text": "Pre-made templates",
-    "img": "layout.png",
+    "img": "view_compact",
     "path": "/templates",
     "id": 4
 }];

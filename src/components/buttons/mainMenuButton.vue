@@ -1,20 +1,21 @@
 <template>
     <router-link :to="path" tag="div" class="firstColumnButton" exact>
-        <img class="menuImage" :src="getImg(image)">
-        <h2 class="title">{{tile}}</h2>
+        <div class="content">
+            <md-icon class="md-size-2x">{{image}}</md-icon>
+            <h2 class="title">{{tile}}</h2>
+        </div>
     </router-link>
 </template>
 
 <script>
+
     export default{
         data(){
             return{
             }
         },
         methods: {
-            getImg(pic){
-                return require('../../assets/mainMenu/'+pic)
-            }
+
         },
         props: {
             tile: {
@@ -35,15 +36,29 @@
 
 <style scoped>
     .firstColumnButton{
-        background: rgb(84, 95, 107);
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.5s;
+        position: relative;
+    }
+
+    .firstColumnButton:before{
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+
+    .content{
+        position:  absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: #c5c5c5;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
-        width: 100%;
-        height: 180px;
-        transition: all 0.5s;
     }
 
     .title{
@@ -55,17 +70,16 @@
         width: 100px;
     }
 
-    .firstColumnButton:hover{
-        background: rgb(56, 64, 73);
-        color: white;
-    }
-
     .firstColumnButton h2.title{
-        font-size: 20px;
+        font-size: 1em;
+        text-align: center;
+        line-height: 1em;
     }
 
     .router-link-active{
-        background: rgb(56, 64, 73);
-        color: white;
+        background: #f0f0f0;
+    }
+    .router-link-active .content{
+        color: #1989fa;
     }
 </style>

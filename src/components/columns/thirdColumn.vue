@@ -4,7 +4,7 @@
         <canvas-block v-if="orientation" :typeOfCanvas="orientation"></canvas-block>
         <scale v-if="orientation"></scale>
         <modal v-if="showModal" @closeModal="close"></modal>
-        <button v-if="canSave" class="saveButton" @click="save">Save</button>
+        <el-button v-if="canSave" class="saveButton" @click="save" type="warning" plain>Save</el-button>
   </div>
 </template>
 
@@ -47,7 +47,6 @@
 
 <style scoped>
     .thirdColumn{
-        width: 65%;
         height: 100%;
         background: rgb(137, 141, 143);
         display: flex;
@@ -58,10 +57,8 @@
 
     .saveButton{
         position: absolute;
-        right: 0px;
-        top: 0px;
-        width: 200px;
-        height: 100px;
+        right: 20px;
+        top: 5px;
         font-size: 30px;
     }
 </style>

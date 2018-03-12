@@ -1,9 +1,13 @@
 <template>
   <div class="textButton">
         <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
-            <div class="inside_draggable">
+            <el-card class="inside_draggable" :body-style="bodyStyles">
                 <h2 class="buttonName">{{tile}}</h2>
-            </div>
+                <div class="arrows">
+                    <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
+                    <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
+                </div>
+            </el-card>
         </draggable>
   </div>
 </template>
@@ -14,7 +18,11 @@
     export default{
         data(){
             return{
-
+                bodyStyles: {
+                    "display": "flex",
+                    "justify-content": "space-between",
+                    "align-items": "center"
+                }
             }
         },
         components: {
@@ -59,8 +67,8 @@
         width: 95%;
         height: 100px;
         box-sizing: border-box;
+        border-radius: 4px;
         margin-bottom: 10px;
-        background: rgba(0, 0, 0, 0.3);
         transition: background 0.5s;
         flex-shrink: 0;
         position: relative;
@@ -71,18 +79,19 @@
         width: 100%;
         height: 100%;
         box-sizing: border-box;
-        border: 2px dotted black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
     }
 
-    .textButton:hover{
-        background: rgba(0, 0, 0, 0.5);
+    .arrow{
+        color: #1989fa;
+    }
+
+    .arrow:last-child{
+        margin-left: -40px;
     }
 
     .buttonName{
         font-size: 30px;
+        margin: 0;
     }
 
     .can-drop{

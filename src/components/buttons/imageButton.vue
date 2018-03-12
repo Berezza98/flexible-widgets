@@ -1,9 +1,16 @@
 <template>
   <div class="image_template">
         <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
-            <div class="inside_draggable">
+            <el-card class="inside_draggable">
                 <img draggable="false" class="innerImage" :src="imageSource">
-            </div>
+                <div class="name_block">
+                    <h2 class="name">{{name}}</h2>
+                    <div class="arrows">
+                        <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
+                        <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
+                    </div>
+                </div>
+            </el-card>
         </draggable>
   </div>
 </template>
@@ -41,6 +48,10 @@
             imageSource: {
                 type: String,
                 required: true
+            },
+            name: {
+                type: String,
+                required: true
             }
         }
     }
@@ -49,7 +60,7 @@
 <style scoped>
     .image_template{
         width: 95%;
-        height: 300px;
+        height: 250px;
         margin-bottom: 10px;
         position: relative;
         z-index: 1;
@@ -63,9 +74,24 @@
     }
 
     .innerImage{
-        height: 100%;
         width: 100%;
         user-select: none;
+        height: 70%;
+    }
+
+    .name_block{
+        height: 30%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .arrow{
+        color: #1989fa;
+    }
+
+    .arrow:last-child{
+        margin-left: -40px;
     }
 
     .can-drop{

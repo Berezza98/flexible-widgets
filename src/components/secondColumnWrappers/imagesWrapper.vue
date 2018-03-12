@@ -1,6 +1,6 @@
 <template>
     <div class="images">
-        <image-block v-for="(source, index) in sources" :imageSource="source" :key="index"></image-block>
+        <image-block v-for="(image, index) in images" :imageSource="image.src" :name="image.name" :key="index"></image-block>
         <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
 </template>
@@ -11,7 +11,7 @@
     export default{
         data(){
             return{
-                sources: [],
+                images: [],
                 downloading: true
             }
         },
@@ -25,7 +25,7 @@
         },
         created(){
             this.$http.get('http://localhost:3300/getImages').then(({body}) => {
-                this.sources = body;
+                this.images = body;
                 this.downloading = false;
             });
         }
@@ -34,7 +34,7 @@
 
 <style scoped>
     .images{
-        height: calc(100% - 100px);
+        height: calc(100% - 70px);
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -42,6 +42,7 @@
         padding-top: 10px;
         box-sizing: border-box;
         overflow-y: scroll;
+        overflow-x: hidden;
     }
 
     .loader{

@@ -22,12 +22,7 @@
 <style scoped>
     .firstColumn{
         height: 100%;
-        width: 10%;
-        background: lightgray;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
+        padding: 0px 20px;
     }
 </style>
    

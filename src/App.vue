@@ -1,9 +1,17 @@
 <template>
-  <div id="app">
-    <first-column></first-column>
-    <second-column></second-column>
-    <third-column></third-column>
-  </div>
+<div id="app">
+  <el-row class="fullscreen">
+    <el-col :span="2">
+      <first-column></first-column>
+    </el-col>
+    <el-col :span="5">
+      <second-column></second-column>
+    </el-col>
+    <el-col :span="17">
+      <third-column></third-column>
+    </el-col>
+  </el-row>
+</div>
 </template>
 
 <script>
@@ -25,29 +33,23 @@ export default {
 </script>
 
 <style>
+
 #app {
-  height: 1400px;
-  width: 1800px;
-  display: flex;
-  box-sizing: border-box;
-  border: 2px solid black;
-}
-body{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+  height: calc(100vh - 40px);
 }
 
-::-webkit-scrollbar {
-    width: 0px;  /* remove scrollbar space */
-    background: transparent;  /* optional: just make scrollbar invisible */
+.fullscreen{
+  height: 100%;
 }
-/* optional: show position indicator in red */
-::-webkit-scrollbar-thumb {
-    background: black;
-    border-radius: 10px;
+
+.fullscreen>*{
+  height: 100%;
+}
+
+body{
+  margin: 0;
+  padding: 20px;
+  font-size: 16px;
+  overflow-y: hidden;
 }
 </style>

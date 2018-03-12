@@ -1,6 +1,6 @@
 <template>
     <div class="shapes">
-      <shape-button v-for="(shape, index) in correctShapes" :key="index" :imageSource="shape.src" :tile="shape.name" :correctComponent="shape.component">
+      <shape-button v-for="shape in correctShapes" :key="shape.id" :imageSource="shape.src" :tile="shape.name" :correctComponent="shape.component">
       </shape-button>
     </div>
 </template>
@@ -8,31 +8,12 @@
 <script>
     import ShapeButton from '../buttons/shapeButton.vue';
 
+    import shapes from '../../data/shapes.js';
+
     export default{
         data(){
             return{
-                shapes: [
-                    {
-                        name: "rectangle",
-                        src: "rectangle.png",
-                        component: "rectangle-block"
-                    },
-                    {
-                        name: "square",
-                        src: "square.png",
-                        component: "rectangle-block"
-                    },
-                    {
-                        name: "ellipse",
-                        src: "ellipse.png",
-                        component: "circle-block"
-                    },
-                    {
-                        name: "circle",
-                        src: "circle.png",
-                        component: "circle-block"
-                    }
-                ]
+                shapes: shapes
             }
         },
         components: {
@@ -57,11 +38,8 @@
 
 <style scoped>
     .shapes{
-        height: calc(100% - 100px);
+        height: calc(100% - 70px);
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         padding-top: 10px;
         box-sizing: border-box;
         position: relative;
