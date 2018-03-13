@@ -1,9 +1,14 @@
 <template>
     <div class="template" @click="selectTemplate">
-        <img :src="templObj.image">
-        <div class="overlay">
-            <h2>{{templObj.name}}</h2>
-        </div>
+        <el-card class="inside_draggable">
+            <img draggable="false" class="innerImage" :src="templObj.image">
+            <div class="name_block">
+                <h2 class="name">{{templObj.name}}</h2>
+                <div class="arrows">
+                    <i class="el-icon-d-arrow-right arrow"></i>
+                </div>
+            </div>
+        </el-card>
     </div>
 </template>
 
@@ -31,39 +36,36 @@
 <style scoped>
     .template{
         width: 95%;
-        height: 300px;
+        height: 250px;
         margin-bottom: 10px;
         background: bisque;
         position: relative;
         cursor: pointer;
     }
 
-    .template:hover .overlay{
-        opacity: 1;
-    }
-
-    img{
+    .inside_draggable{
         height: 100%;
         width: 100%;
     }
 
-    .overlay{
-        position: absolute;
-        top: 0px;
-        left: 0px;
+    .innerImage{
         width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.5);
-        transition: all 0.5s;
-        opacity: 0;
+        user-select: none;
+        height: 70%;
+    }
+
+    .name_block{
+        height: 30%;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
 
-    .overlay h2{
-        color: white;
-        text-transform: uppercase;
-        font-family: cursive;
+    .arrow{
+        color: #1989fa;
+        font-size: 2em;
+        font-weight: 900;
     }
+
+
 </style>

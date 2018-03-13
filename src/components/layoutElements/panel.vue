@@ -1,49 +1,59 @@
 <template>
     <div class="panel">
         <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
-            <input type="color" v-model="background"/>
+            <!-- <el-color-picker v-model="background" show-alpha></el-color-picker> -->
+            <md-icon class="md-size-2x">format_color_fill</md-icon>
         </div>
         <div v-if="elementType === 'text'" class="button">
-            <input type="color" v-model="color"/>
+            <!-- <input type="color" v-model="color"/> -->
+            <md-icon class="md-size-2x">format_color_text</md-icon>
         </div>
         <div class="button">
-            <input v-model="opacity"/>
+            <md-icon class="md-size-2x">opacity</md-icon>
+            <div class="subPanel" @mousedown="noDrag">
+
+            </div>
+            <!-- <input v-model="opacity"/> -->
         </div>
         <div v-if="elementType === 'text'" class="button">
-            <input v-model="fontSize"/>
+            <!-- <input v-model="fontSize"/> -->
+            <md-icon class="md-size-2x">format_size</md-icon>
         </div>
         <div v-if="elementType === 'text'" class="button" @click="underline">
-            <h2>Und</h2>
+            <md-icon  :class="underlineEl !== 'none' ? 'active' : ''">format_underlined</md-icon>
         </div>
         <div v-if="elementType === 'text'" class="button" @click="bold">
-            <h2>B</h2>
+            <md-icon :class="boldEl !== 'normal' ? 'active' : ''">format_bold</md-icon>
         </div>
         <div v-if="elementType === 'text'" class="button" @click="italic">
-            <h2>I</h2>
+            <md-icon :class="italicEl !== 'normal' ? 'active' : ''" class="md-size-2x">format_italic</md-icon>
         </div>
         <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <select v-model="selectFont">
+            <!-- <select v-model="selectFont">
                 <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
-            </select>
+            </select> -->
+            <md-icon class="md-size-2x">font_download</md-icon>
         </div>
         <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <select v-model="textAlign">
+            <!-- <select v-model="textAlign">
                 <option v-for="(align, index) in ['left', 'right', 'center']" :key="index" :value="align">{{align}}</option>
-            </select>
+            </select> -->
+            <md-icon class="md-size-2x">format_align_right</md-icon>
         </div>
         <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <select v-model="verticalAlign">
+            <!-- <select v-model="verticalAlign">
                 <option v-for="(align, index) in [{name: 'top', value: 'flex-start'}, {name: 'center', value: 'center'}, {name: 'bottom', value: 'flex-end'}]" :key="index" :value="align.value">{{align.name}}</option>
-            </select>
+            </select> -->
+            <md-icon class="md-size-2x">vertical_align_center</md-icon>
         </div>
         <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
-            <h2>Crop</h2>
+            <md-icon class="md-size-2x">crop</md-icon>
         </div>
         <div class="button" @click="deleteElement">
-            <h2>Del</h2>
+            <md-icon class="md-size-2x">delete</md-icon>
         </div>
         <div class="button" @click="saveElement">
-            <h2>Save</h2>
+            <md-icon class="md-size-2x">check</md-icon>
         </div>
     </div>
 </template>
@@ -76,6 +86,9 @@
             },
             cropImage(){
                 this.$emit('cropImage');
+            },
+            noDrag(){
+                return;
             }
         },
         computed: {
@@ -179,20 +192,45 @@
         left: 0px;
         height: 50px;
         display: flex;
+        background: #f9f9f9;
+        border: 1px solid #dadada;
     }
 
     .button{
         position: relative;
         height: 100%;
         width: 50px;
-        background: salmon;
-        box-sizing: border-box;
-        border-right: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .button>*{
+        color: #757575;
+        font-size: 2em !important;
+    }
+
+    .button:hover>*{
+        color: #1989fa;
+    }
+
+    .active{
+        color: #1989fa;
     }
 
     input{
         height: 80%;
         width: 80%;
+    }
+
+    .subPanel{
+        position: absolute;
+        bottom: -50px;
+        height: 50px;
+        width: 300px;
+        background: #f9f9f9;
+        border: 1px solid #dadada;
     }
 
     .button h2{

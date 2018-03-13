@@ -175,18 +175,18 @@ export default {
       this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
       this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});
 
-      this.$watch('width', (newValue) => {
-        this.$store.commit('changeWidthOfActiveElement', newValue, {module: "main"});
-      });
-      this.$watch('height', (newValue) => {
-        this.$store.commit('changeHeightOfActiveElement', newValue, {module: "main"});
-      });
-      this.$watch('top', (newValue) => {
-        this.$store.commit('changeYOfActiveElement', newValue, {module: "main"});
-      });
-      this.$watch('left', (newValue) => {
-        this.$store.commit('changeXOfActiveElement', newValue, {module: "main"});
-      });
+      // this.$watch('width', (newValue) => {
+      //   this.$store.commit('changeWidthOfActiveElement', newValue, {module: "main"});
+      // });
+      // this.$watch('height', (newValue) => {
+      //   this.$store.commit('changeHeightOfActiveElement', newValue, {module: "main"});
+      // });
+      // this.$watch('top', (newValue) => {
+      //   this.$store.commit('changeYOfActiveElement', newValue, {module: "main"});
+      // });
+      // this.$watch('left', (newValue) => {
+      //   this.$store.commit('changeXOfActiveElement', newValue, {module: "main"});
+      // });
     }
 
   },
@@ -455,6 +455,13 @@ export default {
       }
     },
     handleUp: function (e) {
+      if(this.resizable){
+        this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
+        this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});
+        this.$store.commit('changeWidthOfActiveElement', this.width, {module: "main"});
+        this.$store.commit('changeHeightOfActiveElement', this.height, {module: "main"});
+      }
+
       this.firstTime = true;
       this.handle = null
       if (this.resizing) {
@@ -469,9 +476,11 @@ export default {
           this.top = 0;
         }
 
+        let position = this.calculateCorrectPosition(e.clientX, e.clientY, e);
+
         this.insideDropZone = false;
         if(this.isInside(e.clientX, e.clientY)){
-          this.$emit('dropInside', this.left, this.top);
+          this.$emit('dropInside', position.x, position.y);
         }
         this.$emit('dragstop', this.left, this.top);
       }
@@ -489,6 +498,15 @@ export default {
       }else{
         return false;
       }
+    },
+    calculateCorrectPosition(x, y, e){
+      let dropElem = document.querySelector(this.dropZone);
+      let {left, top} = dropElem.getBoundingClientRect();
+      
+      return {
+        x : x - left,
+        y : y - top
+      };
     }
   },
 

@@ -6,8 +6,7 @@
                 <div class="name_block">
                     <h2 class="name">{{name}}</h2>
                     <div class="arrows">
-                        <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
-                        <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
+                        <i class="el-icon-d-arrow-right arrow"></i>
                     </div>
                 </div>
             </el-card>
@@ -28,14 +27,16 @@
             'image-block': ImageBlock
         },
         methods: {
-            droppedInside(){
+            droppedInside(x, y){
                 let id = new Date().getTime();
                 this.$store.commit("addElementInsideCanvas", {
                     name: 'image-block',
                     id,
                     props: {
                         type: "image",
-                        imageSource: this.imageSource
+                        imageSource: this.imageSource,
+                        x,
+                        y
                     },
                     styles: {
                         background: "transparent",
@@ -88,10 +89,8 @@
 
     .arrow{
         color: #1989fa;
-    }
-
-    .arrow:last-child{
-        margin-left: -40px;
+        font-size: 2em;
+        font-weight: 900;
     }
 
     .can-drop{

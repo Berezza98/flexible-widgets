@@ -43,19 +43,23 @@
 
 <style scoped>
     .canvas_wrapper{
-        height: 100%;
+        height: 90%;
         width: 100%;
         overflow: auto;
         display: flex;
         justify-content: center;
         align-items: center;
+        background: #f9f9f9;
+        box-sizing: border-box;
+        border: 1px solid #dadada;
     }
     .canvas{
-        background: white;
         overflow: hidden;
         transform-origin: 0 0;
         position: relative;
-        margin: 100px;
+        background: white;
+        box-sizing: border-box;
+        border: 1px solid #dadada;
     }
 
     .portrait{

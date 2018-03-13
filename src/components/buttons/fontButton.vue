@@ -4,8 +4,7 @@
             <el-card class="inside_draggable" :body-style="bodyStyles">
                 <h2 class="buttonName">{{tile}}</h2>
                 <div class="arrows">
-                    <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
-                    <md-icon class="md-size-2x arrow">keyboard_arrow_right</md-icon>
+                    <i class="el-icon-d-arrow-right arrow"></i>
                 </div>
             </el-card>
         </draggable>
@@ -29,14 +28,16 @@
             'text-interactive': Text
         },
         methods: {
-            droppedInside(){
+            droppedInside(x, y){
                 let id = new Date().getTime();
                 this.$store.commit("addElementInsideCanvas", {
                     name: 'text-block',
                     id,
                     props: {
                         type: "text",
-                        textValue: "Here will be your text"
+                        textValue: "Here will be your text",
+                        x,
+                        y
                     },
                     styles: {
                         background: "#ffffff",
@@ -65,7 +66,7 @@
 <style scoped>
     .textButton{
         width: 95%;
-        height: 100px;
+        height: 80px;
         box-sizing: border-box;
         border-radius: 4px;
         margin-bottom: 10px;
@@ -83,10 +84,8 @@
 
     .arrow{
         color: #1989fa;
-    }
-
-    .arrow:last-child{
-        margin-left: -40px;
+        font-size: 2em;
+        font-weight: 900;
     }
 
     .buttonName{

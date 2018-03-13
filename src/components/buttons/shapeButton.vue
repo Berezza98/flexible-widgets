@@ -45,22 +45,23 @@
             getImg(pic){
                 return require('../../assets/shapes/'+pic);
             },
-            droppedInside(){
+            droppedInside(x, y){
                 let id = new Date().getTime();
                 this.$store.commit("addElementInsideCanvas", {
                     name: this.correctComponent,
                     id,
                     props: {
-                        type: "shape"
+                        type: "shape",
+                        x, 
+                        y
                     },
                     styles: {
-                        background: "transparent",
+                        background: "rgba(19, 206, 102, 0)",
                         opacity: 1
                     }
                 }, {module: "main"});
             },
             upIndex(e){
-                console.log(e.currentTarget);
                 e.currentTarget.classList.add('activeEl');
             },
             downIndex(e){
@@ -79,8 +80,8 @@
         user-select: none;
         box-sizing: border-box;
         float: left;
-        width: 47.5%;
-        margin: 4px;
+        width: 45%;
+        margin: calc(5%/3);
     }
 
     .shapeWrapper:before{

@@ -4,6 +4,8 @@ import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 import ElementUI from 'element-ui';
 import VueMaterial from 'vue-material';
+import lang from 'element-ui/lib/locale/lang/en';
+import locale from 'element-ui/lib/locale';
 
 import 'element-ui/lib/theme-chalk/index.css';
 import 'vue-material/dist/vue-material.css';
@@ -18,13 +20,16 @@ Vue.component('draggable', VueDraggableResizable);
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
-Vue.use(ElementUI);
 Vue.use(VueMaterial);
+
+locale.use(lang);
+Vue.use(ElementUI);
 
 Vue.config.productionTip = false;
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 });
 
 new Vue({
