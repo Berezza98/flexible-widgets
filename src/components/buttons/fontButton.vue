@@ -40,16 +40,16 @@
                         y
                     },
                     styles: {
-                        background: "#ffffff",
+                        background: "rgba(19, 206, 102, 0)",
                         opacity: 1,
-                        color: "#000000",
+                        color: "rgba(0, 0, 0, 1)",
                         'font-family': this.tile,
                         'font-size': "20px",
                         'font-weight': "normal",
                         'font-style': "normal",
                         'text-decoration': "none",
                         'text-align': "left",
-                        'align-self': "flex-start"
+                        'align-items': "flex-start"
                     }
                 }, {module: "main"});
             }

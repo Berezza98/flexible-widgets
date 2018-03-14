@@ -1,23 +1,32 @@
 <template>
-    <div class="panel">
+    <div class="panel" @mousedown.stop="noDrag">
         <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
-            <!-- <el-color-picker v-model="background" show-alpha></el-color-picker> -->
-            <md-icon class="md-size-2x">format_color_fill</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'background'" class="md-size-2x">format_color_fill</md-icon>
+            <div v-if="showSubPanel == 'background'" class="subPanel colorInside">
+                <el-color-picker @click.native.stop v-model="background" show-alpha></el-color-picker>
+            </div>
         </div>
         <div v-if="elementType === 'text'" class="button">
-            <!-- <input type="color" v-model="color"/> -->
-            <md-icon class="md-size-2x">format_color_text</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'color'" class="md-size-2x">format_color_text</md-icon>
+            <div v-if="showSubPanel == 'color'" class="subPanel colorInside">
+                <el-color-picker @click.native.stop v-model="color" show-alpha></el-color-picker>
+            </div>
         </div>
         <div class="button">
-            <md-icon class="md-size-2x">opacity</md-icon>
-            <div class="subPanel" @mousedown="noDrag">
-
+            <md-icon @click.native.self="showSubPanel = 'opacity'" class="md-size-2x">opacity</md-icon>
+            <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
+                <div class="sliderWrapper">
+                    <el-slider v-model="opacity" :min="0" :max="1" :step="0.1" show-input></el-slider>
+                </div>
             </div>
-            <!-- <input v-model="opacity"/> -->
         </div>
         <div v-if="elementType === 'text'" class="button">
-            <!-- <input v-model="fontSize"/> -->
-            <md-icon class="md-size-2x">format_size</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'fontSize'" class="md-size-2x">format_size</md-icon>
+            <div v-if="showSubPanel == 'fontSize'" class="subPanel sliderInside">
+                <div class="sliderWrapper">
+                    <el-slider v-model="fontSize" :min="1" :max="100" :step="1" show-input></el-slider>
+                </div>
+            </div>
         </div>
         <div v-if="elementType === 'text'" class="button" @click="underline">
             <md-icon  :class="underlineEl !== 'none' ? 'active' : ''">format_underlined</md-icon>
@@ -32,19 +41,32 @@
             <!-- <select v-model="selectFont">
                 <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
             </select> -->
-            <md-icon class="md-size-2x">font_download</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'fontFamily'" class="md-size-2x">font_download</md-icon>
+            <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
+                <el-select v-model="selectFont" placeholder="Select font">
+                    <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
+                </el-select>
+            </div>
         </div>
         <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <!-- <select v-model="textAlign">
-                <option v-for="(align, index) in ['left', 'right', 'center']" :key="index" :value="align">{{align}}</option>
-            </select> -->
-            <md-icon class="md-size-2x">format_align_right</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'align'" class="md-size-2x">format_align_right</md-icon>
+            <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
+                <el-radio-group v-model="textAlign">
+                    <el-radio-button label="Left"></el-radio-button>
+                    <el-radio-button label="Center"></el-radio-button>
+                    <el-radio-button label="Right"></el-radio-button>
+                </el-radio-group>
+            </div>
         </div>
         <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <!-- <select v-model="verticalAlign">
-                <option v-for="(align, index) in [{name: 'top', value: 'flex-start'}, {name: 'center', value: 'center'}, {name: 'bottom', value: 'flex-end'}]" :key="index" :value="align.value">{{align.name}}</option>
-            </select> -->
-            <md-icon class="md-size-2x">vertical_align_center</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'verAlign'" class="md-size-2x">vertical_align_center</md-icon>
+            <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
+                <el-radio-group v-model="verticalAlign">
+                    <el-radio-button label="Top"></el-radio-button>
+                    <el-radio-button label="Center"></el-radio-button>
+                    <el-radio-button label="Bottom"></el-radio-button>
+                </el-radio-group>
+            </div>
         </div>
         <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
             <md-icon class="md-size-2x">crop</md-icon>
@@ -62,7 +84,7 @@
     export default{
         data(){
             return {
-
+                showSubPanel: ""
             }
         },
         methods: {
@@ -135,10 +157,10 @@
             },
             fontSize: {
                 get(){
-                    return this.activeElement.styles['font-size'];
+                    return parseInt(this.activeElement.styles['font-size']);
                 }, 
                 set(value){
-                    this.$store.commit("changeFontSize", value, {module: "main"});
+                    this.$store.commit("changeFontSize", value + 'px', {module: "main"});
                 }
             },
             underlineEl: {
@@ -159,9 +181,25 @@
             },
             verticalAlign: {
                 get(){
-                    return this.activeElement.styles['align-items'];
+                    let verAlign = this.activeElement.styles['align-items'];
+                    if(verAlign === 'flex-start'){
+                        return 'Top';
+                    }else if(verAlign === 'flex-end'){
+                        return 'Bottom';
+                    }else{
+                        return 'Center';
+                    }
+
+                    return 
                 }, 
                 set(value){
+                    if(value === 'Top'){
+                        value = 'flex-start';
+                    }else if(value === 'Bottom'){
+                        value = 'flex-end';
+                    }else{
+                        value = 'center';
+                    }
                     this.$store.commit("verticalAlign", value, {module: "main"});
                 }
             },
@@ -201,18 +239,44 @@
         height: 100%;
         width: 50px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .sliderInside{
+        width: 502px;
+        display: flex;
+        align-items: center;
+        padding: 6px 20px;
+    }
+
+    .radioInside{
+        width: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .colorInside{
+        width: 51px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sliderWrapper{
+        width: 100%;
+    }
+    .button:not(:last-child){
+        border-right: 1px solid #dadada;
     }
 
     .button>*{
         color: #757575;
         font-size: 2em !important;
-    }
-
-    .button:hover>*{
-        color: #1989fa;
     }
 
     .active{
@@ -225,11 +289,13 @@
     }
 
     .subPanel{
+        align-self: flex-start;
         position: absolute;
         bottom: -50px;
         height: 50px;
-        width: 300px;
+        left: -1px;
         background: #f9f9f9;
+        box-sizing: border-box;
         border: 1px solid #dadada;
     }
 

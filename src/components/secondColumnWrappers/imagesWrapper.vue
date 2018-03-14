@@ -1,6 +1,6 @@
 <template>
     <div class="images">
-        <image-block v-for="(image, index) in images" :imageSource="image.src" :name="image.name" :key="index"></image-block>
+        <image-block v-for="(image, index) in correctImages" :imageSource="image.src" :name="image.name" :key="index"></image-block>
         <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
 </template>
@@ -21,6 +21,17 @@
         methods: {
             getImg(pic){
                 return require('../../assets/'+pic)
+            }
+        },
+        computed: {
+            correctImages(){
+                return this.images.filter(image => {
+                    if(image.name.toLowerCase().indexOf(this.$store.state.main.searchingData.toLowerCase()) !== -1){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                });
             }
         },
         created(){

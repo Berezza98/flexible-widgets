@@ -66,6 +66,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background: rgba(0,0,0,0.5);
     }
 
     .el-radio__label{

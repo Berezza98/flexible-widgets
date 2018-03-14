@@ -1,9 +1,7 @@
 <template>
     <div>
         <img id="image" :src="imageSrc"/>
-        <div class="button" @click="cropZone">
-            <h2>Crop</h2>
-        </div>
+        <el-button @click="cropZone" class="button" type="primary" icon="el-icon-edit"></el-button>
     </div>
 </template>
 
@@ -47,16 +45,8 @@
 
     .button{
         position: absolute;
-        top: 0px;
+        bottom: -9px;
         width: 60px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-        cursor: pointer;
-        border-radius: 20px;
-        background: blanchedalmond;
-
     }
 
     .button h2{
