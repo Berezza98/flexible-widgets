@@ -47,6 +47,7 @@
     .images{
         height: calc(100% - 70px);
         width: 100%;
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;

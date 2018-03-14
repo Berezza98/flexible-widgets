@@ -141,6 +141,9 @@ export default {
     },
     id: {
       type: Number, require: true
+    },
+    hideOverflow: {
+      type: String
     }
   },
 
@@ -261,6 +264,13 @@ export default {
       this.$emit('resizing', this.left, this.top, this.width, this.height)
     },
     elmDown: function (e) {
+      if(this.hideOverflow){
+        let block = document.querySelector(this.hideOverflow);
+        let scrollTop = block.scrollTop;
+        block.style.overflow = 'initial';
+        block.style.transform = `translateY(${-scrollTop}px)`;
+
+      }
       const target = e.target || e.srcElement
       this.zIndex = 9999;
 
@@ -455,6 +465,12 @@ export default {
       }
     },
     handleUp: function (e) {
+      if(this.hideOverflow){
+        let block = document.querySelector(this.hideOverflow);
+        block.style.removeProperty('overflow');
+        block.style.removeProperty('transform');
+
+      }
       if(this.resizable){
         this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
         this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});

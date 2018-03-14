@@ -37,6 +37,9 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        background: white;
+        z-index: 2;
+        user-select: none;
     }
 
     .searchBox{

@@ -59,6 +59,7 @@
 <style scoped>
     .modalFilter{
         position: fixed;
+        z-index: 3;
         top: 0px;
         left: 0px;
         height: 100vh;

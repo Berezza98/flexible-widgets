@@ -1,6 +1,6 @@
 <template>
-  <div class="image_template">
-        <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
+  <div class="image_template" @mouseover="upIndex($event)" @mouseout="downIndex($event)">
+        <draggable :return-to-start-position="true" :hideOverflow="'.images'" :setParentSizes="true" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
             <el-card class="inside_draggable">
                 <img draggable="false" class="innerImage" :src="imageSource">
                 <div class="name_block">
@@ -43,6 +43,12 @@
                         opacity: 1
                     }
                 }, {module: "main"});
+            },
+            upIndex(e){
+                e.currentTarget.classList.add('activeEl');
+            },
+            downIndex(e){
+                e.currentTarget.classList.remove('activeEl');
             }
         },
         props: {
@@ -95,5 +101,9 @@
 
     .can-drop{
         border: 4px solid rgba(45, 236, 20, 0.829) !important;
+    }
+
+    .activeEl{
+        z-index: 10;
     }
 </style>

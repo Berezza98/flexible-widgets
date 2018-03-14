@@ -49,6 +49,7 @@ export default {
 
 #app {
   height: calc(100vh - 40px);
+  overflow: hidden;
 }
 
 .fullscreen{
