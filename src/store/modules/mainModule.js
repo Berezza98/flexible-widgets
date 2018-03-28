@@ -91,6 +91,10 @@ export default {
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.opacity = value;
         },
+        changeZIndex(state, value){
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.props.z = value;
+        },
         changeInputText(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.textValue = value;

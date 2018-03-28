@@ -26,12 +26,10 @@
                     return;
                 }
                 console.log(document.querySelector(".canvas"));
-                html2canvas(document.querySelector(".canvas")).then(canvas => {
+                html2canvas(document.querySelector(".el-col-17"), {logging:false}).then(canvas => {
                     this.$store.commit('changeIdOfElements', {module: "main"});
-                    console.log(canvas);
-                    document.body.appendChild(canvas);
                     return {
-                        image: canvas.toDataURL(),
+                        image: ''/*canvas.toDataURL()*/,
                         name: this.name,
                         data: this.$store.state.main.draggableInsideCanvas
                     }

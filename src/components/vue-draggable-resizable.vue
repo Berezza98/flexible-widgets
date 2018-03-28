@@ -177,19 +177,6 @@ export default {
       this.$store.commit('changeHeightOfActiveElement', this.height, {module: "main"});
       this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
       this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});
-
-      // this.$watch('width', (newValue) => {
-      //   this.$store.commit('changeWidthOfActiveElement', newValue, {module: "main"});
-      // });
-      // this.$watch('height', (newValue) => {
-      //   this.$store.commit('changeHeightOfActiveElement', newValue, {module: "main"});
-      // });
-      // this.$watch('top', (newValue) => {
-      //   this.$store.commit('changeYOfActiveElement', newValue, {module: "main"});
-      // });
-      // this.$watch('left', (newValue) => {
-      //   this.$store.commit('changeXOfActiveElement', newValue, {module: "main"});
-      // });
     }
 
   },
@@ -268,7 +255,7 @@ export default {
         let block = document.querySelector(this.hideOverflow);
         let scrollTop = block.scrollTop;
         block.style.overflow = 'initial';
-        block.style.transform = `translateY(${-scrollTop}px)`;
+        block.style.top = `${-scrollTop}px`;
 
       }
       const target = e.target || e.srcElement
@@ -296,7 +283,6 @@ export default {
       }
     },
     deselect: function (e) {
-      this.zIndex = 2;
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
 
@@ -306,8 +292,18 @@ export default {
       const target = e.target || e.srcElement
       const regex = new RegExp('handle-([trmbl]{2})', '')
 
-      if (!this.$el.contains(target) && !regex.test(target.className)) {
+      // DOSELECT WILL NOT WORK IF WE CLICK ON COLORPICKER OR SELECT 
+
+      const colorpicker = document.querySelector('.el-color-dropdown.el-color-picker__panel');
+      const selectBlock = document.querySelector('.el-select-dropdown.el-popper');
+      let isInsideColorpicker = colorpicker && colorpicker.contains(target) ? true : false;
+      let isInsideSelector = selectBlock && selectBlock.contains(target) ? true : false;
+
+      // END
+
+      if (!this.$el.contains(target) && !regex.test(target.className) && !isInsideColorpicker && !isInsideSelector) {
         if (this.enabled) {
+          this.zIndex = this.z;
           this.enabled = false
 
           this.$emit('deactivated')
@@ -468,12 +464,14 @@ export default {
       if(this.hideOverflow){
         let block = document.querySelector(this.hideOverflow);
         block.style.removeProperty('overflow');
-        block.style.removeProperty('transform');
+        block.style.removeProperty('top');
 
       }
       if(this.resizable){
         this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
         this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});
+      }
+      if(this.resizing){
         this.$store.commit('changeWidthOfActiveElement', this.width, {module: "main"});
         this.$store.commit('changeHeightOfActiveElement', this.height, {module: "main"});
       }

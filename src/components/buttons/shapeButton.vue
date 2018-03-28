@@ -53,10 +53,13 @@
                     props: {
                         type: "shape",
                         x, 
-                        y
+                        y,
+                        z : 1,
+                        height: 100,
+                        width: 100
                     },
                     styles: {
-                        background: "rgba(19, 206, 102, 0)",
+                        background: "rgba(19, 206, 102, 0.4)",
                         opacity: 1
                     }
                 }, {module: "main"});

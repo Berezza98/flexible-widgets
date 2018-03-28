@@ -35,8 +35,11 @@
                     props: {
                         type: "image",
                         imageSource: this.imageSource,
+                        width: 300,
+                        height: 200,
                         x,
-                        y
+                        y,
+                        z : 1
                     },
                     styles: {
                         background: "transparent",

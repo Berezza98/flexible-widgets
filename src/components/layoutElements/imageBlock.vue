@@ -1,7 +1,7 @@
 <template>
-    <draggable :z="2" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
+    <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
         <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
-        <panel-block @closePanel="closePanel" @cropImage="crop" v-if="showPanel && !cropState"></panel-block>
+        <panel-block @closePanel="closePanel" :blockDimensions="dimensionsObj" @cropImage="crop" v-if="showPanel && !cropState"></panel-block>
         <crop v-if="cropState" :imageSrc="imageSource" @closeCropping="closeCrop"></crop>
     </draggable>
 </template>
@@ -14,7 +14,8 @@
         data(){
             return{
                 showPanel: false,
-                cropState: false
+                cropState: false,
+                panelWidth: 0
             }
         },
         components: {
@@ -46,6 +47,10 @@
                 type: Number,
                 default: 0
             },
+            z: {
+                type: Number,
+                default: 1
+            },
             styles: {
                 type: Object,
                 required: true
@@ -72,6 +77,16 @@
                 this.showPanel= false;
                 this.cropState= true;
             }
+        },
+        computed: {
+            dimensionsObj(){
+                return {
+                    x: this.x,
+                    y: this.y,
+                    width: this.width,
+                    height: this.height
+                };
+            }
         }
     }
 </script>
@@ -80,6 +95,7 @@
     .image{
         height: 100%;
         width: 100%;
+        user-select: none;
     }
 
     .image.active{

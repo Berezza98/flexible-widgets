@@ -1,6 +1,6 @@
 <template>
     <div class="canvas_wrapper">
-        <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'" :style="'transform: scale('+ currentScale +');'">
+        <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
             <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
         </div>
     </div> 
@@ -45,7 +45,6 @@
     .canvas_wrapper{
         height: 90%;
         width: 100%;
-        overflow: auto;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -54,8 +53,6 @@
         border: 1px solid #dadada;
     }
     .canvas{
-        overflow: hidden;
-        transform-origin: 0 0;
         position: relative;
         background: white;
         box-sizing: border-box;

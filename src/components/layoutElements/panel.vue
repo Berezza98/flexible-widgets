@@ -1,19 +1,19 @@
 <template>
-    <div class="panel" @mousedown.stop="noDrag">
+    <div :class="'panel ' + getCorrectPosition" @mousedown.stop="noDrag">
         <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
-            <md-icon @click.native.self="showSubPanel = 'background'" class="md-size-2x">format_color_fill</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'background'" :class="showSubPanel == 'background' ? 'md-size-2x active' : 'md-size-2x'">format_color_fill</md-icon>
             <div v-if="showSubPanel == 'background'" class="subPanel colorInside">
                 <el-color-picker @click.native.stop v-model="background" show-alpha></el-color-picker>
             </div>
         </div>
         <div v-if="elementType === 'text'" class="button">
-            <md-icon @click.native.self="showSubPanel = 'color'" class="md-size-2x">format_color_text</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'color'" :class="showSubPanel == 'color' ? 'md-size-2x active' : 'md-size-2x'">format_color_text</md-icon>
             <div v-if="showSubPanel == 'color'" class="subPanel colorInside">
                 <el-color-picker @click.native.stop v-model="color" show-alpha></el-color-picker>
             </div>
         </div>
         <div class="button">
-            <md-icon @click.native.self="showSubPanel = 'opacity'" class="md-size-2x">opacity</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'opacity'" :class="showSubPanel == 'opacity' ? 'md-size-2x active' : 'md-size-2x'">opacity</md-icon>
             <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
                 <div class="sliderWrapper">
                     <el-slider v-model="opacity" :min="0" :max="1" :step="0.1" show-input></el-slider>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div v-if="elementType === 'text'" class="button">
-            <md-icon @click.native.self="showSubPanel = 'fontSize'" class="md-size-2x">format_size</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'fontSize'" :class="showSubPanel == 'fontSize' ? 'md-size-2x active' : 'md-size-2x'">format_size</md-icon>
             <div v-if="showSubPanel == 'fontSize'" class="subPanel sliderInside">
                 <div class="sliderWrapper">
                     <el-slider v-model="fontSize" :min="1" :max="100" :step="1" show-input></el-slider>
@@ -41,7 +41,7 @@
             <!-- <select v-model="selectFont">
                 <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
             </select> -->
-            <md-icon @click.native.self="showSubPanel = 'fontFamily'" class="md-size-2x">font_download</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-2x active' : 'md-size-2x'">font_download</md-icon>
             <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
                 <el-select v-model="selectFont" placeholder="Select font">
                     <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
@@ -49,7 +49,7 @@
             </div>
         </div>
         <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <md-icon @click.native.self="showSubPanel = 'align'" class="md-size-2x">format_align_right</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'align'" :class="showSubPanel == 'align' ? 'md-size-2x active' : 'md-size-2x'">format_align_right</md-icon>
             <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
                 <el-radio-group v-model="textAlign">
                     <el-radio-button label="Left"></el-radio-button>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <md-icon @click.native.self="showSubPanel = 'verAlign'" class="md-size-2x">vertical_align_center</md-icon>
+            <md-icon @click.native.self="showSubPanel = 'verAlign'" :class="showSubPanel == 'verAlign' ? 'md-size-2x active' : 'md-size-2x'">vertical_align_center</md-icon>
             <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
                 <el-radio-group v-model="verticalAlign">
                     <el-radio-button label="Top"></el-radio-button>
@@ -70,6 +70,14 @@
         </div>
         <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
             <md-icon class="md-size-2x">crop</md-icon>
+        </div>
+        <div class="button">
+            <md-icon @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-2x active' : 'md-size-2x'">layers</md-icon>
+            <div v-if="showSubPanel == 'zIndex'" class="subPanel sliderInside">
+                <div class="sliderWrapper">
+                    <el-slider v-model="zIndex" :min="1" :max="50" :step="1" show-input></el-slider>
+                </div>
+            </div>
         </div>
         <div class="button" @click="deleteElement">
             <md-icon class="md-size-2x">delete</md-icon>
@@ -84,8 +92,18 @@
     export default{
         data(){
             return {
-                showSubPanel: ""
+                showSubPanel: "",
+                elWidth: 0
             }
+        },
+        props: {
+            blockDimensions: {
+                type: Object,
+                required: true
+            }
+        },
+        mounted(){
+            this.elWidth = this.$el.offsetWidth;
         },
         methods: {
             deleteElement(id){
@@ -114,6 +132,22 @@
             }
         },
         computed: {
+            getCorrectPosition(){
+                let canvas = document.querySelector('.canvas');
+                let canvasWidth = canvas.offsetWidth;
+                let canvasHeight = canvas.offsetHeight;
+                
+                let elementWidth = this.elWidth > this.blockDimensions.width ? this.elWidth : this.blockDimensions.width;
+                if(this.blockDimensions.y + this.blockDimensions.height + 110 > canvasHeight && this.blockDimensions.x + elementWidth < canvasWidth){
+                    return 'top-left';
+                }else if(this.blockDimensions.y + this.blockDimensions.height + 110 > canvasHeight && this.blockDimensions.x + elementWidth > canvasWidth){
+                    return 'top-right';
+                }else if(this.blockDimensions.y + this.blockDimensions.height + 110 < canvasHeight && this.blockDimensions.x + elementWidth > canvasWidth){
+                    return 'standart-right'
+                }else{
+                    return 'standart';
+                }
+            },
             activeElement(){
                 return this.$store.getters.getActiveElement;
             },
@@ -218,6 +252,14 @@
                 set(value){
                     this.$store.commit("textItalic", value, {module: "main"});
                 }
+            },
+            zIndex: {
+                get(){
+                    return this.activeElement.props.z;
+                }, 
+                set(value){
+                    this.$store.commit("changeZIndex", value, {module: "main"});
+                }
             }
         }
     }
@@ -225,17 +267,37 @@
 
 <style scoped>
     .panel{
-        position: absolute;
-        bottom: -60px;
-        left: 0px;
         height: 50px;
         display: flex;
         background: #f9f9f9;
         border: 1px solid #dadada;
     }
 
+    .standart{
+        position: absolute;
+        bottom: -60px;
+        left: 0px;
+    }
+
+    .standart-right{
+        position: absolute;
+        bottom: -60px;
+        right: 0px;
+    }
+
+    .top-left{
+        position: absolute;
+        top: -60px;
+        left: 0px;
+    }
+
+    .top-right{
+        position: absolute;
+        top: -60px;
+        right: 0px;
+    }
+
     .button{
-        position: relative;
         height: 100%;
         width: 50px;
         display: flex;
@@ -291,12 +353,21 @@
     .subPanel{
         align-self: flex-start;
         position: absolute;
-        bottom: -50px;
-        height: 50px;
-        left: -1px;
         background: #f9f9f9;
         box-sizing: border-box;
         border: 1px solid #dadada;
+    }
+
+    .standart .subPanel, .standart-right .subPanel{
+        bottom: -50px;
+        height: 50px;
+        left: -1px;
+    }
+
+    .top-right .subPanel, .top-left .subPanel{
+        top: -50px;
+        height: 50px;
+        left: -1px;
     }
 
     .button h2{

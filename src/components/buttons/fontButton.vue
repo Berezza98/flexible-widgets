@@ -1,6 +1,6 @@
 <template>
   <div class="textButton">
-        <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
+        <draggable :return-to-start-position="true" :hideOverflow="'.textWrapper'" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
             <el-card class="inside_draggable" :body-style="bodyStyles">
                 <h2 class="buttonName">{{tile}}</h2>
                 <div class="arrows">
@@ -37,7 +37,10 @@
                         type: "text",
                         textValue: "Here will be your text",
                         x,
-                        y
+                        y,
+                        z : 1,
+                        width: 200,
+                        height: 100
                     },
                     styles: {
                         background: "rgba(19, 206, 102, 0)",
