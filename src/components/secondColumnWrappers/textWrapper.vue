@@ -1,6 +1,6 @@
 <template>
     <div class="textWrapper">
-        <font-button v-for="(font, index) in currentFonts" :tile="font" :key="index"></font-button>
+        <font-button v-for="(font, index) in currentFonts" :tile="font" :fontFamily="font" :key="index"></font-button>
         <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
 </template>

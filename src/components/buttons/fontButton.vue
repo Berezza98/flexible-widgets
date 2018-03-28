@@ -2,7 +2,7 @@
   <div class="textButton">
         <draggable :return-to-start-position="true" :hideOverflow="'.textWrapper'" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
             <el-card class="inside_draggable" :body-style="bodyStyles">
-                <h2 class="buttonName">{{tile}}</h2>
+                <h2 class="buttonName" :style="{'font-family': fontFamily}">{{tile}}</h2>
                 <div class="arrows">
                     <i class="el-icon-d-arrow-right arrow"></i>
                 </div>
@@ -59,6 +59,10 @@
         },
         props: {
             tile: {
+                type: String,
+                required: true
+            },
+            fontFamily: {
                 type: String,
                 required: true
             }
