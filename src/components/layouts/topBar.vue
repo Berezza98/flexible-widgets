@@ -12,7 +12,6 @@
 
 <script>
     import html2canvas from 'html2canvas';
-
     export default{
         data(){
             return{
@@ -25,11 +24,11 @@
                     this.$message.error('Please enter the name for widget.');
                     return;
                 }
-                console.log(document.querySelector(".canvas"));
-                html2canvas(document.querySelector(".el-col-17"), {logging:false}).then(canvas => {
+                var canvas = document.querySelector(".canvas");
+                html2canvas(canvas, {logging:false}).then(canvas => {
                     this.$store.commit('changeIdOfElements', {module: "main"});
                     return {
-                        image: ''/*canvas.toDataURL()*/,
+                        image: canvas.toDataURL(),
                         name: this.name,
                         data: this.$store.state.main.draggableInsideCanvas
                     }
@@ -43,6 +42,7 @@
                         type: 'success'
                     });
                 });
+
             },
             deleteWidget() {
                 this.$confirm('Are you sure to delete the widget?', 'Warning', {

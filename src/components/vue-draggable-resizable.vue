@@ -173,10 +173,10 @@ export default {
     if(this.resizable){ // IF INSIDE THE CANVAS
       this.$store.commit("changeCurrentActiveElement", this.id, {module: "main"});
 
-      this.$store.commit('changeWidthOfActiveElement', this.width, {module: "main"});
-      this.$store.commit('changeHeightOfActiveElement', this.height, {module: "main"});
-      this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
-      this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});
+      this.$store.commit('changeYOfElement', {y: this.top, id: this.id}, {module: "main"});
+      this.$store.commit('changeXOfElement', {x: this.left, id: this.id}, {module: "main"});
+      this.$store.commit('changeWidthOfElement', {w: this.width, id: this.id}, {module: "main"});
+      this.$store.commit('changeHeightOfElement', {h: this.height, id: this.id}, {module: "main"});
     }
 
   },
@@ -259,7 +259,7 @@ export default {
 
       }
       const target = e.target || e.srcElement
-      this.zIndex = 9999;
+      this.zIndex = 2000;
 
       if (this.$el.contains(target)) {
         if (
@@ -295,13 +295,11 @@ export default {
       // DOSELECT WILL NOT WORK IF WE CLICK ON COLORPICKER OR SELECT 
 
       const colorpicker = document.querySelector('.el-color-dropdown.el-color-picker__panel');
-      const selectBlock = document.querySelector('.el-select-dropdown.el-popper');
       let isInsideColorpicker = colorpicker && colorpicker.contains(target) ? true : false;
-      let isInsideSelector = selectBlock && selectBlock.contains(target) ? true : false;
 
       // END
 
-      if (!this.$el.contains(target) && !regex.test(target.className) && !isInsideColorpicker && !isInsideSelector) {
+      if (!this.$el.contains(target) && !regex.test(target.className) && !isInsideColorpicker) {
         if (this.enabled) {
           this.zIndex = this.z;
           this.enabled = false
@@ -468,13 +466,14 @@ export default {
 
       }
       if(this.resizable){
-        this.$store.commit('changeYOfActiveElement', this.top, {module: "main"});
-        this.$store.commit('changeXOfActiveElement', this.left, {module: "main"});
+        this.$store.commit('changeYOfElement', {y: this.top, id: this.id}, {module: "main"});
+        this.$store.commit('changeXOfElement', {x: this.left, id: this.id}, {module: "main"});
       }
       if(this.resizing){
-        this.$store.commit('changeWidthOfActiveElement', this.width, {module: "main"});
-        this.$store.commit('changeHeightOfActiveElement', this.height, {module: "main"});
+        this.$store.commit('changeWidthOfElement', {w: this.width, id: this.id}, {module: "main"});
+        this.$store.commit('changeHeightOfElement', {h: this.height, id: this.id}, {module: "main"});
       }
+      
 
       this.firstTime = true;
       this.handle = null

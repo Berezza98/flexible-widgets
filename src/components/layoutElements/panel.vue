@@ -43,7 +43,7 @@
             </select> -->
             <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-2x active' : 'md-size-2x'">font_download</md-icon>
             <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
-                <el-select v-model="selectFont" placeholder="Select font">
+                <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
                     <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
                 </el-select>
             </div>

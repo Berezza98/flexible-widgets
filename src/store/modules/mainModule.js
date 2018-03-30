@@ -59,21 +59,21 @@ export default {
         changeCurrentActiveElement(state, id){
             state.currentActiveElement = id;
         },
-        changeWidthOfActiveElement(state, value){
-            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
-            element.props.width = value;
+        changeWidthOfElement(state, value){
+            let element = getElementByID(state.draggableInsideCanvas, value.id);
+            element.props.width = value.w;
         },
-        changeHeightOfActiveElement(state, value){
-            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
-            element.props.height = value;
+        changeHeightOfElement(state, value){
+            let element = getElementByID(state.draggableInsideCanvas, value.id);
+            element.props.height = value.h;
         },
-        changeXOfActiveElement(state, value){
-            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
-            element.props.x = value;
+        changeXOfElement(state, value){
+            let element = getElementByID(state.draggableInsideCanvas, value.id);
+            element.props.x = value.x;
         },
-        changeYOfActiveElement(state, value){
-            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
-            element.props.y = value;
+        changeYOfElement(state, value){
+            let element = getElementByID(state.draggableInsideCanvas, value.id);
+            element.props.y = value.y;
         },
         changeImageSource(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
@@ -93,6 +93,7 @@ export default {
         },
         changeZIndex(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            console.log(element.id, value);
             element.props.z = value;
         },
         changeInputText(state, value){
@@ -142,4 +143,14 @@ function getActiveElement(elements, id){
     });
 
     return active;
+}
+
+function getElementByID(elements, id){
+    let elem = elements.find((element) => {
+        if(element.id === id){
+            return true;
+        }
+    });
+
+    return elem;
 }

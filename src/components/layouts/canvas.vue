@@ -1,7 +1,7 @@
 <template>
     <div class="canvas_wrapper">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
-            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
+            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles">{{console.log('render')}}</component>
         </div>
     </div> 
 </template>
@@ -15,7 +15,7 @@
     export default{
         data(){
             return{
-                
+                console: console
             }
         },
         components: {
@@ -45,18 +45,19 @@
     .canvas_wrapper{
         height: 90%;
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        /* display: flex; */
         background: #f9f9f9;
         box-sizing: border-box;
         border: 1px solid #dadada;
+        position: relative;
     }
     .canvas{
         position: relative;
+        margin: auto;
         background: white;
         box-sizing: border-box;
         border: 1px solid #dadada;
+        margin-top: 100px;
     }
 
     .portrait{
