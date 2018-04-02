@@ -2,7 +2,7 @@
   <div class="image_template" @mouseover="upIndex($event)" @mouseout="downIndex($event)">
         <draggable :return-to-start-position="true" :hideOverflow="'.images'" :setParentSizes="true" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
             <el-card class="inside_draggable">
-                <img draggable="false" class="innerImage" :src="imageSource">
+                <img draggable="false" crossOrigin="Anonymous" class="innerImage" :src="imageSource">
                 <div class="name_block">
                     <h2 class="name">{{name}}</h2>
                     <div class="arrows">
@@ -34,7 +34,7 @@
                     id,
                     props: {
                         type: "image",
-                        imageSource: this.imageSource,
+                        imageSource: this.getBase64Image(this.$el.querySelector('.innerImage')),
                         width: 300,
                         height: 200,
                         x,
@@ -46,6 +46,15 @@
                         opacity: 1
                     }
                 }, {module: "main"});
+            },
+            getBase64Image(img) {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+                var dataURL = canvas.toDataURL();
+                return dataURL;
             },
             upIndex(e){
                 e.currentTarget.classList.add('activeEl');

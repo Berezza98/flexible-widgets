@@ -24,8 +24,17 @@
                     this.$message.error('Please enter the name for widget.');
                     return;
                 }
-                var canvas = document.querySelector(".canvas");
-                html2canvas(canvas, {logging:false}).then(canvas => {
+                const loading = this.$loading({
+                    lock: true,
+                    text: 'Loading',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+                let canvas = document.querySelector(".canvas");
+                let canvasWrapper = document.querySelector(".canvas_wrapper");
+                canvas.classList.add('canvas_flex_start');
+                canvasWrapper.classList.add('hide');
+                html2canvas(canvas, {logging: false}).then(canvas => {
                     this.$store.commit('changeIdOfElements', {module: "main"});
                     return {
                         image: canvas.toDataURL(),
@@ -41,6 +50,9 @@
                         message: 'Widget has been saved.',
                         type: 'success'
                     });
+                    canvas.classList.remove('canvas_flex_start');
+                    canvasWrapper.classList.remove('hide');
+                    loading.close();
                 });
 
             },

@@ -45,18 +45,27 @@
     .canvas_wrapper{
         height: 90%;
         width: 100%;
-        /* display: flex; */
+        display: flex;
+        justify-content: center;
         background: #f9f9f9;
         box-sizing: border-box;
         border: 1px solid #dadada;
         position: relative;
     }
     .canvas{
+        align-self: center;
         position: relative;
-        margin: auto;
         background: white;
         box-sizing: border-box;
         border: 1px solid #dadada;
+    }
+
+    .canvas_flex_start{
+        align-self: flex-start !important;
+    }
+
+    .hide{
+        opacity: 0;
     }
 
     .portrait{
