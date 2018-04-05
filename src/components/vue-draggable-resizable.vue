@@ -219,7 +219,8 @@ export default {
       initialPosition: {
         x: null,
         y: null
-      }
+      },
+      scale: 1
     }
   },
 
@@ -377,8 +378,15 @@ export default {
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
 
-      let diffX = this.mouseX - this.lastMouseX + this.mouseOffX
-      let diffY = this.mouseY - this.lastMouseY + this.mouseOffY
+      //SCALE IN CANVAS = 2
+      this.scale = 1;
+      if(this.resizable){
+        this.scale = 2;
+      }
+
+      let diffX = (this.mouseX - this.lastMouseX + this.mouseOffX) * this.scale
+      let diffY = (this.mouseY - this.lastMouseY + this.mouseOffY) * this.scale
+      
 
       this.mouseOffX = this.mouseOffY = 0
 
@@ -492,8 +500,12 @@ export default {
         let position = this.calculateCorrectPosition(e.clientX, e.clientY, e);
 
         this.insideDropZone = false;
+
+        if(!this.resizable){
+          this.scale = 2;
+        }
         if(this.isInside(e.clientX, e.clientY)){
-          this.$emit('dropInside', position.x, position.y);
+          this.$emit('dropInside', position.x * this.scale, position.y * this.scale);
         }
         this.$emit('dragstop', this.left, this.top);
       }

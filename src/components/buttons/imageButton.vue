@@ -35,8 +35,8 @@
                     props: {
                         type: "image",
                         imageSource: this.getBase64Image(this.$el.querySelector('.innerImage')),
-                        width: 300,
-                        height: 200,
+                        width: 600,
+                        height: 400,
                         x,
                         y,
                         z : 1

@@ -4,6 +4,7 @@ import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 import ElementUI from 'element-ui';
 import VueMaterial from 'vue-material';
+import AsyncComputed from 'vue-async-computed'
 import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
 
@@ -19,6 +20,7 @@ import VueDraggableResizable from './components/vue-draggable-resizable.vue';
 Vue.component('draggable', VueDraggableResizable);
 
 Vue.use(VueResource);
+Vue.use(AsyncComputed);
 Vue.use(VueRouter);
 Vue.use(VueMaterial);
 

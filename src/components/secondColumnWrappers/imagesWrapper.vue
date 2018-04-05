@@ -1,5 +1,5 @@
 <template>
-    <div class="images">
+    <div v-lazy-loading class="images">
         <image-block v-for="(image, index) in correctImages" :imageSource="image.src" :name="image.name" :key="index"></image-block>
         <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
@@ -23,19 +23,39 @@
                 return require('../../assets/'+pic)
             }
         },
-        computed: {
+        directives: {
+            lazyLoading: {
+                inserted: function (el, binding, vnode) {
+                    let canLoad = true;
+                    let heightForLoad = 450;
+                    let that = vnode.context;
+                    el.addEventListener('scroll', () => {
+                        let currentTopScroll = el.scrollHeight - el.scrollTop - el.clientHeight;
+                        if(canLoad && currentTopScroll < 100){
+                            canLoad = false;
+                            let elements = that.images.length;
+                            that.$http.get(`http://localhost:3300/getImages?page=${elements + 6}`).then(({body}) => {
+                                that.images = [...that.images, ...body];
+                                canLoad = true;
+                            });
+                        }
+                    }, true);
+                }
+            }
+        },
+        asyncComputed: {
             correctImages(){
-                return this.images.filter(image => {
-                    if(image.name.toLowerCase().indexOf(this.$store.state.main.searchingData.toLowerCase()) !== -1){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                });
+                let name = this.$store.state.main.searchingData.toLowerCase();
+                if(name.trim()){
+                    let result = [];
+                    return this.$http.get(`http://localhost:3300/getImagesByName?name=${name}`).then(({body}) => body);
+                }else{
+                    return this.images;
+                }
             }
         },
         created(){
-            this.$http.get('http://localhost:3300/getImages').then(({body}) => {
+            this.$http.get('http://localhost:3300/getImages?page=6').then(({body}) => {
                 this.images = body;
                 this.downloading = false;
             });

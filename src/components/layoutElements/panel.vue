@@ -271,29 +271,30 @@
         display: flex;
         background: #f9f9f9;
         border: 1px solid #dadada;
+        transform: scale(1.2);
     }
 
     .standart{
         position: absolute;
-        bottom: -60px;
+        bottom: -70px;
         left: 0px;
     }
 
     .standart-right{
         position: absolute;
-        bottom: -60px;
+        bottom: -70px;
         right: 0px;
     }
 
     .top-left{
         position: absolute;
-        top: -60px;
+        top: -70px;
         left: 0px;
     }
 
     .top-right{
         position: absolute;
-        top: -60px;
+        top: -70px;
         right: 0px;
     }
 

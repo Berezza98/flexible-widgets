@@ -39,15 +39,15 @@
                         x,
                         y,
                         z : 1,
-                        width: 200,
-                        height: 100
+                        width: 400,
+                        height: 200
                     },
                     styles: {
                         background: "rgba(19, 206, 102, 0)",
                         opacity: 1,
                         color: "rgba(0, 0, 0, 1)",
                         'font-family': this.tile,
-                        'font-size': "20px",
+                        'font-size': "40px",
                         'font-weight': "normal",
                         'font-style': "normal",
                         'text-decoration': "none",

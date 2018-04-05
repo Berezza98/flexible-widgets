@@ -98,9 +98,4 @@
         padding: 0px;
         width: 100%;
     }
-    textarea{
-        resize: none;
-        border: none;
-        background: transparent;
-    }
 </style>

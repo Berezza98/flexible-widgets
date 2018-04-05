@@ -53,11 +53,13 @@
         position: relative;
     }
     .canvas{
+        transform: scale(0.5);
         align-self: center;
         position: relative;
         background: white;
         box-sizing: border-box;
         border: 1px solid #dadada;
+        flex-shrink: 0;
     }
 
     .canvas_flex_start{
@@ -69,12 +71,12 @@
     }
 
     .portrait{
-        height: 960px;
-        width: 540px;
+        height: 1920px;
+        width: 1080px;
     }
 
     .landscape{
-        width: 960px;
-        height: 540px;
+        width: 1920px;
+        height: 1080px;
     }
 </style>
