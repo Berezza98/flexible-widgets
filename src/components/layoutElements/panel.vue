@@ -1,90 +1,117 @@
 <template>
     <div :class="'panel ' + getCorrectPosition" @mousedown.stop="noDrag">
-        <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
-            <md-icon @click.native.self="showSubPanel = 'background'" :class="showSubPanel == 'background' ? 'md-size-2x active' : 'md-size-2x'">format_color_fill</md-icon>
-            <div v-if="showSubPanel == 'background'" class="subPanel colorInside">
-                <el-color-picker @click.native.stop v-model="background" show-alpha></el-color-picker>
-            </div>
-        </div>
-        <div v-if="elementType === 'text'" class="button">
-            <md-icon @click.native.self="showSubPanel = 'color'" :class="showSubPanel == 'color' ? 'md-size-2x active' : 'md-size-2x'">format_color_text</md-icon>
-            <div v-if="showSubPanel == 'color'" class="subPanel colorInside">
-                <el-color-picker @click.native.stop v-model="color" show-alpha></el-color-picker>
-            </div>
-        </div>
-        <div class="button">
-            <md-icon @click.native.self="showSubPanel = 'opacity'" :class="showSubPanel == 'opacity' ? 'md-size-2x active' : 'md-size-2x'">opacity</md-icon>
-            <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
-                <div class="sliderWrapper">
-                    <el-slider v-model="opacity" :min="0" :max="1" :step="0.1" show-input></el-slider>
+        <el-tooltip content="Background color" placement="top">
+            <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
+                <md-icon @click.native.self="showSubPanel = 'background'" :class="showSubPanel == 'background' ? 'md-size-2x active' : 'md-size-2x'">format_color_fill</md-icon>
+                <div v-if="showSubPanel == 'background'" class="subPanel colorInside">
+                    <el-color-picker @click.native.stop v-model="background" show-alpha></el-color-picker>
                 </div>
             </div>
-        </div>
-        <div v-if="elementType === 'text'" class="button">
-            <md-icon @click.native.self="showSubPanel = 'fontSize'" :class="showSubPanel == 'fontSize' ? 'md-size-2x active' : 'md-size-2x'">format_size</md-icon>
-            <div v-if="showSubPanel == 'fontSize'" class="subPanel sliderInside">
-                <div class="sliderWrapper">
-                    <el-slider v-model="fontSize" :min="1" :max="100" :step="1" show-input></el-slider>
+        </el-tooltip>
+        <el-tooltip content="Font color" placement="top">
+            <div v-if="elementType === 'text'" class="button">
+                <md-icon @click.native.self="showSubPanel = 'color'" :class="showSubPanel == 'color' ? 'md-size-2x active' : 'md-size-2x'">format_color_text</md-icon>
+                <div v-if="showSubPanel == 'color'" class="subPanel colorInside">
+                    <el-color-picker @click.native.stop v-model="color" show-alpha></el-color-picker>
                 </div>
             </div>
-        </div>
-        <div v-if="elementType === 'text'" class="button" @click="underline">
-            <md-icon  :class="underlineEl !== 'none' ? 'active' : ''">format_underlined</md-icon>
-        </div>
-        <div v-if="elementType === 'text'" class="button" @click="bold">
-            <md-icon :class="boldEl !== 'normal' ? 'active' : ''">format_bold</md-icon>
-        </div>
-        <div v-if="elementType === 'text'" class="button" @click="italic">
-            <md-icon :class="italicEl !== 'normal' ? 'active' : ''" class="md-size-2x">format_italic</md-icon>
-        </div>
-        <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <!-- <select v-model="selectFont">
-                <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
-            </select> -->
-            <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-2x active' : 'md-size-2x'">font_download</md-icon>
-            <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
-                <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
-                    <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
-                </el-select>
-            </div>
-        </div>
-        <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <md-icon @click.native.self="showSubPanel = 'align'" :class="showSubPanel == 'align' ? 'md-size-2x active' : 'md-size-2x'">format_align_right</md-icon>
-            <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
-                <el-radio-group v-model="textAlign">
-                    <el-radio-button label="Left"></el-radio-button>
-                    <el-radio-button label="Center"></el-radio-button>
-                    <el-radio-button label="Right"></el-radio-button>
-                </el-radio-group>
-            </div>
-        </div>
-        <div v-if="elementType === 'text' || elementType === ''" class="button">
-            <md-icon @click.native.self="showSubPanel = 'verAlign'" :class="showSubPanel == 'verAlign' ? 'md-size-2x active' : 'md-size-2x'">vertical_align_center</md-icon>
-            <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
-                <el-radio-group v-model="verticalAlign">
-                    <el-radio-button label="Top"></el-radio-button>
-                    <el-radio-button label="Center"></el-radio-button>
-                    <el-radio-button label="Bottom"></el-radio-button>
-                </el-radio-group>
-            </div>
-        </div>
-        <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
-            <md-icon class="md-size-2x">crop</md-icon>
-        </div>
-        <div class="button">
-            <md-icon @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-2x active' : 'md-size-2x'">layers</md-icon>
-            <div v-if="showSubPanel == 'zIndex'" class="subPanel sliderInside">
-                <div class="sliderWrapper">
-                    <el-slider v-model="zIndex" :min="1" :max="50" :step="1" show-input></el-slider>
+        </el-tooltip>
+        <el-tooltip content="Opacity" placement="top">
+            <div class="button">
+                <md-icon @click.native.self="showSubPanel = 'opacity'" :class="showSubPanel == 'opacity' ? 'md-size-2x active' : 'md-size-2x'">opacity</md-icon>
+                <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
+                    <div class="sliderWrapper">
+                        <el-slider v-model="opacity" :min="0" :max="1" :step="0.1" show-input></el-slider>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="button" @click="deleteElement">
-            <md-icon class="md-size-2x">delete</md-icon>
-        </div>
-        <div class="button" @click="saveElement">
-            <md-icon class="md-size-2x">check</md-icon>
-        </div>
+        </el-tooltip>    
+        <el-tooltip content="Font size" placement="top">
+            <div v-if="elementType === 'text'" class="button">
+                <md-icon @click.native.self="showSubPanel = 'fontSize'" :class="showSubPanel == 'fontSize' ? 'md-size-2x active' : 'md-size-2x'">format_size</md-icon>
+                <div v-if="showSubPanel == 'fontSize'" class="subPanel sliderInside">
+                    <div class="sliderWrapper">
+                        <el-slider v-model="fontSize" :min="1" :max="100" :step="1" show-input></el-slider>
+                    </div>
+                </div>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Underline" placement="top">
+            <div v-if="elementType === 'text'" class="button" @click="underline">
+                <md-icon  :class="underlineEl !== 'none' ? 'active' : ''">format_underlined</md-icon>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Bold" placement="top">
+            <div v-if="elementType === 'text'" class="button" @click="bold">
+                <md-icon :class="boldEl !== 'normal' ? 'active' : ''">format_bold</md-icon>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Italic" placement="top">
+            <div v-if="elementType === 'text'" class="button" @click="italic">
+                <md-icon :class="italicEl !== 'normal' ? 'active' : ''" class="md-size-2x">format_italic</md-icon>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Font family" placement="top">
+            <div v-if="elementType === 'text' || elementType === ''" class="button">
+                <!-- <select v-model="selectFont">
+                    <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
+                </select> -->
+                <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-2x active' : 'md-size-2x'">font_download</md-icon>
+                <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
+                    <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
+                        <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
+                    </el-select>
+                </div>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Horisontal align" placement="top">
+            <div v-if="elementType === 'text' || elementType === ''" class="button">
+                <md-icon @click.native.self="showSubPanel = 'align'" :class="showSubPanel == 'align' ? 'md-size-2x active' : 'md-size-2x'">format_align_right</md-icon>
+                <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
+                    <el-radio-group v-model="textAlign">
+                        <el-radio-button label="Left"></el-radio-button>
+                        <el-radio-button label="Center"></el-radio-button>
+                        <el-radio-button label="Right"></el-radio-button>
+                    </el-radio-group>
+                </div>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Vertical align" placement="top">
+            <div v-if="elementType === 'text' || elementType === ''" class="button">
+                <md-icon @click.native.self="showSubPanel = 'verAlign'" :class="showSubPanel == 'verAlign' ? 'md-size-2x active' : 'md-size-2x'">vertical_align_center</md-icon>
+                <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
+                    <el-radio-group v-model="verticalAlign">
+                        <el-radio-button label="Top"></el-radio-button>
+                        <el-radio-button label="Center"></el-radio-button>
+                        <el-radio-button label="Bottom"></el-radio-button>
+                    </el-radio-group>
+                </div>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Crop&Rotate" placement="top">
+            <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
+                <md-icon class="md-size-2x">crop_rotate</md-icon>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Layer position" placement="top">
+            <div class="button">
+                <md-icon @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-2x active' : 'md-size-2x'">layers</md-icon>
+                <div v-if="showSubPanel == 'zIndex'" class="subPanel buttonsInside">
+                    <el-button @click="++zIndex">To front</el-button>
+                    <el-button @click="--zIndex">To back</el-button>
+                </div>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Delete" placement="top">
+            <div class="button" @click="deleteElement">
+                <md-icon class="md-size-2x">delete</md-icon>
+            </div>
+        </el-tooltip>
+        <el-tooltip content="Done" placement="top">
+            <div class="button" @click="saveElement">
+                <md-icon class="md-size-2x">check</md-icon>
+            </div>
+        </el-tooltip>
     </div>
 </template>
 
@@ -311,6 +338,13 @@
 
     .sliderInside{
         width: 502px;
+        display: flex;
+        align-items: center;
+        padding: 6px 20px;
+    }
+
+    .buttonsInside{
+        width: 230px;
         display: flex;
         align-items: center;
         padding: 6px 20px;

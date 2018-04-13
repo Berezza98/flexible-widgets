@@ -12,6 +12,7 @@
 <script>
     import Rectangle from '../layoutElements/rectangle.vue';
     import Circle from '../layoutElements/circle.vue';
+    import Line from '../layoutElements/line.vue';
     
     export default{
         data(){
@@ -25,7 +26,8 @@
         },
         components: {
             'rectangle-shape': Rectangle,
-            'circle-shape': Circle
+            'circle-shape': Circle,
+            'line-shape': Line            
         },
         props: {
             imageSource: {
@@ -46,6 +48,27 @@
                 return require('../../assets/shapes/'+pic);
             },
             droppedInside(x, y){
+                let height = 200;
+                let width = 200;
+                let background = "rgba(19, 206, 102, 0.4)";
+                switch(this.tile){
+                    case 'line':
+                        height = 5;
+                        width = 400;
+                        background = "rgba(0, 0, 0, 1)";
+                        break;
+
+                    case 'ellipse':
+                        height = 200;
+                        width = 400;
+                        break;
+
+                    case 'rectangle':
+                        height = 200;
+                        width = 400;
+                        break;
+
+                }
                 let id = new Date().getTime();
                 this.$store.commit("addElementInsideCanvas", {
                     name: this.correctComponent,
@@ -55,11 +78,11 @@
                         x, 
                         y,
                         z : 1,
-                        height: 200,
-                        width: 200
+                        height: height,
+                        width: width
                     },
                     styles: {
-                        background: "rgba(19, 206, 102, 0.4)",
+                        background: background,
                         opacity: 1
                     }
                 }, {module: "main"});

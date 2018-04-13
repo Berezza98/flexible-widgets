@@ -106,6 +106,7 @@ export default {
         },
         changeFontSize(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            element.styles['line-height'] = value;
             element.styles['font-size'] = value;
         },
         underline(state, value){

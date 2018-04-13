@@ -1,8 +1,12 @@
 <template>
     <div class="cropWrapper">
         <img id="image" :src="imageSrc"/>
-        <el-button @click="cropZone" class="button_crop" type="primary" icon="el-icon-edit"></el-button>
-        <el-button @click="cancel" class="button_cancel" type="danger" icon="el-icon-close"></el-button>
+        <div class="buttons">
+            <el-button @click="cropZone" type="primary"><md-icon>mode_edit</md-icon></el-button>
+            <el-button @click="rotateLeft" type="primary"><md-icon>rotate_left</md-icon></el-button>
+            <el-button @click="rotateRight" type="primary"><md-icon>rotate_right</md-icon></el-button>
+            <el-button @click="cancel" type="danger"><md-icon>close</md-icon></el-button>
+        </div>
     </div>
 </template>
 
@@ -27,6 +31,12 @@
                 this.currentImage = this.cropper.getCroppedCanvas().toDataURL();
                 this.$store.commit('changeImageSource', this.currentImage, {module: 'main'});
                 this.$emit('closeCropping');
+            },
+            rotateLeft(){
+                this.cropper.rotate(-90);
+            },
+            rotateRight(){
+                this.cropper.rotate(90);
             },
             cancel(){
                 this.$emit('closeCropping');
@@ -53,21 +63,16 @@
         max-width: 100%;
     }
 
-    .button_crop{
+    .buttons{
         position: absolute;
         bottom: 0px;
-        width: 60px;
-        height: 40px;
+        display: flex;
+        width: 200px;
     }
 
-    .button_cancel{
-        position: absolute;
-        bottom: 0px;
-        left: 61px;
-        width: 60px;
-        height: 40px;
-        margin-left: 0px;
-    }
+    .buttons button:first-child{
+        margin-left: 10px
+    }    
 
     .button h2{
         margin: 0;

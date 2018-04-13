@@ -6,7 +6,7 @@ export default[
     "id": 1
 },
 {
-    "text": "Pictures",
+    "text": "Images",
     "img": "insert_photo",
     "path": "/pictures",
     "id": 2

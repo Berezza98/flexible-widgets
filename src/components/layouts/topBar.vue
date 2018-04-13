@@ -1,6 +1,7 @@
 <template>
     <div class="bar">
         <div class="nameBlock">
+            <span class="name">Name: </span>
             <el-input v-model="name" class="name" placeholder="Name of the template" suffix-icon="el-icon-edit" size="large"></el-input>
         </div>
         <div class="saveBlock">
@@ -88,6 +89,15 @@
         width: 100%;
         height: 70px;
         user-select: none;
+    }
+
+    .nameBlock{
+        display: flex;
+        align-items: center;
+    }
+
+    .name{
+        margin-right: 20px;
     }
 
     .name{

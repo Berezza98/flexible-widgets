@@ -48,6 +48,7 @@
                         color: "rgba(0, 0, 0, 1)",
                         'font-family': this.tile,
                         'font-size': "40px",
+                        'line-height': "40px",
                         'font-weight': "normal",
                         'font-style': "normal",
                         'text-decoration': "none",

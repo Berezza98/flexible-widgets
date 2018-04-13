@@ -10,6 +10,7 @@
     import Text from '../layoutElements/text.vue';
     import Image from '../layoutElements/imageBlock.vue';
     import Rectangle from '../layoutElements/rectangle.vue';
+    import Line from '../layoutElements/line.vue';
     import Circle from '../layoutElements/circle.vue';
     
     export default{
@@ -22,6 +23,7 @@
             'text-block': Text,
             'image-block': Image,
             'rectangle-block': Rectangle,
+            'line-block': Line,
             'circle-block': Circle
         },
         computed: {
