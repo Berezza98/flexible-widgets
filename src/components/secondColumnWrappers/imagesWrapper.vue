@@ -1,5 +1,6 @@
 <template>
     <div v-lazy-loading class="images">
+        <multiple-file-uploader postURL="https://flexible-app.herokuapp.com/saveImage" @OK="saveImage" successMessagePath="" errorMessagePath=""></multiple-file-uploader>
         <image-block v-for="(image, index) in correctImages" :imageSource="image.src" :name="image.name" :key="index"></image-block>
         <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
     </div>
@@ -7,6 +8,7 @@
 
 <script>
     import Image from '../buttons/imageButton.vue';
+    import MultipleFileUploader from '../MultipleFileUploader.vue'
 
     export default{
         data(){
@@ -16,11 +18,16 @@
             }
         },
         components: {
-            'image-block': Image
+            'image-block': Image,
+            'multiple-file-uploader' :MultipleFileUploader
         },
         methods: {
             getImg(pic){
                 return require('../../assets/'+pic)
+            },
+            saveImage(newImages){
+                console.log('OK', newImages);
+                this.images = newImages;
             }
         },
         directives: {
@@ -34,7 +41,7 @@
                         if(canLoad && currentTopScroll < 100){
                             canLoad = false;
                             let elements = that.images.length;
-                            that.$http.get(`http://localhost:3300/getImages?page=${elements + 6}`).then(({body}) => {
+                            that.$http.get(`https://flexible-app.herokuapp.com/getImages?page=${elements + 6}`).then(({body}) => {
                                 that.images = [...that.images, ...body];
                                 canLoad = true;
                             });
@@ -48,14 +55,14 @@
                 let name = this.$store.state.main.searchingData.toLowerCase();
                 if(name.trim()){
                     let result = [];
-                    return this.$http.get(`http://localhost:3300/getImagesByName?name=${name}`).then(({body}) => body);
+                    return this.$http.get(`https://flexible-app.herokuapp.com/getImagesByName?name=${name}`).then(({body}) => body);
                 }else{
                     return this.images;
                 }
             }
         },
         created(){
-            this.$http.get('http://localhost:3300/getImages?page=6').then(({body}) => {
+            this.$http.get('https://flexible-app.herokuapp.com/getImages?page=6').then(({body}) => {
                 this.images = body;
                 this.downloading = false;
             });

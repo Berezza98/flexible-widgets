@@ -43,7 +43,7 @@
                         data: this.$store.state.main.draggableInsideCanvas
                     }
                 }).then((obj) => {
-                    return this.$http.post('http://localhost:3300/setTemplate', obj);
+                    return this.$http.post('https://flexible-app.herokuapp.com/setTemplate', obj);
                 }).then(() => {
                     this.name = "";
                     this.$store.commit('selectTemplate', [] , {module: "main"});

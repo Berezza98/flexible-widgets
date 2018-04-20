@@ -39,7 +39,7 @@ export default{
         created(){
             if(this.availableFonts.length === 0){
                 this.downloading = true;
-                this.$http.get('http://localhost:3300/getFonts').then(({body}) => {
+                this.$http.get('https://flexible-app.herokuapp.com/getFonts').then(({body}) => {
                     body.sort((a, b) => {
                     if(a.toLowerCase() > b.toLowerCase()){ 
                         return 1;

@@ -21,7 +21,7 @@
                 let name = this.$store.state.main.searchingData.toLowerCase();
                 if(name.trim()){
                     let result = [];
-                    return this.$http.get(`http://localhost:3300/getTemplatesByName?name=${name}`).then(({body}) => body);
+                    return this.$http.get(`https://flexible-app.herokuapp.com/getTemplatesByName?name=${name}`).then(({body}) => body);
                 }else{
                     return this.templates;
                 }
@@ -38,7 +38,7 @@
                         if(canLoad && currentTopScroll < 100){
                             canLoad = false;
                             let elements = that.templates.length;
-                            that.$http.get(`http://localhost:3300/getTemplates?page=${elements + 6}`).then(({body}) => {
+                            that.$http.get(`https://flexible-app.herokuapp.com/getTemplates?page=${elements + 6}`).then(({body}) => {
                                 that.templates = [...that.templates, ...body];
                                 canLoad = true;
                             });
@@ -48,7 +48,7 @@
             }
         },
         created(){
-            this.$http.get('http://localhost:3300/getTemplates?page=6').then(({body}) => {
+            this.$http.get('https://flexible-app.herokuapp.com/getTemplates?page=6').then(({body}) => {
                 this.templates = body.map(templ => templ);
             });
         }
