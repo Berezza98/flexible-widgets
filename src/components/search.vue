@@ -1,6 +1,14 @@
 <template>
     <div class="search">
-        <el-input class="searchBox" placeholder="search" prefix-icon="el-icon-search" v-model="search" :clearable="true" size="large"></el-input>
+        <el-input :class="$route.path === '/pictures' ? 'half_width' : ''" class="searchBox" placeholder="search" prefix-icon="el-icon-search" v-model="search" :clearable="true" size="large"></el-input>
+        <el-select v-show="$route.path === '/pictures'" v-model="value" placeholder="Select">
+            <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+            </el-option>
+        </el-select>
     </div>
 </template>
 
@@ -8,7 +16,23 @@
     export default{
         data(){
             return{
-                
+                options: [{
+          value: 'Option1',
+          label: 'Option1'
+        }, {
+          value: 'Option2',
+          label: 'Option2'
+        }, {
+          value: 'Option3',
+          label: 'Option3'
+        }, {
+          value: 'Option4',
+          label: 'Option4'
+        }, {
+          value: 'Option5',
+          label: 'Option5'
+        }],
+        value: ''
             }
         },
         computed: {
@@ -40,6 +64,10 @@
         background: #f0f0f0;
         z-index: 2;
         user-select: none;
+    }
+
+    .half_width{
+        margin-right: 30px;
     }
 
     .searchBox{
