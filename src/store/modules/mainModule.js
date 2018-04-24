@@ -7,6 +7,9 @@ export default {
         currentScale: 1,
         draggableInsideCanvas: [],
         currentActiveElement: 0,
+        templateName: "",
+        orientationWasSelected: false,
+        tempOrientation: ""
     },
     getters: {
         getOrientation(state){
@@ -23,6 +26,9 @@ export default {
         selectTemplate(state, value){
             state.draggableInsideCanvas = value;
         },
+        changeTemplateName(state, value){
+            state.templateName = value;
+        },
         changeIdOfElements(state){
             state.draggableInsideCanvas.map(el => {
                 el.id += new Date().valueOf();
@@ -34,6 +40,10 @@ export default {
         },
         changeOrientation(state, value){
             state.currentOrientation = value;
+            state.orientationWasSelected = true;
+        },
+        changeTempOrientation(state, value){
+            state.tempOrientation = state.currentOrientation;
         },
         createWidget(state){
             state.readyForCreateWidget = true;

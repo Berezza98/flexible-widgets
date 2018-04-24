@@ -1,8 +1,12 @@
 <template>
-    <div v-lazy-loading class="images">
-        <multiple-file-uploader postURL="https://flexible-app.herokuapp.com/saveImage" @OK="saveImage" successMessagePath="" errorMessagePath=""></multiple-file-uploader>
-        <image-block v-for="(image, index) in correctImages" :imageSource="image.src" :name="image.name" :key="index"></image-block>
-        <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
+    <div class="imgs">
+        <div v-lazy-loading class="images">
+            <image-block v-for="(image, index) in correctImages" :imageSource="image.src" :name="image.name" :key="index"></image-block>
+            <img :src="getImg('loader.gif')" v-if="downloading" class="loader">
+        </div>
+        <div class="upload">
+            <multiple-file-uploader postURL="https://flexible-app.herokuapp.com/saveImage" @OK="saveImage" successMessagePath="" errorMessagePath=""></multiple-file-uploader>
+        </div>
     </div>
 </template>
 
@@ -71,8 +75,12 @@
 </script>
 
 <style scoped>
-    .images{
+    .imgs{
         height: calc(100% - 70px);
+        width: 100%;
+    }
+    .images{
+        height: calc(78%);
         width: 100%;
         position: relative;
         display: flex;
@@ -80,8 +88,14 @@
         align-items: center;
         padding-top: 10px;
         box-sizing: border-box;
+        border-bottom: 4px solid #c1c1c1;
         overflow-y: scroll;
         overflow-x: hidden;
+    }
+
+    .upload{
+        height: 22%;
+        padding: 10px;
     }
 
     .loader{

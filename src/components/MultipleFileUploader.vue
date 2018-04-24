@@ -1,43 +1,15 @@
 <template>
     <div class="uploadBox">
-        <h3>{{headerMessage}}</h3>
         <form role="form" enctype="multipart/form-data" @submit.prevent="onSubmit">
-            <div class="uploadBoxMain" v-if="!itemsAdded">
+            <div class="uploadBoxMain">
                 <div class="form-group">
                     <div class="dropArea" @ondragover="onChange" :class="dragging ? 'dropAreaDragging' : ''" @dragenter="dragging=true" @dragend="dragging=false" @dragleave="dragging=false">
-                        <h3>{{dropAreaPrimaryMessage}}</h3>
+                        <md-icon class="md-size-2x color_blue">file_upload</md-icon>
                         <input type="file" id="items" name="items[]" required multiple @change="onChange">
-                        <p class="help-block">{{dropAreaSecondaryMessage}}</p>
+                        <p class="help-block">Drop image here or <span class="color_blue">click to upload</span></p>
                     </div>
                 </div>
             </div>
-            <div class="uploadBoxMain" v-else>
-                <p><strong>{{fileNameMessage}}</strong></p>
-                <ol>
-                    <li v-for="(name, index) in itemsNames" :key="index">{{name}}</li>
-                </ol>
-                <p><strong>{{fileSizeMessage}}</strong></p>
-                <ol>
-                    <li v-for=" (size, index) in itemsSizes" :key="index">{{size}}</li>
-                </ol>
-                <p><strong>{{totalFileMessage}}</strong> {{itemsAdded}}</p>
-                <p><strong>{{totalUploadSizeMessage}}</strong> {{itemsTotalSize}}</p>
-                <button @click="removeItems">{{removeFileMessage}}</button>
-                <div class="loader" v-if="isLoaderVisible">
-                    <div class="loaderImg"></div>
-                </div>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary btn-black btn-round" :disabled="itemsAdded < minItems || itemsAdded > maxItems">
-                    {{uploadButtonMessage}}
-                </button>
-                <button type="button" class="btn btn-default btn-round" @click="removeItems">{{cancelButtonMessage}}</button>
-            </div>
-            <br>
-            <div class="successMsg" v-if="successMsg !== ''">{{successMsg}}</div>
-            <div class="errorMsg" v-if="errorMsg !== ''">{{fileUploadErrorMessage}}:<br>{{errorMsg}} <br>{{retryErrorMessage}}</div>
-            <div class="errorMsg" v-if="itemsAdded && itemsAdded < minItems">{{minFilesErrorMessage}}: {{minItems}}.  <br>{{retryErrorMessage}} </div>
-            <div class="errorMsg" v-if="itemsAdded && itemsAdded > maxItems">{{maxFilesErrorMessage}}: {{maxItems}}.  <br>{{retryErrorMessage}}</div>
         </form>
     </div>
 </template>
@@ -76,78 +48,6 @@ export default {
         postHeader:{
           type: [Object],
           default: () => {}
-        },
-        successMessagePath: {
-            type: String,
-            required: true
-        },
-        errorMessagePath: {
-            type: String,
-            required: true
-        },
-        headerMessage: {
-          type: String,
-          default: 'Add files'
-        },
-        dropAreaPrimaryMessage: {
-          type: String,
-          default: 'Drop multiple files here'
-        },
-        dropAreaSecondaryMessage: {
-          type: String,
-          default: 'or click to upload'
-        },
-        fileNameMessage: {
-          type: String,
-          default: 'Names'
-        },
-        fileSizeMessage: {
-          type: String,
-          default: 'Sizes'
-        },
-        totalFileMessage: {
-          type: String,
-          default: 'Total files:'
-        },
-        totalUploadSizeMessage: {
-          type: String,
-          default: 'Total upload size:'
-        },
-        removeFileMessage: {
-          type: String,
-          default: 'Remove files'
-        },
-        uploadButtonMessage: {
-          type: String,
-          default: 'Upload'
-        },
-        cancelButtonMessage: {
-          type: String,
-          default: 'Cancel'
-        },
-        fileUploadErrorMessage: {
-          type: String,
-          default: 'An error has occurred'
-        },
-        minFilesErrorMessage: {
-          type: String,
-          default: 'Minimum files that need to be added to uploader'
-        },
-        maxFilesErrorMessage:  {
-          type: String,
-          default: 'Maximum files that can be added to uploader'
-        },
-        retryErrorMessage: {
-          type: String,
-          default: 'Please remove the files and try again.'
-        },
-        httpMethodErrorMessage: {
-          type: String,
-          default: "This HTTP method is not allowed. Please use either 'put' or 'post' methods."
-        },
-        showHttpMessages: {
-          type: Boolean,
-          default: true
         }
     },
 
@@ -170,32 +70,18 @@ export default {
     },
 
     methods: {
-        // http://scratch99.com/web-development/javascript/convert-bytes-to-mb-kb/
-        bytesToSize(bytes) {
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-            if (bytes === 0) return 'n/a';
-            let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-            if (i === 0) return bytes + ' ' + sizes[i];
-            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
-        },
-
         onChange(e) {
-            this.successMsg = '';
-            this.errorMsg = '';
             this.formData = new FormData();
             let files = e.target.files || e.dataTransfer.files;
             this.itemsAdded = files.length;
-            let fileSizes = 0;
             for (let x in files) {
                 if (!isNaN(x)) {
                     this.items = e.target.files[x] || e.dataTransfer.files[x];
                     this.itemsNames[x] = files[x].name;
-                    this.itemsSizes[x] = this.bytesToSize(files[x].size);
-                    fileSizes += files[x].size;
                     this.formData.append('items[]', this.items);
                 }
             }
-            this.itemsTotalSize = this.bytesToSize(fileSizes);
+            this.onSubmit();
         },
 
         removeItems() {
@@ -203,7 +89,6 @@ export default {
             this.itemsAdded = '';
             this.itemsNames = [];
             this.itemsSizes = [];
-            this.itemsTotalSize = '';
             this.dragging = false;
         },
 
@@ -247,12 +132,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+form{
+    height: 100%;
+    width: 100%;
+}
 .uploadBox {
     position: relative;
-    background: #eee;
-    padding: 0 1em 1em 1em;
-    margin: 1em;
+    box-sizing: border-box;
+    background: white;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #d3d3d3;
 }
 
 .uploadBox h3{
@@ -263,21 +154,33 @@ export default {
     font-size: 16px;
 }
 
+.color_blue{
+    color: #3d94c0;
+}
+
 .uploadBox .uploadBoxMain {
     position: relative;
-    margin-bottom: 1em;
-    margin-right: 1em;
+    height: 100%;
+    width: 100%;
 }
 
 /* Drag and drop */
 .uploadBox .dropArea {
     position: relative;
     width: 100%;
-    height: 300px;
-    border: 5px dashed #00ADCE;
+    height: 100%;
+    box-sizing: border-box;
     text-align: center;
     font-size: 2em;
-    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group{
+    height: 100%;
+    width: 100%;
 }
 
 .uploadBox .dropArea input {

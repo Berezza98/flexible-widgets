@@ -21,7 +21,8 @@
         data(){
             return{
                 styles: {
-                    'height': '210px'
+                    'height': '140px',
+                    'padding': '0px'
                 }
             }
         },
@@ -80,8 +81,8 @@
 
 <style scoped>
     .image_template{
-        width: 95%;
-        height: 250px;
+        width: 75%;
+        height: 180px;
         margin-bottom: 10px;
         position: relative;
         z-index: 1;
@@ -105,6 +106,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .name{
+        font-size: 22px
     }
 
     .arrow{

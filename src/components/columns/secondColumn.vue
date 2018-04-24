@@ -30,10 +30,11 @@
 <style scoped>
     .secondColumn{
         height: 100%;
+        background: #f0f0f0;
     }
 
     .container{
-        height: 100%;
+        height: calc(100% - 70px);
         padding: 0px 20px;
     }
 </style>

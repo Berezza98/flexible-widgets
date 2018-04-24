@@ -1,6 +1,7 @@
 <template>
 <div id="app">
   <el-row class="fullscreen">
+    <custom-header></custom-header>
     <el-col :span="2" class="border">
       <first-column></first-column>
     </el-col>
@@ -20,6 +21,7 @@ import FirstColumn from './components/columns/firstColumn.vue';
 import SecondColumn from './components/columns/secondColumn.vue';
 import ThirdColumn from './components/columns/thirdColumn.vue';
 import ModalOrientation from './components/layouts/modalOrientation.vue';
+import Header from './components/header.vue';
 
 export default {
   name: 'app',
@@ -32,7 +34,8 @@ export default {
     'first-column' : FirstColumn,
     'second-column' : SecondColumn,
     'third-column' : ThirdColumn,
-    'modal-orientation' : ModalOrientation
+    'modal-orientation' : ModalOrientation,
+    'custom-header' : Header
   },
   methods: {
 
@@ -66,8 +69,15 @@ export default {
 
 body{
   margin: 0;
-  padding: 20px;
   font-size: 16px;
   overflow-y: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cfcfcf;
 }
 </style>

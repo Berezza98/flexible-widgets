@@ -37,7 +37,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        background: white;
+        background: #f0f0f0;
         z-index: 2;
         user-select: none;
     }

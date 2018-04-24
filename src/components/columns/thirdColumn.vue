@@ -2,12 +2,14 @@
   <div class="thirdColumn">
         <top-bar></top-bar>
         <canvas-block v-if="orientation" :typeOfCanvas="orientation"></canvas-block>
+        <bottom-bar></bottom-bar>
   </div>
 </template>
 
 <script>
     import Canvas from '../layouts/canvas.vue';
     import TopBar from '../layouts/topBar.vue';
+    import BottomBar from '../layouts/bottomBar.vue';
 
     export default{
         data(){
@@ -21,7 +23,8 @@
         },
         components: {
             'canvas-block': Canvas,
-            'top-bar': TopBar
+            'top-bar': TopBar,
+            'bottom-bar': BottomBar
         },
         methods: {
 
@@ -31,7 +34,7 @@
 
 <style scoped>
     .thirdColumn{
-        height: 100%;
+        height: calc(100% - 70px);
         position: relative;
         padding: 0px 20px;
     }
