@@ -1,6 +1,6 @@
 <template>
   <div class="firstColumn">
-      <main-menu-button v-for="item in mainMenu" :key="item.id" :tile="item.text" :image="item.img" :path="item.path"></main-menu-button>
+      <main-menu-button v-for="item in mainMenu" :key="item.id" :tile="item.text" :tooltip="item.tooltip" :image="item.img" :path="item.path"></main-menu-button>
   </div>
 </template>
 

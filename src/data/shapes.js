@@ -25,7 +25,7 @@ export default [
     },
     {
         name: "line",
-        src: "circle.png",
+        src: "line.png",
         component: "line-block",
         id: 5
     }

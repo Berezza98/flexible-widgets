@@ -1,9 +1,11 @@
 <template>
     <router-link :to="path" tag="div" class="firstColumnButton" exact>
-        <div class="content">
-            <md-icon class="md-size-2x">{{image}}</md-icon>
-            <h2 class="title">{{tile}}</h2>
-        </div>
+        <el-tooltip class="item" effect="dark" :open-delay="1000" :content="tooltip" placement="right">
+            <div class="content">
+                <md-icon class="md-size-2x">{{image}}</md-icon>
+                <h2 class="title">{{tile}}</h2>
+            </div>
+        </el-tooltip>
     </router-link>
 </template>
 
@@ -27,6 +29,10 @@
                 required: true
             },
             path: {
+                type: String,
+                required: true
+            },
+            tooltip: {
                 type: String,
                 required: true
             }

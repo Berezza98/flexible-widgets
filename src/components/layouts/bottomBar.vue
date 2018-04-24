@@ -75,6 +75,7 @@
             changeOrientation(){
                 this.$store.commit('changeTempOrientation', null, {module: "main"});
                 this.$store.commit('changeOrientation', "", {module: "main"});
+                this.$store.commit('selectTemplate', [] , {module: "main"});
             }
         },
         computed: {

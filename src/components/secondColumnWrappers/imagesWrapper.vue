@@ -78,6 +78,7 @@
     .imgs{
         height: calc(100% - 70px);
         width: 100%;
+        position: relative;
     }
     .images{
         height: calc(78%);
@@ -88,7 +89,6 @@
         align-items: center;
         padding-top: 10px;
         box-sizing: border-box;
-        border-bottom: 4px solid #c1c1c1;
         overflow-y: scroll;
         overflow-x: hidden;
     }
@@ -96,6 +96,10 @@
     .upload{
         height: 22%;
         padding: 10px;
+        border-top: 4px solid #c1c1c1;
+        position: relative;
+        z-index: 2;
+        background: #f0f0f0;
     }
 
     .loader{

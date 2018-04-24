@@ -23,6 +23,8 @@
         display: flex;
         align-items: center;
         padding-left: 35px;
+        position: relative;
+        z-index: 2;
     }
 
     .title{
