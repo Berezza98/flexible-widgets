@@ -1,6 +1,8 @@
 <template>
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
-        <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
+        <el-tooltip class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+            <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
+        </el-tooltip>
         <panel-block @closePanel="closePanel" :blockDimensions="dimensionsObj" @cropImage="crop" v-if="showPanel && !cropState"></panel-block>
         <crop v-if="cropState" :imageSrc="imageSource" @closeCropping="closeCrop"></crop>
     </draggable>

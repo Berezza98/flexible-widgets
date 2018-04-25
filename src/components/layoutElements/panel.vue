@@ -1,6 +1,6 @@
 <template>
     <div :class="'panel ' + getCorrectPosition" @mousedown.stop="noDrag">
-        <el-tooltip content="Background color" :open-delay="1000" placement="top">
+        <el-tooltip content="Background color" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
                 <md-icon @click.native.self="showSubPanel = 'background'" :class="showSubPanel == 'background' ? 'md-size-2x active' : 'md-size-2x'">format_color_fill</md-icon>
                 <div v-if="showSubPanel == 'background'" class="subPanel colorInside">
@@ -8,7 +8,7 @@
                 </div>
             </div>
         </el-tooltip>
-        <el-tooltip content="Font color" :open-delay="1000" placement="top">
+        <el-tooltip content="Text color" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button">
                 <md-icon @click.native.self="showSubPanel = 'color'" :class="showSubPanel == 'color' ? 'md-size-2x active' : 'md-size-2x'">format_color_text</md-icon>
                 <div v-if="showSubPanel == 'color'" class="subPanel colorInside">
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </el-tooltip>
-        <el-tooltip content="Opacity" :open-delay="1000" placement="top">
+        <el-tooltip content="Opacity" :open-delay="500" placement="top">
             <div class="button">
                 <md-icon @click.native.self="showSubPanel = 'opacity'" :class="showSubPanel == 'opacity' ? 'md-size-2x active' : 'md-size-2x'">opacity</md-icon>
                 <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </el-tooltip>    
-        <el-tooltip content="Font size" :open-delay="1000" placement="top">
+        <el-tooltip content="Text size" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button">
                 <md-icon @click.native.self="showSubPanel = 'fontSize'" :class="showSubPanel == 'fontSize' ? 'md-size-2x active' : 'md-size-2x'">format_size</md-icon>
                 <div v-if="showSubPanel == 'fontSize'" class="subPanel sliderInside">
@@ -36,27 +36,27 @@
                 </div>
             </div>
         </el-tooltip>
-        <el-tooltip content="Underline" :open-delay="1000" placement="top">
+        <el-tooltip content="Underline" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button" @click="underline">
                 <md-icon  :class="underlineEl !== 'none' ? 'active' : ''">format_underlined</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Bold" :open-delay="1000" placement="top">
+        <el-tooltip content="Bold" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button" @click="bold">
                 <md-icon :class="boldEl !== 'normal' ? 'active' : ''">format_bold</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Italic" :open-delay="1000" placement="top">
+        <el-tooltip content="Italic" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button" @click="italic">
                 <md-icon :class="italicEl !== 'normal' ? 'active' : ''" class="md-size-2x">format_italic</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Font family" :open-delay="1000" placement="top">
+        <el-tooltip content="Font" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === ''" class="button">
                 <!-- <select v-model="selectFont">
                     <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
                 </select> -->
-                <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-2x active' : 'md-size-2x'">font_download</md-icon>
+                <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-2x active' : 'md-size-2x'">spellcheck</md-icon>
                 <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
                     <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
                         <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </el-tooltip>
-        <el-tooltip content="Horisontal align" :open-delay="1000" placement="top">
+        <el-tooltip content="Align horisontal" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === ''" class="button">
                 <md-icon @click.native.self="showSubPanel = 'align'" :class="showSubPanel == 'align' ? 'md-size-2x active' : 'md-size-2x'">format_align_right</md-icon>
                 <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
@@ -76,7 +76,7 @@
                 </div>
             </div>
         </el-tooltip>
-        <el-tooltip content="Vertical align" :open-delay="1000" placement="top">
+        <el-tooltip content="Align vertical" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === ''" class="button">
                 <md-icon @click.native.self="showSubPanel = 'verAlign'" :class="showSubPanel == 'verAlign' ? 'md-size-2x active' : 'md-size-2x'">vertical_align_center</md-icon>
                 <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
@@ -88,12 +88,12 @@
                 </div>
             </div>
         </el-tooltip>
-        <el-tooltip content="Crop&Rotate" :open-delay="1000" placement="top">
+        <el-tooltip content="Crop/Rotate image" :open-delay="500" placement="top">
             <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
                 <md-icon class="md-size-2x">crop_rotate</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Layer position" :open-delay="1000" placement="top">
+        <el-tooltip content="Layer position" :open-delay="500" placement="top">
             <div class="button">
                 <md-icon @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-2x active' : 'md-size-2x'">layers</md-icon>
                 <div v-if="showSubPanel == 'zIndex'" class="subPanel buttonsInside">
@@ -102,12 +102,12 @@
                 </div>
             </div>
         </el-tooltip>
-        <el-tooltip content="Delete" :open-delay="1000" placement="top">
+        <el-tooltip content="Delete item" :open-delay="500" placement="top">
             <div class="button" @click="deleteElement">
                 <md-icon class="md-size-2x">delete</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Done" :open-delay="1000" placement="top">
+        <el-tooltip content="Close edit tool" :open-delay="500" placement="top">
             <div class="button" @click="saveElement">
                 <md-icon class="md-size-2x">check</md-icon>
             </div>
@@ -328,11 +328,11 @@
     .button{
         height: 100%;
         width: 50px;
+        cursor: pointer;
+        position: relative;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
         box-sizing: border-box;
     }
 
@@ -386,7 +386,6 @@
     }
 
     .subPanel{
-        align-self: flex-start;
         position: absolute;
         background: #f9f9f9;
         box-sizing: border-box;

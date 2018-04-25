@@ -1,6 +1,6 @@
 <template>
     <router-link :to="path" tag="div" class="firstColumnButton" exact>
-        <el-tooltip class="item" effect="dark" :open-delay="1000" :content="tooltip" placement="right">
+        <el-tooltip class="item" effect="dark" :open-delay="500" :content="tooltip" placement="right">
             <div class="content">
                 <md-icon class="md-size-2x">{{image}}</md-icon>
                 <h2 class="title">{{tile}}</h2>

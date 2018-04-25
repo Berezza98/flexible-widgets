@@ -2,7 +2,9 @@
     <div class="bottom_bar">
         <el-button @click="changeOrientation" class="change_orientation" type="primary" plain>Change orientation</el-button>
         <el-button @click="saveWidget" type="primary" icon="el-icon-check">Save</el-button>
-        <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
+        <el-tooltip content="Delete template" :open-delay="500" placement="top">
+            <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
+        </el-tooltip>
     </div>
 </template>
 
@@ -54,7 +56,7 @@
 
             },
             deleteWidget() {
-                this.$confirm('Are you sure to delete the widget?', 'Warning', {
+                this.$confirm('Are you sure you want to delete the created template?', 'Warning', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Cancel',
                 type: 'warning'

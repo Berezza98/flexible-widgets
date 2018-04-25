@@ -2,10 +2,18 @@
     <div class="cropWrapper">
         <img id="image" :src="imageSrc"/>
         <div class="buttons">
-            <el-button @click="cropZone" type="primary"><md-icon>mode_edit</md-icon></el-button>
-            <el-button @click="rotateLeft" type="primary"><md-icon>rotate_left</md-icon></el-button>
-            <el-button @click="rotateRight" type="primary"><md-icon>rotate_right</md-icon></el-button>
-            <el-button @click="cancel" type="danger"><md-icon>close</md-icon></el-button>
+            <el-tooltip content="Rotate left" :open-delay="500" placement="top">
+                <el-button @click="rotateLeft" type="primary"><md-icon>rotate_left</md-icon></el-button>
+            </el-tooltip>
+            <el-tooltip content="Rotate right" :open-delay="500" placement="top">
+                <el-button @click="rotateRight" type="primary"><md-icon>rotate_right</md-icon></el-button>
+            </el-tooltip>
+            <el-tooltip content="Discard changes" :open-delay="500" placement="top">
+                <el-button @click="cancel" type="danger"><md-icon>close</md-icon></el-button>
+            </el-tooltip>
+            <el-tooltip content="Save changes" :open-delay="500" placement="top">
+                <el-button @click="cropZone" type="primary"><md-icon>done</md-icon></el-button>
+            </el-tooltip>
         </div>
     </div>
 </template>

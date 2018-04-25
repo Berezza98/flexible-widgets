@@ -1,12 +1,14 @@
 <template>
   <div class="textButton">
         <draggable :return-to-start-position="true" :hideOverflow="'.textWrapper'" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
-            <el-card class="inside_draggable" :body-style="bodyStyles">
-                <h2 class="buttonName" :style="{'font-family': fontFamily}">{{tile}}</h2>
-                <!--<div class="arrows">
-                    <i class="el-icon-d-arrow-right arrow"></i>
-                </div>-->
-            </el-card>
+            <el-tooltip class="item" effect="dark" :open-delay="500" content="Drag into template to the right." placement="right">
+                <el-card class="inside_draggable" :body-style="bodyStyles">
+                    <h2 class="buttonName" :style="{'font-family': fontFamily}">{{tile}}</h2>
+                    <!--<div class="arrows">
+                        <i class="el-icon-d-arrow-right arrow"></i>
+                    </div>-->
+                </el-card>
+            </el-tooltip>
         </draggable>
   </div>
 </template>
@@ -20,7 +22,8 @@
                 bodyStyles: {
                     "display": "flex",
                     "justify-content": "space-between",
-                    "align-items": "center"
+                    "align-items": "center",
+                    "height": "100%"
                 }
             }
         },

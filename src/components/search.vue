@@ -1,14 +1,11 @@
 <template>
     <div class="search">
         <el-input :class="$route.path === '/pictures' ? 'half_width' : ''" class="searchBox" placeholder="search" prefix-icon="el-icon-search" v-model="search" :clearable="true" size="large"></el-input>
-        <el-select v-show="$route.path === '/pictures'" v-model="value" placeholder="Select">
-            <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-            </el-option>
-        </el-select>
+        <el-tooltip v-show="$route.path === '/pictures'" content="Click to filter on categorie." :open-delay="500" placement="top">
+            <el-select v-model="value" placeholder="Category">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+        </el-tooltip>
     </div>
 </template>
 

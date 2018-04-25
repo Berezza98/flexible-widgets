@@ -1,8 +1,10 @@
 <template>
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
-        <div class="textBlock" :style="styles">
-            <p contenteditable="true" @blur="editContent">{{inputText}}</p>
-        </div>
+        <el-tooltip class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+            <div class="textBlock" :style="styles">
+                <p contenteditable="true" @blur="editContent">{{inputText}}</p>
+            </div>
+        </el-tooltip>
         <panel-block @closePanel="showPanel= false" :blockDimensions="dimensionsObj" v-if="showPanel"></panel-block>
     </draggable>
 </template>

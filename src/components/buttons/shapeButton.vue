@@ -1,12 +1,14 @@
 <template>
-    <div class="shapeWrapper" @mouseover="upIndex($event)" @mouseout="downIndex($event)">
-        <draggable :return-to-start-position="true" :setParentSizes="true" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
-            <el-card class="inside_draggable" :body-style="bodyStyles">
-                <img draggable="false" class="shapeImage" :src="getImg(imageSource)">
-                <h2 class="tile">{{tile}}</h2>
-            </el-card>
-        </draggable>
-    </div>
+    <el-tooltip class="item" effect="dark" :open-delay="500" content="Drag into template to the right." placement="right">
+        <div class="shapeWrapper" @mouseover="upIndex($event)" @mouseout="downIndex($event)">
+            <draggable :return-to-start-position="true" :setParentSizes="true" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
+                <el-card class="inside_draggable" :body-style="bodyStyles">
+                    <img draggable="false" class="shapeImage" :src="getImg(imageSource)">
+                    <h2 class="tile">{{tile}}</h2>
+                </el-card>
+            </draggable>
+        </div>
+    </el-tooltip>
 </template>
 
 <script>

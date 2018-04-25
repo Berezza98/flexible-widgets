@@ -2,7 +2,7 @@
     <div class="bar">
         <div class="nameBlock">
             <span class="name">Name: </span>
-            <el-input v-model="name" class="name" placeholder="Name of the template" suffix-icon="el-icon-edit" size="large"></el-input>
+            <el-input v-model="name" class="name" placeholder="Fill in name of template here" size="large"></el-input>
         </div>
     </div>
 </template>
@@ -41,6 +41,7 @@
     .nameBlock{
         display: flex;
         align-items: center;
+        flex-basis: 320px;
     }
 
     .name{

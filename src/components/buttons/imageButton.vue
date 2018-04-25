@@ -1,15 +1,17 @@
 <template>
   <div class="image_template" @mouseover="upIndex($event)" @mouseout="downIndex($event)">
         <draggable :return-to-start-position="true" :hideOverflow="'.images'" :setParentSizes="true" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
-            <el-card class="inside_draggable" :body-style="styles">
-                <img draggable="false" crossOrigin="Anonymous" class="innerImage" :src="imageSource">
-                <div class="name_block">
-                    <h2 class="name">{{name.length > 20 ? name.slice(0, 20) + '...' : name}}</h2>
-                    <!--<div class="arrows">
-                        <i class="el-icon-d-arrow-right arrow"></i>
-                    </div>-->
-                </div>
-            </el-card>
+            <el-tooltip class="item" effect="dark" :open-delay="500" content="Drag into template to the right." placement="right">
+                <el-card class="inside_draggable" :body-style="styles">
+                    <img draggable="false" crossOrigin="Anonymous" class="innerImage" :src="imageSource">
+                    <div class="name_block">
+                        <h2 class="name">{{name.length > 20 ? name.slice(0, 20) + '...' : name}}</h2>
+                        <!--<div class="arrows">
+                            <i class="el-icon-d-arrow-right arrow"></i>
+                        </div>-->
+                    </div>
+                </el-card>
+            </el-tooltip>
         </draggable>
   </div>
 </template>
