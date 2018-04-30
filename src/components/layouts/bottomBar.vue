@@ -38,6 +38,7 @@
                     return {
                         image: canvas.toDataURL(),
                         name: this.name,
+                        orientation: this.$store.state.main.currentOrientation,
                         data: this.$store.state.main.draggableInsideCanvas
                     }
                 }).then((obj) => {

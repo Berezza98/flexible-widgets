@@ -1,7 +1,7 @@
 <template>
     <div class="template" @click="selectTemplate">
-        <el-card class="inside_draggable">
-            <img draggable="false" class="innerImage" :src="templObj.image">
+        <el-card class="inside_draggable" :body-style="styles">
+            <img draggable="false" class="innerImage" :class="templObj.orientation === 'portrait' ? 'portrait_image' : ''" :src="templObj.image">
             <div class="name_block">
                 <h2 class="name">{{templObj.name}}</h2>
                 <div class="arrows">
@@ -16,7 +16,11 @@
     export default{
         data(){
             return{
-                
+                styles: {
+                    'padding': '20px',
+                    'display': 'flex',
+                    'flex-direction': 'column'
+                }
             }
         },
         props: {
@@ -43,15 +47,19 @@
         cursor: pointer;
     }
 
+    .portrait_image{
+        align-self: center;
+    }
+
     .inside_draggable{
         height: 100%;
         width: 100%;
     }
 
     .innerImage{
-        width: 100%;
         user-select: none;
         height: 70%;
+        max-height: 160px;
     }
 
     .name_block{

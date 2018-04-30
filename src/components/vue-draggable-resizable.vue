@@ -555,6 +555,12 @@ export default {
       if (val >= 0 || val === 'auto') {
         this.zIndex = val
       }
+    },
+    h: function (val) {
+      this.height = val;
+    },
+    w: function (val) {
+      this.width = val;
     }
   }
 }

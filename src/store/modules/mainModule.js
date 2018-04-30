@@ -85,6 +85,10 @@ export default {
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.y = value.y;
         },
+        changeRotationOfElement(state, value){
+            let element = getElementByID(state.draggableInsideCanvas, value.id);
+            element.styles.transform = value.rotate;
+        },
         changeImageSource(state, value){
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.imageSource = value;

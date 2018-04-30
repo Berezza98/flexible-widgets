@@ -1,5 +1,5 @@
 <template>
-    <div class="canvas_wrapper">
+    <div class="canvas_wrapper" :class="typeOfCanvas === 'landscape' ? 'canvas_flex' : 'canvas_scroll'">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
             <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
         </div>
@@ -44,11 +44,16 @@
 </script>
 
 <style scoped>
+    .canvas_flex{
+        display: flex;
+        justify-content: center;
+    }
+    .canvas_scroll{
+        overflow: scroll;
+    }
     .canvas_wrapper{
         height: 85%;
         width: 100%;
-        display: flex;
-        justify-content: center;
         background: #f9f9f9;
         box-sizing: border-box;
         border: 1px solid #dadada;
