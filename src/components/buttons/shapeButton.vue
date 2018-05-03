@@ -85,8 +85,7 @@
                     },
                     styles: {
                         background: background,
-                        opacity: 1,
-                        transform: "rotate(0deg)"
+                        opacity: 1
                     }
                 }, {module: "main"});
             },

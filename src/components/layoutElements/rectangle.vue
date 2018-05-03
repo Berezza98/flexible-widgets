@@ -1,7 +1,7 @@
 <template>
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
-        <el-tooltip class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
-            <div :style="styles" class="rectangle"><button @click="rotateRight">rotate</button></div>
+        <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+            <div :style="styles" class="rectangle"></div>
         </el-tooltip>
         <panel-block @closePanel="showPanel= false" :blockDimensions="dimensionsObj" v-if="showPanel"></panel-block>
     </draggable>
@@ -13,8 +13,7 @@
     export default{
         data(){
             return{
-                showPanel: false,
-                rotate: 0
+                showPanel: false
             }
         },
         components: {
@@ -54,10 +53,6 @@
             addPanel(value){
                 this.showPanel = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
-            },
-            rotateRight(){
-                this.rotate += 90;
-                this.$store.commit('changeRotationOfElement', {id: this.id, rotate: `rotate(${this.rotate}deg)`}, {module: "main"});
             }
         },
         computed: {

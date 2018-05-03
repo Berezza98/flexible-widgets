@@ -558,9 +558,11 @@ export default {
     },
     h: function (val) {
       this.height = val;
+      this.reviewDimensions();
     },
     w: function (val) {
       this.width = val;
+      this.reviewDimensions();
     }
   }
 }

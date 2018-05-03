@@ -1,6 +1,6 @@
 <template>
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
-        <el-tooltip class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+        <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <div class="textBlock" :style="styles">
                 <p contenteditable="true" @blur="editContent">{{inputText}}</p>
             </div>

@@ -93,6 +93,11 @@
                 <md-icon class="md-size-2x">crop_rotate</md-icon>
             </div>
         </el-tooltip>
+        <el-tooltip content="Shape rotation" :open-delay="500" placement="top">
+            <div v-if="elementType === 'shape'" class="button" @click="rotate">
+                <md-icon class="md-size-2x">rotate_90_degrees_ccw</md-icon>
+            </div>
+        </el-tooltip>
         <el-tooltip content="Layer position" :open-delay="500" placement="top">
             <div class="button">
                 <md-icon @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-2x active' : 'md-size-2x'">layers</md-icon>
@@ -153,6 +158,9 @@
             },
             cropImage(){
                 this.$emit('cropImage');
+            },
+            rotate(){
+                this.$store.commit('rotateElement');
             },
             noDrag(){
                 return;
