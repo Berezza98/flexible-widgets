@@ -52,7 +52,7 @@
             droppedInside(x, y){
                 let height = 200;
                 let width = 200;
-                let background = "rgba(19, 206, 102, 0.4)";
+                let background = "rgba(78, 151, 230, 0.4)";
                 switch(this.tile){
                     case 'line':
                         height = 5;

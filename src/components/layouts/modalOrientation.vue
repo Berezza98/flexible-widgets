@@ -53,6 +53,7 @@
         methods: {
             chooseOrientation(){
                 this.$store.commit('changeOrientation', this.radio, {module: "main"});
+                this.$store.commit('selectTemplate', [] , {module: "main"});
                 this.$store.commit('createWidget', {module: "main"});
                 if(this.template === "blank"){
                     this.$router.push({ path: '/' })

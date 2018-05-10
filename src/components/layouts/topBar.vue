@@ -41,7 +41,7 @@
     .nameBlock{
         display: flex;
         align-items: center;
-        flex-basis: 320px;
+        flex-basis: 330px;
     }
 
     .name{

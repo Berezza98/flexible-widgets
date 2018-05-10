@@ -42,9 +42,11 @@
             },
             rotateLeft(){
                 this.cropper.rotate(-90);
+                setCorrectDimentions(this.cropper);
             },
             rotateRight(){
                 this.cropper.rotate(90);
+                setCorrectDimentions(this.cropper);
             },
             cancel(){
                 this.$emit('closeCropping');
@@ -52,9 +54,31 @@
         },
         mounted(){
             let image = document.querySelector('#image');
-            let that = this;
-            this.cropper = new Cropper(image);
+            let options = {
+                autoCropArea : 1
+            };
+            this.cropper = new Cropper(image, options);
+            console.log(this.cropper.getData());
         }
+    }
+
+    function setCorrectDimentions(cropper){
+        cropper.scaleX(0.5);
+        cropper.scaleY(0.5);
+
+        let data = cropper.getImageData();
+        console.log(data);
+        let evenRotate = Math.abs(data.rotate / 90) % 2 === 1 ? false : true;
+        let correctWidth =  evenRotate ? data.naturalWidth / 2 : data.naturalHeight / 2
+        let correctHeight =  evenRotate ? data.naturalHeight / 2 : data.naturalWidth / 2
+
+        cropper.setData({
+            x: 0,
+            y: 0,
+            width: correctWidth,
+            height: correctHeight
+        });
+        console.log(cropper.getData());    
     }
 </script>
 

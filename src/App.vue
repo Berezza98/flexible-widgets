@@ -50,6 +50,10 @@ export default {
 
 <style>
 
+*{
+  user-select: none;
+}
+
 #app {
   height: calc(100vh - 40px);
   overflow: hidden;
