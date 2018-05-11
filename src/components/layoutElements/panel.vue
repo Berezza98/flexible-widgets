@@ -107,6 +107,11 @@
                 </div>
             </div>
         </el-tooltip>
+        <el-tooltip content="Make duplicate" :open-delay="500" placement="top">
+            <div class="button" @click="copy">
+                <md-icon class="md-size-2x">content_copy</md-icon>
+            </div>
+        </el-tooltip>
         <el-tooltip content="Delete item" :open-delay="500" placement="top">
             <div class="button" @click="deleteElement">
                 <md-icon class="md-size-2x">delete</md-icon>
@@ -143,6 +148,12 @@
             },
             saveElement(){
                 this.$emit('closePanel');
+            },
+            copy(){
+                // FOR DELETING OBSERVERS AND CREATE EMPTY OBJECT WITH NEEDED PROPERTIES
+                let element = JSON.stringify(Object.assign({}, this.activeElement));
+                element = JSON.parse(element);
+                this.$store.commit("createCopyOfElement", element, {module: "main"});
             },
             underline(){
                 let currentState = this.underlineEl === 'none' ? false : true;
@@ -306,7 +317,7 @@
         display: flex;
         background: #f9f9f9;
         border: 1px solid #dadada;
-        transform: scale(1.2);
+        transform: scale(1.4);
     }
 
     .standart{
@@ -414,5 +425,9 @@
 
     .button h2{
         margin: 0;
+    }
+
+    .el-select-dropdown__item{
+        font-size: 0.6em;
     }
 </style>

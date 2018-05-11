@@ -51,6 +51,15 @@ export default {
         changeScale(state, value){
             state.currentScale = value;
         },
+        createCopyOfElement(state, obj){
+            let id = new Date().getTime();
+
+            obj.id = id;
+            obj.props.x = 0;
+            obj.props.y = 0;
+
+            state.draggableInsideCanvas.push(obj);
+        },
         // WORK WITH ELEMENTS
         addElementInsideCanvas(state, obj){
             state.draggableInsideCanvas.push(obj);

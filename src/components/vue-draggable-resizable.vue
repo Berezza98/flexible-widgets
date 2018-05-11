@@ -171,8 +171,6 @@ export default {
     
 
     if(this.resizable){ // IF INSIDE THE CANVAS
-      this.$store.commit("changeCurrentActiveElement", this.id, {module: "main"});
-
       this.$store.commit('changeYOfElement', {y: this.top, id: this.id}, {module: "main"});
       this.$store.commit('changeXOfElement', {x: this.left, id: this.id}, {module: "main"});
       this.$store.commit('changeWidthOfElement', {w: this.width, id: this.id}, {module: "main"});
