@@ -548,22 +548,24 @@ export default {
       let showBottomX = false;
       let showBottomY = false;
       for(let i = 0; i < elements.length; i++){
-        if(left <= elements[i].props.x + 5 && left >= elements[i].props.x - 5){
+        if(left <= elements[i].props.x + 10 && left >= elements[i].props.x - 10){
           eventBus.$emit('showTopXRuler', elements[i].props.x);
+          this.left = elements[i].props.x;
           showTopX = true;
         }
 
-        if(left + width <= elements[i].props.x + elements[i].props.width + 5 && left + width >= elements[i].props.x + elements[i].props.width - 5){
+        if(left + width <= elements[i].props.x + elements[i].props.width + 10 && left + width >= elements[i].props.x + elements[i].props.width - 10){
           eventBus.$emit('showBottomXRuler', elements[i].props.x + elements[i].props.width);
           showBottomX = true;
         }
 
-        if(top <= elements[i].props.y + 5 && top >= elements[i].props.y - 5){
+        if(top <= elements[i].props.y + 10 && top >= elements[i].props.y - 10){
           eventBus.$emit('showTopYRuler', elements[i].props.y);
+          this.top = elements[i].props.y;
           showTopY = true;
         }
 
-        if(top + height <= elements[i].props.y + elements[i].props.height + 5 && top + height >= elements[i].props.y + elements[i].props.height - 5){
+        if(top + height <= elements[i].props.y + elements[i].props.height + 10 && top + height >= elements[i].props.y + elements[i].props.height - 10){
           eventBus.$emit('showBottomYRuler', elements[i].props.y + elements[i].props.height);
           showBottomY = true;
         }
