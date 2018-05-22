@@ -30,7 +30,7 @@
             },
             height: {
                 type: Number,
-                default: 3
+                default: 6
             },
             x: {
                 type: Number,
@@ -70,7 +70,7 @@
 
 <style scoped>
     .line{
-        height: 100%;
+        height: 20%;
         width: 100%;
         box-sizing: border-box;
         position: absolute;

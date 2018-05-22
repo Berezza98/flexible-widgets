@@ -55,7 +55,7 @@
                 let background = "rgba(78, 151, 230, 0.4)";
                 switch(this.tile){
                     case 'line':
-                        height = 5;
+                        height = 20;
                         width = 400;
                         background = "rgba(0, 0, 0, 1)";
                         break;

@@ -1,7 +1,9 @@
 <template>
     <div class="canvas_wrapper" :class="typeOfCanvas === 'landscape' ? 'canvas_flex' : 'canvas_scroll'">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
-            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
+            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" @showTopYRuler="showTopYRuler" @hideTopYRuler="hideTopYRuler" @showTopXRuler="showTopXRuler" @hideTopXRuler="hideTopXRuler" @hideRulers="hideRulers" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
+            <div class="rulerTopY" v-if="yTopRuler" :style="{top: postitionOfYRuler}"></div>
+            <div class="rulerTopX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
         </div>
     </div> 
 </template>
@@ -16,7 +18,10 @@
     export default{
         data(){
             return{
-                
+                yTopRuler: false,
+                postitionOfYRuler: "0px",
+                xTopRuler: false,
+                postitionOfXRuler: "0px"
             }
         },
         components: {
@@ -38,6 +43,26 @@
             typeOfCanvas: {
                 type: String,
                 required: true
+            }
+        },
+        methods: {
+            showTopYRuler(position){
+                this.yTopRuler = true;
+                this.postitionOfYRuler = position + "px";
+            },
+            hideTopYRuler(){
+                this.yTopRuler = false;
+            },
+            showTopXRuler(position){
+                this.xTopRuler = true;
+                this.postitionOfXRuler = position + "px";
+            },
+            hideTopXRuler(){
+                this.xTopRuler = false;
+            },
+            hideRulers(){
+                this.yTopRuler = false;
+                this.xTopRuler = false;
             }
         }
     }
@@ -85,5 +110,20 @@
     .landscape{
         width: 1920px;
         height: 1080px;
+    }
+
+    .rulerTopY{
+        position: relative;
+        width: 100%;
+        height: 1px;
+        background: green;
+    }
+
+    .rulerTopX{
+        position: relative;
+        width: 1px;
+        box-sizing: border-box;
+        height: 100%;
+        background: green;
     }
 </style>

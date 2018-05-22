@@ -1,5 +1,5 @@
 <template>
-    <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
+    <draggable @showTopYRuler="showYRuler" @hideTopYRuler="hideYRuler" @showTopXRuler="showXRuler" @hideTopXRuler="hideXRuler" @hideRulers="hideRulers" :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <div :style="styles" class="rectangle"></div>
         </el-tooltip>
@@ -53,6 +53,21 @@
             addPanel(value){
                 this.showPanel = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
+            },
+            showYRuler(position){
+                this.$emit('showTopYRuler', position);
+            },
+            hideYRuler(){
+                this.$emit('hideTopYRuler');
+            },
+            showXRuler(position){
+                this.$emit('showTopXRuler', position);
+            },
+            hideXRuler(){
+                this.$emit('hideTopXRuler');
+            },
+            hideRulers(){
+                this.$emit('hideRulers');
             }
         },
         computed: {

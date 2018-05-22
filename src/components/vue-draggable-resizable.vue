@@ -463,6 +463,7 @@ export default {
         }
         this.$emit('dragging', this.left, this.top, e);
       }
+        this.createRuler();
     },
     handleUp: function (e) {
       if(this.hideOverflow){
@@ -507,6 +508,7 @@ export default {
         }
         this.$emit('dragstop', this.left, this.top);
       }
+      this.$emit('hideRulers');
 
       this.elmX = this.left
       this.elmY = this.top
@@ -530,11 +532,43 @@ export default {
         x : x - left,
         y : y - top
       };
+    },
+    createRuler(){
+      let left = this.left;
+      let top = this.top;
+      let height = this.height;
+      let width = this.width;
+      let elements = this.elements;
+
+      let showTopX = false;
+      let showTopY = false;
+      for(let i = 0; i < elements.length; i++){
+        if(left <= elements[i].props.x + 5 && left >= elements[i].props.x - 5){
+          this.$emit('showTopXRuler', elements[i].props.x);
+          showTopX = true;
+        }
+
+        if(top <= elements[i].props.y + 5 && top >= elements[i].props.y - 5){
+          this.$emit('showTopYRuler', elements[i].props.y);
+          showTopY = true;
+        }
+
+        if(top + height <= elements[i].props.y + elements[i].props.height + 5 && top + height >= elements[i].props.y + elements[i].props.height - 5){
+          console.log('BOTTTOOOOM SIDEE!!!!');
+        }
+      }
+
+      if(!showTopX){
+        this.$emit('hideTopXRuler');
+      }
+      if(!showTopY){
+        this.$emit('hideTopYRuler');
+      }
     }
   },
 
   computed: {
-    style: function () {
+    style() {
       return {
         top: this.top + 'px',
         left: this.left + 'px',
@@ -542,6 +576,9 @@ export default {
         height: this.height + 'px',
         zIndex: this.zIndex
       }
+    },
+    elements(){
+      return this.$store.state.main.draggableInsideCanvas.filter(element => element.id !== this.id);
     }
   },
 
@@ -570,6 +607,9 @@ export default {
   .vdr {
     position: absolute;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .cloneElement{
     display: none;
