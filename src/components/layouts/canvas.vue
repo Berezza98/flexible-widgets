@@ -1,14 +1,18 @@
 <template>
     <div class="canvas_wrapper" :class="typeOfCanvas === 'landscape' ? 'canvas_flex' : 'canvas_scroll'">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
-            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" @showTopYRuler="showTopYRuler" @hideTopYRuler="hideTopYRuler" @showTopXRuler="showTopXRuler" @hideTopXRuler="hideTopXRuler" @hideRulers="hideRulers" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
-            <div class="rulerTopY" v-if="yTopRuler" :style="{top: postitionOfYRuler}"></div>
-            <div class="rulerTopX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
+            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
+            <div class="rulerY" v-if="yTopRuler" :style="{top: postitionOfYRuler}"></div>
+            <div class="rulerY" v-if="yBottomRuler" :style="{top: postitionOfBottomYRuler}"></div>     
+            <div class="rulerX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
+            <div class="rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
         </div>
     </div> 
 </template>
 
 <script>
+    import { eventBus } from '../../main.js';
+
     import Text from '../layoutElements/text.vue';
     import Image from '../layoutElements/imageBlock.vue';
     import Rectangle from '../layoutElements/rectangle.vue';
@@ -21,7 +25,11 @@
                 yTopRuler: false,
                 postitionOfYRuler: "0px",
                 xTopRuler: false,
-                postitionOfXRuler: "0px"
+                postitionOfXRuler: "0px",
+                yBottomRuler: false,
+                postitionOfBottomYRuler: "0px",
+                xBottomRuler: false,
+                postitionOfBottomXRuler: "0px"
             }
         },
         components: {
@@ -45,25 +53,42 @@
                 required: true
             }
         },
-        methods: {
-            showTopYRuler(position){
-                this.yTopRuler = true;
-                this.postitionOfYRuler = position + "px";
-            },
-            hideTopYRuler(){
-                this.yTopRuler = false;
-            },
-            showTopXRuler(position){
+        created(){
+            eventBus.$on('showTopXRuler', (position) => {
                 this.xTopRuler = true;
                 this.postitionOfXRuler = position + "px";
-            },
-            hideTopXRuler(){
+            });
+            eventBus.$on('hideTopXRuler', () => {
                 this.xTopRuler = false;
-            },
-            hideRulers(){
+            });
+            eventBus.$on('showTopYRuler', (position) => {
+                this.yTopRuler = true;
+                this.postitionOfYRuler = position + "px";
+            });
+            eventBus.$on('hideTopYRuler', () => {
+                this.yTopRuler = false;
+            });
+            eventBus.$on('showBottomYRuler', (position) => {
+                this.yBottomRuler = true;
+                this.postitionOfBottomYRuler = position + "px";
+            });
+            eventBus.$on('hideBottomYRuler', () => {
+                this.yBottomRuler = false;
+            });
+            eventBus.$on('showBottomXRuler', (position) => {
+                this.xBottomRuler = true;
+                this.postitionOfBottomXRuler = position + "px";
+            });
+            eventBus.$on('hideBottomXRuler', () => {
+                this.xBottomRuler = false;
+            });
+            eventBus.$on('hideRulers', () => {
                 this.yTopRuler = false;
                 this.xTopRuler = false;
-            }
+                this.yBottomRuler = false;
+                this.xBottomRuler = false;
+            });
+            
         }
     }
 </script>
@@ -112,15 +137,15 @@
         height: 1080px;
     }
 
-    .rulerTopY{
-        position: relative;
+    .rulerY{
+        position: absolute;
         width: 100%;
         height: 1px;
         background: green;
     }
 
-    .rulerTopX{
-        position: relative;
+    .rulerX{
+        position: absolute;
         width: 1px;
         box-sizing: border-box;
         height: 100%;

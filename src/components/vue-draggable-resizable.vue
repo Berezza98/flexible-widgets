@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { eventBus } from '../main.js';
+
 import { matchesSelectorToParentElements } from '../utils/dom'
 
 export default {
@@ -428,6 +430,7 @@ export default {
         this.height = (Math.round(this.elmH / this.grid[1]) * this.grid[1])
 
         this.$emit('resizing', this.left, this.top, this.width, this.height)
+        this.createRuler();
       } else if (this.dragging) {
         if (this.parent) {
           if (this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
@@ -462,8 +465,8 @@ export default {
           this.insideDropZone = false;
         }
         this.$emit('dragging', this.left, this.top, e);
-      }
         this.createRuler();
+      }
     },
     handleUp: function (e) {
       if(this.hideOverflow){
@@ -508,7 +511,7 @@ export default {
         }
         this.$emit('dragstop', this.left, this.top);
       }
-      this.$emit('hideRulers');
+      eventBus.$emit('hideRulers');
 
       this.elmX = this.left
       this.elmY = this.top
@@ -542,27 +545,41 @@ export default {
 
       let showTopX = false;
       let showTopY = false;
+      let showBottomX = false;
+      let showBottomY = false;
       for(let i = 0; i < elements.length; i++){
         if(left <= elements[i].props.x + 5 && left >= elements[i].props.x - 5){
-          this.$emit('showTopXRuler', elements[i].props.x);
+          eventBus.$emit('showTopXRuler', elements[i].props.x);
           showTopX = true;
         }
 
+        if(left + width <= elements[i].props.x + elements[i].props.width + 5 && left + width >= elements[i].props.x + elements[i].props.width - 5){
+          eventBus.$emit('showBottomXRuler', elements[i].props.x + elements[i].props.width);
+          showBottomX = true;
+        }
+
         if(top <= elements[i].props.y + 5 && top >= elements[i].props.y - 5){
-          this.$emit('showTopYRuler', elements[i].props.y);
+          eventBus.$emit('showTopYRuler', elements[i].props.y);
           showTopY = true;
         }
 
         if(top + height <= elements[i].props.y + elements[i].props.height + 5 && top + height >= elements[i].props.y + elements[i].props.height - 5){
-          console.log('BOTTTOOOOM SIDEE!!!!');
+          eventBus.$emit('showBottomYRuler', elements[i].props.y + elements[i].props.height);
+          showBottomY = true;
         }
       }
 
       if(!showTopX){
-        this.$emit('hideTopXRuler');
+        eventBus.$emit('hideTopXRuler');
+      }
+      if(!showBottomX){
+        eventBus.$emit('hideBottomXRuler');
       }
       if(!showTopY){
-        this.$emit('hideTopYRuler');
+        eventBus.$emit('hideTopYRuler');
+      }
+      if(!showBottomY){
+        eventBus.$emit('hideBottomYRuler');
       }
     }
   },

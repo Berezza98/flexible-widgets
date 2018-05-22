@@ -17,6 +17,8 @@ import {store} from './store/store';
 
 import VueDraggableResizable from './components/vue-draggable-resizable.vue';
 
+export const eventBus = new Vue();
+
 Vue.component('draggable', VueDraggableResizable);
 
 Vue.use(VueResource);
