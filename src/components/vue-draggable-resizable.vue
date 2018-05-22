@@ -430,7 +430,7 @@ export default {
         this.height = (Math.round(this.elmH / this.grid[1]) * this.grid[1])
 
         this.$emit('resizing', this.left, this.top, this.width, this.height)
-        this.createRuler();
+        this.createRuler(false, true);
       } else if (this.dragging) {
         if (this.parent) {
           if (this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
@@ -465,7 +465,7 @@ export default {
           this.insideDropZone = false;
         }
         this.$emit('dragging', this.left, this.top, e);
-        this.createRuler();
+        this.createRuler(true, false);
       }
     },
     handleUp: function (e) {
@@ -536,7 +536,7 @@ export default {
         y : y - top
       };
     },
-    createRuler(){
+    createRuler(dragging, resizing){
       let left = this.left;
       let top = this.top;
       let height = this.height;
@@ -550,24 +550,42 @@ export default {
       for(let i = 0; i < elements.length; i++){
         if(left <= elements[i].props.x + 10 && left >= elements[i].props.x - 10){
           eventBus.$emit('showTopXRuler', elements[i].props.x);
-          this.left = elements[i].props.x;
           showTopX = true;
+          if(resizing){
+            // logic for resizing
+          }else if(dragging){
+            this.left = elements[i].props.x;
+          }
         }
 
         if(left + width <= elements[i].props.x + elements[i].props.width + 10 && left + width >= elements[i].props.x + elements[i].props.width - 10){
           eventBus.$emit('showBottomXRuler', elements[i].props.x + elements[i].props.width);
           showBottomX = true;
+          if(resizing){
+            // logic for resizing
+          }else if(dragging){
+            this.left = elements[i].props.x + elements[i].props.width - width;
+          }
         }
 
         if(top <= elements[i].props.y + 10 && top >= elements[i].props.y - 10){
           eventBus.$emit('showTopYRuler', elements[i].props.y);
-          this.top = elements[i].props.y;
           showTopY = true;
+          if(resizing){
+            // logic for resizing
+          }else if(dragging){
+            this.top = elements[i].props.y;
+          }
         }
 
         if(top + height <= elements[i].props.y + elements[i].props.height + 10 && top + height >= elements[i].props.y + elements[i].props.height - 10){
           eventBus.$emit('showBottomYRuler', elements[i].props.y + elements[i].props.height);
           showBottomY = true;
+          if(resizing){
+            // logic for resizing
+          }else if(dragging){
+            this.top = elements[i].props.y + elements[i].props.height - height;
+          }
         }
       }
 
