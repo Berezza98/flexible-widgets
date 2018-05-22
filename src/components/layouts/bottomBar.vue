@@ -105,4 +105,10 @@
     .change_orientation{
         margin-right: 100px;
     }
+
+    @media screen and (max-height: 900px) {
+        .bottom_bar{
+            height: calc(100% - 82% - 70px);
+        }
+    }
 </style>

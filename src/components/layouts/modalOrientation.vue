@@ -191,4 +191,11 @@
         align-items: center;
         border-top: 1px solid #e6e6e6;
     }
+
+    @media screen and (max-height: 900px) {
+        .box-card {
+            width: 40%;
+            height: 70%;
+        }
+    }
 </style>

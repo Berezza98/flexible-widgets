@@ -24,5 +24,11 @@
         height: calc(100% - 70px);
         padding: 0px 20px;
     }
+
+    @media screen and (max-width: 1700px) {
+        .firstColumn{
+            padding: 0px 10px;
+        }
+    }
 </style>
    
