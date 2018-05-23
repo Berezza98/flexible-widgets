@@ -182,7 +182,7 @@ export default {
   },
   mounted: function () {
     document.documentElement.addEventListener('mousemove', this.handleMove, false)
-    document.documentElement.addEventListener('mousedown', this.deselect, true)
+    document.documentElement.addEventListener('mousedown', this.deselect, false)
     document.documentElement.addEventListener('mouseup', this.handleUp, true)
 
     this.elmX = parseInt(this.$el.style.left)
