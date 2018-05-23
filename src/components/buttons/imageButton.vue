@@ -111,7 +111,9 @@
     }
 
     .name{
-        font-size: 22px
+        font-size: 16px;
+        font-weight: 400;
+        margin-left: 20px;
     }
 
     .arrow{

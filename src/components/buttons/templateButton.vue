@@ -69,6 +69,12 @@
         align-items: center;
     }
 
+    .name{
+        font-size: 16px;
+        font-weight: 400;
+        margin-left: 20px;
+    }
+
     .arrow{
         color: #1989fa;
         font-size: 2em;
