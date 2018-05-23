@@ -181,7 +181,7 @@ export default {
 
   },
   mounted: function () {
-    document.documentElement.addEventListener('mousemove', this.handleMove, true)
+    document.documentElement.addEventListener('mousemove', this.handleMove, false)
     document.documentElement.addEventListener('mousedown', this.deselect, true)
     document.documentElement.addEventListener('mouseup', this.handleUp, true)
 

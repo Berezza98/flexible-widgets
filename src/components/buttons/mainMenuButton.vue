@@ -90,6 +90,6 @@
         background: #f0f0f0;
     }
     .router-link-active .content{
-        color: #1989fa;
+        color: #095fa4;
     }
 </style>

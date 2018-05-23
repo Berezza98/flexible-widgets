@@ -1,7 +1,7 @@
 <template>
   <div class="secondColumn">
       <div class="container">
-          <search-block></search-block>
+          <search-block v-show="$route.path !== '/'"></search-block>
           <router-view v-if="readyForCreateWidget"></router-view>
       </div>
   </div>

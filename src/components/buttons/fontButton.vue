@@ -81,6 +81,7 @@
         box-sizing: border-box;
         border-radius: 4px;
         margin-bottom: 10px;
+        margin: 70px;
         transition: background 0.5s;
         flex-shrink: 0;
         position: relative;
@@ -100,7 +101,9 @@
     }
 
     .buttonName{
-        font-size: 30px;
+        font-size: 25px;
+        color: #424242;
+        font-weight: normal;
         margin: 0;
     }
 

@@ -4,9 +4,9 @@
             <img draggable="false" class="innerImage" :class="templObj.orientation === 'portrait' ? 'portrait_image' : ''" :src="templObj.image">
             <div class="name_block">
                 <h2 class="name">{{templObj.name}}</h2>
-                <div class="arrows">
+                <!-- <div class="arrows">
                     <i class="el-icon-d-arrow-right arrow"></i>
-                </div>
+                </div> -->
             </div>
         </el-card>
     </div>
