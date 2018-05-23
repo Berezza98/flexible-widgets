@@ -17,7 +17,7 @@
         data(){
             return{
                 styles: {
-                    'padding': '20px',
+                    'padding': '3px',
                     'display': 'flex',
                     'flex-direction': 'column'
                 }
@@ -39,8 +39,9 @@
 
 <style scoped>
     .template{
-        width: 95%;
-        height: 250px;
+        width: 45%;
+        margin: calc(5%/3);
+        height: 180px;
         margin-bottom: 10px;
         background: bisque;
         position: relative;
@@ -59,7 +60,7 @@
     .innerImage{
         user-select: none;
         height: 70%;
-        max-height: 160px;
+        max-height: 130px;
     }
 
     .name_block{

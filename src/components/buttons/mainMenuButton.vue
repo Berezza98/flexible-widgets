@@ -2,7 +2,7 @@
     <router-link :to="path" tag="div" class="firstColumnButton" exact>
         <el-tooltip class="item" effect="dark" :open-delay="500" :content="tooltip" placement="right">
             <div class="content">
-                <md-icon class="md-size-2x">{{image}}</md-icon>
+                <md-icon class="md-size-1x">{{image}}</md-icon>
                 <h2 class="title">{{tile}}</h2>
             </div>
         </el-tooltip>
@@ -43,9 +43,11 @@
 <style scoped>
     .firstColumnButton{
         cursor: pointer;
-        width: 100%;
-        transition: all 0.5s;
         position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 100%;
+
     }
 
     .firstColumnButton:first-child{
@@ -81,13 +83,14 @@
     }
 
     .firstColumnButton h2.title{
-        font-size: 1em;
+        font-size: 0.8em;
         text-align: center;
-        line-height: 1em;
+        line-height: 0.8em;
     }
 
     .router-link-active{
         background: #f0f0f0;
+        border-radius: 5px;
     }
     .router-link-active .content{
         color: #095fa4;

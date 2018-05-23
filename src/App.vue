@@ -2,13 +2,13 @@
 <div id="app">
   <el-row class="fullscreen">
     <custom-header></custom-header>
-    <el-col :span="2" class="border">
+    <el-col :span="1" class="border">
       <first-column></first-column>
     </el-col>
     <el-col :span="5" class="border">
       <second-column></second-column>
     </el-col>
-    <el-col :span="17">
+    <el-col :span="18">
       <third-column></third-column>
     </el-col>
     <modal-orientation v-if="!orientation"></modal-orientation>
@@ -85,38 +85,39 @@ body{
   border-radius: 0px !important;
 }
 
-.el-button--primary.is-plain {
-color: #095fa4;
-border-color: #b3d8ff;
-}
 .el-button--primary {
-color: #fff;
-background-color: #095fa4;
-border-color: #095fa4;
+  color: #fff;
+  background-color: #5ca6d5;
+  border-color: #7fb3d4;
+}
+
+.el-button--primary.is-plain {
+  background: #cce7f8;
 }
 .el-button--primary:focus, .el-button--primary:hover {
-background: #2e81c4;
-border-color: #2e81c4;
-color: #fff;
+  background: #2e81c4;
+  border-color: #2e81c4;
+  color: #fff;
 }
 .el-button--primary.is-plain:focus, .el-button--primary.is-plain:hover {
-background: #2e81c4;
-border-color: #2e81c4;
-color: #fff;
+  background: #2e81c4;
+  border-color: #2e81c4;
+  color: #fff;
 }
 .el-card {
-box-shadow: none !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
 }
 .el-input.is-active .el-input__inner, .el-input__inner:focus{
-border-color: #095fa4;
-outline: 0;
+  border-color: #095fa4;
+  outline: 0;
 }
 .el-select .el-input__inner:focus {
-border-color: #095fa4;
+  border-color: #095fa4;
 }
 .el-select-dropdown__item.selected {
-color: #095fa4;
-font-weight: 700;
+  color: #095fa4;
+  font-weight: 700;
 }
 
 ::-webkit-scrollbar {

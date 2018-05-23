@@ -22,7 +22,7 @@
 <style scoped>
     .firstColumn{
         height: calc(100% - 70px);
-        padding: 0px 20px;
+        padding: 0px 2px;
     }
 
     @media screen and (max-width: 1700px) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="image_template" @mouseover="upIndex($event)" @mouseout="downIndex($event)">
+  <div class="image_template" @mouseover="upIndex" @mouseout="downIndex">
         <draggable :return-to-start-position="true" :hideOverflow="'.images'" :setParentSizes="true" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
             <el-tooltip class="item" effect="dark" :open-delay="500" content="Drag into template to the right." placement="right">
                 <el-card class="inside_draggable" :body-style="styles">
@@ -83,12 +83,11 @@
 
 <style scoped>
     .image_template{
-        width: 75%;
+        width: 45%;
+        margin: calc(5%/3);
         height: 180px;
-        margin-bottom: 10px;
         position: relative;
         z-index: 1;
-        flex-shrink: 0;
         user-select: none;
     }
 

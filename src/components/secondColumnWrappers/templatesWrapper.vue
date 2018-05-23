@@ -60,8 +60,8 @@
         height: calc(100% - 100px);
         width: 100%;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
         padding-top: 10px;
         box-sizing: border-box;
         overflow-y: scroll;

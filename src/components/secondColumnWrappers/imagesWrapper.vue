@@ -45,7 +45,7 @@
                         if(canLoad && currentTopScroll < 100){
                             canLoad = false;
                             let elements = that.images.length;
-                            that.$http.get(`https://flexible-app.herokuapp.com/getImages?page=${elements + 6}`).then(({body}) => {
+                            that.$http.get(`https://flexible-app.herokuapp.com/getImages?page=${elements + 12}`).then(({body}) => {
                                 that.images = [...that.images, ...body];
                                 canLoad = true;
                             });
@@ -66,7 +66,7 @@
             }
         },
         created(){
-            this.$http.get('https://flexible-app.herokuapp.com/getImages?page=6').then(({body}) => {
+            this.$http.get('https://flexible-app.herokuapp.com/getImages?page=12').then(({body}) => {
                 this.images = body;
                 this.downloading = false;
             });
@@ -85,8 +85,8 @@
         width: 100%;
         position: relative;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
         padding-top: 10px;
         box-sizing: border-box;
         overflow-y: scroll;
