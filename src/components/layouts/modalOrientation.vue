@@ -56,7 +56,7 @@
                 this.$store.commit('selectTemplate', [] , {module: "main"});
                 this.$store.commit('createWidget', {module: "main"});
                 if(this.template === "blank"){
-                    this.$router.push({ path: '/' })
+                    this.$router.push({ path: 'shapes' })
                 }else if(this.template === "pre-made"){
                     this.$router.push({ path: 'templates' })
                 }

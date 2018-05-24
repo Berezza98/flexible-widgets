@@ -19,11 +19,4 @@ export default[
     "path": "/templates",
     "tooltip": "Click to add pre-made templates.",
     "id": 4
-},
-{
-    "text": "Text",
-    "img": "title",
-    "path": "/",
-    "tooltip": "Click to add text block.",
-    "id": 1
 }];

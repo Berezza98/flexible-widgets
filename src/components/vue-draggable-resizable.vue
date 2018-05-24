@@ -181,8 +181,8 @@ export default {
 
   },
   mounted: function () {
-    document.documentElement.addEventListener('mousemove', this.handleMove, false)
-    document.documentElement.addEventListener('mousedown', this.deselect, false)
+    document.documentElement.addEventListener('mousemove', this.handleMove, true)
+    document.documentElement.addEventListener('mousedown', this.deselect, true)
     document.documentElement.addEventListener('mouseup', this.handleUp, true)
 
     this.elmX = parseInt(this.$el.style.left)
@@ -299,7 +299,6 @@ export default {
       let isInsideColorpicker = colorpicker && colorpicker.contains(target) ? true : false;
 
       // END
-
       if (!this.$el.contains(target) && !regex.test(target.className) && !isInsideColorpicker) {
         if (this.enabled) {
           this.zIndex = this.z;

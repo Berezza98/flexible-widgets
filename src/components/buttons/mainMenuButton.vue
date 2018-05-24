@@ -10,6 +10,7 @@
 </template>
 
 <script>
+    import {eventBus} from '../../main.js';
 
     export default{
         data(){
@@ -52,23 +53,6 @@
 
     .md-size-1x{
         margin: 0px;
-    }
-
-    .firstColumnButton:last-child::before{
-        content: "";
-        display: block;
-        padding-top: 100%;
-        margin-top: 50px;
-    }
-
-    .firstColumnButton:nth-of-type(3)::after{
-        content: "";
-        display: block;
-        height: 2px;
-        margin: auto;
-        width: 80%;
-        margin-top: 25px;
-        background: #c1c1c1;
     }
 
     .firstColumnButton:first-child{
