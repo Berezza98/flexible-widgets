@@ -23,13 +23,14 @@ import ThirdColumn from './components/columns/thirdColumn.vue';
 import ModalOrientation from './components/layouts/modalOrientation.vue';
 import Header from './components/header.vue';
 
+import {eventBus} from './main.js';
 import messages from './data/messages.js';
 
 export default {
   name: 'app',
   data(){
     return {
-      
+      message: null
     }
   },
   components: {
@@ -48,12 +49,17 @@ export default {
     }
   },
   mounted(){
-    this.$message({
+    this.message = this.$message({
       showClose: true,
       message: messages.startPage,
       type: 'message',
       duration: 60000,
       customClass: 'information-message'
+    });
+  },
+  created(){
+    eventBus.$on('closeStartInformationWindow', () => {
+      this.message.close();
     });
   }
 }
@@ -93,7 +99,13 @@ body{
 }
 
 .information-message{
-  
+  max-width: 550px;
+  padding: 15px 65px 15px 40px;
+  color: #2575b4;
+}
+
+.information-message .el-message__content {
+  line-height: 18px;
 }
 
 .md-icon.md-size-2x{

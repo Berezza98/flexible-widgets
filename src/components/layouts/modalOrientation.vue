@@ -39,6 +39,9 @@
 </template>
 
 <script>
+    import {eventBus} from '../../main.js';
+    import messages from '../../data/messages.js';
+
     export default {
         data(){
             return {
@@ -55,11 +58,22 @@
                 this.$store.commit('changeOrientation', this.radio, {module: "main"});
                 this.$store.commit('selectTemplate', [] , {module: "main"});
                 this.$store.commit('createWidget', {module: "main"});
+
                 if(this.template === "blank"){
                     this.$router.push({ path: 'shapes' })
                 }else if(this.template === "pre-made"){
                     this.$router.push({ path: 'templates' })
                 }
+
+                eventBus.$emit('closeStartInformationWindow');
+
+                this.$message({
+                    showClose: true,
+                    message: messages.mainPage,
+                    type: 'message',
+                    duration: 60000,
+                    customClass: 'information-message'
+                });
             },
             closeModal(){
                 this.$store.commit('changeOrientation', this.$store.state.main.tempOrientation, {module: "main"});
