@@ -53,6 +53,8 @@
 
     .md-size-1x{
         margin: 0px;
+        height: 30px;
+        font-size: 30px!important;
     }
 
     .firstColumnButton:first-child{
@@ -89,9 +91,9 @@
     }
 
     .firstColumnButton h2.title{
-        font-size: 0.8em;
+        font-size: 1em;
         text-align: center;
-        line-height: 0.8em;
+        line-height: 1em;
     }
 
     .router-link-active{
@@ -100,5 +102,19 @@
     }
     .router-link-active .content{
         color: #095fa4;
+    }
+
+    @media screen and (max-width: 1800px) {
+        .firstColumnButton h2.title{
+            font-size: 0.5em;
+            text-align: center;
+            line-height: 0.8em;
+        }
+
+        .md-size-1x{
+            margin-top: 2px;
+            height: 22px;
+            font-size: 22px!important;
+        }
     }
 </style>
