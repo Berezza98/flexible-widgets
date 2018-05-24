@@ -2,7 +2,7 @@
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <div class="textBlock" :style="styles">
-                <p contenteditable="true" @mousemove.stop="selectText" @mousedown.stop="selectText" @blur="editContent">{{inputText}}</p>
+                <p contenteditable="true" @mousemove.stop="selectText" @mousedown="selectTextDownClick" @blur="editContent">{{inputText}}</p>
             </div>
         </el-tooltip>
         <panel-block @closePanel="showPanel= false" :blockDimensions="dimensionsObj" v-if="showPanel"></panel-block>
@@ -32,6 +32,11 @@
             },
             selectText(){
                 //just for stop propogation
+            },
+            selectTextDownClick(e){
+                if(this.showPanel){
+                    e.stopPropagation();
+                }
             }
         },
         computed: {
