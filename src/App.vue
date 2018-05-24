@@ -23,6 +23,8 @@ import ThirdColumn from './components/columns/thirdColumn.vue';
 import ModalOrientation from './components/layouts/modalOrientation.vue';
 import Header from './components/header.vue';
 
+import messages from './data/messages.js';
+
 export default {
   name: 'app',
   data(){
@@ -44,6 +46,15 @@ export default {
     orientation(){
         return this.$store.getters.getOrientation;
     }
+  },
+  mounted(){
+    this.$message({
+      showClose: true,
+      message: messages.startPage,
+      type: 'message',
+      duration: 60000,
+      customClass: 'information-message'
+    });
   }
 }
 </script>
@@ -79,6 +90,10 @@ body{
   margin: 0;
   font-size: 16px;
   overflow-y: hidden;
+}
+
+.information-message{
+  
 }
 
 .md-icon.md-size-2x{
