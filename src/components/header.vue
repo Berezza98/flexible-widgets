@@ -38,7 +38,7 @@
 
     .description{
         font-size: 12px;
-        color: #c5c5c5;
+        color: #a09999;
         display: inline-block;
         position: relative;
         top: -15px;

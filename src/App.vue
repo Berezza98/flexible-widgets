@@ -54,6 +54,10 @@ export default {
   user-select: none;
 }
 
+input::placeholder{
+  color: #888888 !important;
+}
+
 #app {
   height: calc(100vh - 40px);
   overflow: hidden;
