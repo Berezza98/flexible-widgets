@@ -173,10 +173,8 @@ export default {
     
 
     if(this.resizable){ // IF INSIDE THE CANVAS
-      this.$store.commit('changeYOfElement', {y: this.top, id: this.id}, {module: "main"});
-      this.$store.commit('changeXOfElement', {x: this.left, id: this.id}, {module: "main"});
-      this.$store.commit('changeWidthOfElement', {w: this.width, id: this.id}, {module: "main"});
-      this.$store.commit('changeHeightOfElement', {h: this.height, id: this.id}, {module: "main"});
+      this.$store.commit('changePositionOfElement', {y: this.top, x: this.left, id: this.id}, {module: "main"});
+      this.$store.commit('changeDimentionsOfElement', {w: this.width, h: this.height, id: this.id}, {module: "main"});
     }
 
   },
@@ -475,12 +473,10 @@ export default {
 
       }
       if(this.resizable){
-        this.$store.commit('changeYOfElement', {y: this.top, id: this.id}, {module: "main"});
-        this.$store.commit('changeXOfElement', {x: this.left, id: this.id}, {module: "main"});
+        this.$store.commit('changePositionOfElement', {y: this.top, x: this.left, id: this.id}, {module: "main"});
       }
       if(this.resizing){
-        this.$store.commit('changeWidthOfElement', {w: this.width, id: this.id}, {module: "main"});
-        this.$store.commit('changeHeightOfElement', {h: this.height, id: this.id}, {module: "main"});
+        this.$store.commit('changeDimentionsOfElement', {w: this.width, h: this.height, id: this.id}, {module: "main"});
       }
       
 

@@ -9,7 +9,8 @@ export default {
         currentActiveElement: 0,
         templateName: "",
         orientationWasSelected: false,
-        tempOrientation: ""
+        tempOrientation: "",
+        lastEvent: null
     },
     getters: {
         getOrientation(state){
@@ -17,6 +18,9 @@ export default {
         },
         getActiveElement(state){
             return getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+        },
+        getAllElements(state){
+            return state.draggableInsideCanvas;
         }
     },
     mutations: {
@@ -78,20 +82,14 @@ export default {
         changeCurrentActiveElement(state, id){
             state.currentActiveElement = id;
         },
-        changeWidthOfElement(state, value){
+        changeDimentionsOfElement(state, value){
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.width = value.w;
-        },
-        changeHeightOfElement(state, value){
-            let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.height = value.h;
         },
-        changeXOfElement(state, value){
+        changePositionOfElement(state, value){
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.x = value.x;
-        },
-        changeYOfElement(state, value){
-            let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.y = value.y;
         },
         rotateElement(state, value){
@@ -159,7 +157,6 @@ export default {
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['align-items'] = value;
         }
-        
     }
 };
 

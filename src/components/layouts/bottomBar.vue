@@ -1,6 +1,7 @@
 <template>
     <div class="bottom_bar">
         <el-button @click="changeOrientation" class="change_orientation" type="primary" plain>Change orientation</el-button>
+        <el-button @click="undo" class="undo" type="primary" plain><md-icon>undo</md-icon> Undo</el-button>
         <el-button @click="saveWidget" type="primary" icon="el-icon-check">Save</el-button>
         <el-tooltip content="Delete template" :open-delay="500" placement="top">
             <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
@@ -18,6 +19,9 @@
             }
         },
         methods: {
+            undo() {
+                console.log('undo');
+            },
             saveWidget(){
                 if(!this.name.trim()){
                     this.$message.error('Please enter the name for widget.');
@@ -100,6 +104,13 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+    }
+
+    .undo{
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0px 20px;
     }
 
     .change_orientation{
