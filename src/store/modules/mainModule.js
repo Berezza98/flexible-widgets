@@ -10,7 +10,7 @@ export default {
         templateName: "",
         orientationWasSelected: false,
         tempOrientation: "",
-        lastEvent: null
+        prevValue: null
     },
     getters: {
         getOrientation(state){
@@ -56,6 +56,7 @@ export default {
             state.currentScale = value;
         },
         createCopyOfElement(state, obj){
+            getPreviousValue(state);
             let id = new Date().getTime();
 
             obj.id = id;
@@ -66,9 +67,11 @@ export default {
         },
         // WORK WITH ELEMENTS
         addElementInsideCanvas(state, obj){
+            getPreviousValue(state);
             state.draggableInsideCanvas.push(obj);
         },
         deleteElementFromCanvas(state){
+            getPreviousValue(state);
             let index = state.draggableInsideCanvas.findIndex((element, index, array) => {
                 if(element.id === state.currentActiveElement){
                     return true;
@@ -93,6 +96,7 @@ export default {
             element.props.y = value.y;
         },
         rotateElement(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let width = element.props.width;
             let height = element.props.height;
@@ -101,27 +105,33 @@ export default {
             element.props.height = width;
         },
         changeImageSource(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.imageSource = value;
         },
         changeBackground(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.background = value;
         },
         changeColor(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.color = value;
         },
         changeOpacity(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.opacity = value;
         },
         changeZIndex(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             console.log(element.id, value);
             element.props.z = value;
         },
         changeInputText(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.textValue = value;
         },
@@ -150,12 +160,19 @@ export default {
             element.styles['font-style'] = italic;
         },
         textAlign(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['text-align'] = value;
         },
         verticalAlign(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['align-items'] = value;
+        },
+        undo(state){
+            console.log(state.prevValue);
+            state.draggableInsideCanvas = state.prevValue;
+            state.prevValue = null
         }
     }
 };
@@ -178,4 +195,8 @@ function getElementByID(elements, id){
     });
 
     return elem;
+}
+
+function getPreviousValue(state){
+    state.prevValue = JSON.parse(JSON.stringify(state.draggableInsideCanvas));
 }

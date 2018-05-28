@@ -1,7 +1,7 @@
 <template>
     <div class="bottom_bar">
         <el-button @click="changeOrientation" class="change_orientation" type="primary" plain>Change orientation</el-button>
-        <el-button @click="undo" class="undo" type="primary" plain><md-icon>undo</md-icon> Undo</el-button>
+        <el-button @click="undo" class="undo" type="primary" plain :disabled="canUndo"><md-icon>undo</md-icon> Undo</el-button>
         <el-button @click="saveWidget" type="primary" icon="el-icon-check">Save</el-button>
         <el-tooltip content="Delete template" :open-delay="500" placement="top">
             <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
@@ -20,7 +20,7 @@
         },
         methods: {
             undo() {
-                console.log('undo');
+                this.$store.commit("undo", {module: "main"});
             },
             saveWidget(){
                 if(!this.name.trim()){
@@ -92,6 +92,9 @@
                 set(value){
                     this.$store.commit("changeTemplateName", value, {module: "main"});
                 }
+            },
+            canUndo(){
+                return this.$store.state.main.prevValue === null ? true : false;
             }
         }
     }
