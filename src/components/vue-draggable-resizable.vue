@@ -474,10 +474,18 @@ export default {
         block.style.removeProperty('top');
 
       }
+
       if((this.resizable && this.resizing) || (this.resizable && this.dragging)){
-        console.log("SAVE STATE NEW");
-        this.$store.commit('changePositionOfElement', {y: this.top, x: this.left, id: this.id, saveState: true}, {module: "main"});
-        this.$store.commit('changeDimentionsOfElement', {w: this.width, h: this.height, id: this.id, saveState: true}, {module: "main"});
+        let element = this.$store.getters.getElementsDimentionAndPosition(this.id);
+        let {x, y, width, height} = element.props;
+        if(x !== this.left || y !== this.top){
+          // console.log(`change position: old x: ${x}, new x: ${this.left}, old y: ${y}, new y: ${this.top}`);
+          this.$store.commit('changePositionOfElement', {y: this.top, x: this.left, id: this.id, saveState: true}, {module: "main"});
+        }
+        if(width !== this.width || height !== this.height){
+          // console.log('change dimentions');
+          this.$store.commit('changeDimentionsOfElement', {w: this.width, h: this.height, id: this.id, saveState: true}, {module: "main"});
+        }
       }
       
 
@@ -496,13 +504,13 @@ export default {
         }
 
         let position = this.calculateCorrectPosition(e.clientX, e.clientY, e);
-
+        console.log(position);
         this.insideDropZone = false;
 
         if(!this.resizable){
           this.scale = 2;
         }
-        if(this.isInside(e.clientX, e.clientY)){
+        if(this.isInside(Math.ceil(e.clientX), Math.ceil(e.clientY))){
           this.$emit('dropInside', position.x * this.scale, position.y * this.scale);
         }
         this.$emit('dragstop', this.left, this.top);
@@ -528,8 +536,8 @@ export default {
       let {left, top} = dropElem.getBoundingClientRect();
       
       return {
-        x : x - left,
-        y : y - top
+        x : Math.ceil(x - left),
+        y : Math.ceil(y - top)
       };
     },
     createRuler(dragging, resizing){

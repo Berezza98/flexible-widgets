@@ -21,6 +21,10 @@ export default {
         },
         getAllElements(state){
             return state.draggableInsideCanvas;
+        },
+        getElementsDimentionAndPosition: (state) => (id) => {
+            let element = getElementByID(state.draggableInsideCanvas, id);
+            return element;
         }
     },
     mutations: {
@@ -161,6 +165,7 @@ export default {
             element.styles['font-weight'] = bold;
         },
         textItalic(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let italic = value === true ? 'italic' : 'normal';
             element.styles['font-style'] = italic;
@@ -203,6 +208,5 @@ function getElementByID(elements, id){
 }
 
 function getPreviousValue(state){
-    console.log('save state');
     state.prevArr.push(JSON.parse(JSON.stringify(state.draggableInsideCanvas)));
 }

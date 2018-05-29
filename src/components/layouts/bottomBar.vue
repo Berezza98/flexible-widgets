@@ -21,6 +21,7 @@
         methods: {
             undo() {
                 this.$store.commit("undo", {module: "main"});
+                this.$store.commit("changeIdOfElements", {module: "main"});
             },
             saveWidget(){
                 if(!this.name.trim()){
