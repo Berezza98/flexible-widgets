@@ -53,6 +53,18 @@
         },
         props: {
 
+        },
+        created(){
+            this.$http.get('https://flexible-app.herokuapp.com/getFonts').then(({body}) => {
+                body.sort((a, b) => {
+                    if(a.toLowerCase() > b.toLowerCase()){ 
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                });
+                this.$store.commit('changeAvailableFonts', body, {module: "main"});
+            });
         }
     }
 </script>

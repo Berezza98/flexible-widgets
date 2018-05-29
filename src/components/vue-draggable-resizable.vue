@@ -504,7 +504,6 @@ export default {
         }
 
         let position = this.calculateCorrectPosition(e.clientX, e.clientY, e);
-        console.log(position);
         this.insideDropZone = false;
 
         if(!this.resizable){

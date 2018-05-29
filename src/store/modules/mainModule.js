@@ -146,20 +146,24 @@ export default {
             element.props.textValue = value;
         },
         changeFontFamily(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['font-family'] = value;
         },
         changeFontSize(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['line-height'] = value;
             element.styles['font-size'] = value;
         },
         underline(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let textDecoration = value === true ? 'underline' : 'none';
             element.styles['text-decoration'] = textDecoration;
         },
         textBold(state, value){
+            getPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let bold = value === true ? 'bold' : 'normal';
             element.styles['font-weight'] = bold;
