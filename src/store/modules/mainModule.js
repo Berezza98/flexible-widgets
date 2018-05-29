@@ -10,7 +10,7 @@ export default {
         templateName: "",
         orientationWasSelected: false,
         tempOrientation: "",
-        prevValue: null
+        prevArr: []
     },
     getters: {
         getOrientation(state){
@@ -86,11 +86,17 @@ export default {
             state.currentActiveElement = id;
         },
         changeDimentionsOfElement(state, value){
+            if(value.saveState){
+                getPreviousValue(state);
+            }
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.width = value.w;
             element.props.height = value.h;
         },
         changePositionOfElement(state, value){
+            if(value.saveState){
+                getPreviousValue(state);
+            }
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.x = value.x;
             element.props.y = value.y;
@@ -170,9 +176,8 @@ export default {
             element.styles['align-items'] = value;
         },
         undo(state){
-            console.log(state.prevValue);
-            state.draggableInsideCanvas = state.prevValue;
-            state.prevValue = null
+            state.draggableInsideCanvas = state.prevArr[state.prevArr.length - 1];
+            state.prevArr.pop();
         }
     }
 };
@@ -198,5 +203,6 @@ function getElementByID(elements, id){
 }
 
 function getPreviousValue(state){
-    state.prevValue = JSON.parse(JSON.stringify(state.draggableInsideCanvas));
+    console.log('save state');
+    state.prevArr.push(JSON.parse(JSON.stringify(state.draggableInsideCanvas)));
 }

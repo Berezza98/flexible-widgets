@@ -291,7 +291,7 @@ export default {
       const target = e.target || e.srcElement
       const regex = new RegExp('handle-([trmbl]{2})', '')
 
-      // DOSELECT WILL NOT WORK IF WE CLICK ON COLORPICKER OR SELECT 
+      // DESELECT WILL NOT WORK IF WE CLICK ON COLORPICKER OR SELECT 
 
       const colorpicker = document.querySelector('.el-color-dropdown.el-color-picker__panel');
       let isInsideColorpicker = colorpicker && colorpicker.contains(target) ? true : false;
@@ -462,7 +462,9 @@ export default {
           this.insideDropZone = false;
         }
         this.$emit('dragging', this.left, this.top, e);
-        this.createRuler(true, false);
+        if(this.resizable){
+          this.createRuler(true, false);
+        }
       }
     },
     handleUp: function (e) {
@@ -472,11 +474,10 @@ export default {
         block.style.removeProperty('top');
 
       }
-      if(this.resizable){
-        this.$store.commit('changePositionOfElement', {y: this.top, x: this.left, id: this.id}, {module: "main"});
-      }
-      if(this.resizing){
-        this.$store.commit('changeDimentionsOfElement', {w: this.width, h: this.height, id: this.id}, {module: "main"});
+      if((this.resizable && this.resizing) || (this.resizable && this.dragging)){
+        console.log("SAVE STATE NEW");
+        this.$store.commit('changePositionOfElement', {y: this.top, x: this.left, id: this.id, saveState: true}, {module: "main"});
+        this.$store.commit('changeDimentionsOfElement', {w: this.width, h: this.height, id: this.id, saveState: true}, {module: "main"});
       }
       
 

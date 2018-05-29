@@ -94,7 +94,7 @@
                 }
             },
             canUndo(){
-                return this.$store.state.main.prevValue === null ? true : false;
+                return this.$store.state.main.prevArr.length > 0 ? false : true;
             }
         }
     }
