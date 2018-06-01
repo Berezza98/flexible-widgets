@@ -32,11 +32,17 @@
             imageSrc: {
                 type: String,
                 required: true
+            },
+            id: {
+                type: Number,
+                required: true
             }
         },
         methods: {
             cropZone(){
                 this.currentImage = this.cropper.getCroppedCanvas().toDataURL();
+                let dataCropped = this.cropper.getData();
+                this.$store.commit('changeDimentionsOfElement', {id: this.id, w: dataCropped.width / 2, h: dataCropped.height / 2}, {module: 'main'});
                 this.$store.commit('changeImageSource', this.currentImage, {module: 'main'});
                 this.$emit('closeCropping');
             },
@@ -58,7 +64,6 @@
                 autoCropArea : 1
             };
             this.cropper = new Cropper(image, options);
-            console.log(this.cropper.getData());
         }
     }
 
@@ -67,7 +72,6 @@
         cropper.scaleY(0.5);
 
         let data = cropper.getImageData();
-        console.log(data);
         let evenRotate = Math.abs(data.rotate / 90) % 2 === 1 ? false : true;
         let correctWidth =  evenRotate ? data.naturalWidth / 2 : data.naturalHeight / 2
         let correctHeight =  evenRotate ? data.naturalHeight / 2 : data.naturalWidth / 2
@@ -77,8 +81,7 @@
             y: 0,
             width: correctWidth,
             height: correctHeight
-        });
-        console.log(cropper.getData());    
+        });   
     }
 </script>
 

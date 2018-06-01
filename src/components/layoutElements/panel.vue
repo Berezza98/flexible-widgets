@@ -17,7 +17,7 @@
             </div>
         </el-tooltip>
         <el-tooltip content="Opacity" :open-delay="500" placement="top">
-            <div class="button">
+            <div v-if="elementType === 'image' || elementType === ''" class="button">
                 <md-icon @click.native.self="showSubPanel = 'opacity'" :class="showSubPanel == 'opacity' ? 'md-size-2x active' : 'md-size-2x'">opacity</md-icon>
                 <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
                     <div class="sliderWrapper">

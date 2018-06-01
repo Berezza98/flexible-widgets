@@ -6,6 +6,8 @@
             <div class="rulerY" v-if="yBottomRuler" :style="{top: postitionOfBottomYRuler}"></div>     
             <div class="rulerX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
             <div class="rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
+            <div class="rulerX" v-if="xMidRuler" :style="{left: postitionOfMidXRuler}"></div>
+            <div class="rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
         </div>
     </div> 
 </template>
@@ -29,7 +31,11 @@
                 yBottomRuler: false,
                 postitionOfBottomYRuler: "0px",
                 xBottomRuler: false,
-                postitionOfBottomXRuler: "0px"
+                postitionOfBottomXRuler: "0px",
+                xMidRuler: false,
+                postitionOfMidXRuler: "0px",
+                yMidRuler: false,
+                postitionOfMidYRuler: "0px"
             }
         },
         components: {
@@ -82,11 +88,27 @@
             eventBus.$on('hideBottomXRuler', () => {
                 this.xBottomRuler = false;
             });
+            eventBus.$on('showMidXRuler', (position) => {
+                this.xMidRuler = true;
+                this.postitionOfMidXRuler = position + "px";
+            });
+            eventBus.$on('showMidYRuler', (position) => {
+                this.yMidRuler = true;
+                this.postitionOfMidYRuler = position + "px";
+            });
+            eventBus.$on('hideMidXRuler', (position) => {
+                this.xMidRuler = false;
+            });
+            eventBus.$on('hideMidYRuler', () => {
+                this.yMidRuler = false;
+            });
             eventBus.$on('hideRulers', () => {
                 this.yTopRuler = false;
                 this.xTopRuler = false;
                 this.yBottomRuler = false;
                 this.xBottomRuler = false;
+                this.yMidRuler = false;
+                this.xMidRuler = false;
             });
             
         }
@@ -114,8 +136,8 @@
         align-self: center;
         position: relative;
         background: white;
-        box-sizing: border-box;
-        border: 1px solid #dadada;
+        box-sizing: content-box;
+        border: 2px solid #dadada;
         flex-shrink: 0;
     }
 

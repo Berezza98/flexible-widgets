@@ -67,13 +67,17 @@
 
                 eventBus.$emit('closeStartInformationWindow');
 
-                this.$message({
-                    showClose: true,
-                    message: messages.mainPage,
-                    type: 'message',
-                    duration: 60000,
-                    customClass: 'information-message'
-                });
+                if(this.$store.state.main.showInstructions){
+                    this.$message({
+                        showClose: true,
+                        message: messages.mainPage,
+                        type: 'message',
+                        duration: 60000,
+                        customClass: 'information-message right-message'
+                    });
+                }
+
+                this.$store.commit('hideInstructions', {module: "main"});
             },
             closeModal(){
                 this.$store.commit('changeOrientation', this.$store.state.main.tempOrientation, {module: "main"});
@@ -210,6 +214,7 @@
         .box-card {
             width: 40%;
             height: 70%;
+            margin-top: 120px;
         }
     }
 </style>

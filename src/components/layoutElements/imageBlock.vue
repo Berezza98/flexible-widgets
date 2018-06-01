@@ -1,10 +1,10 @@
 <template>
-    <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
+    <draggable :z="z" :drop-zone="'.canvas'" :handles="handleResize" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :subtype="subtype" :active="showPanel" @update:active="addPanel">
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
         </el-tooltip>
         <panel-block @closePanel="closePanel" :blockDimensions="dimensionsObj" @cropImage="crop" v-if="showPanel && !cropState"></panel-block>
-        <crop v-if="cropState" :imageSrc="imageSource" @closeCropping="closeCrop"></crop>
+        <crop v-if="cropState" :id="id" :imageSrc="imageSource" @closeCropping="closeCrop"></crop>
     </draggable>
 </template>
 
@@ -17,7 +17,8 @@
             return{
                 showPanel: false,
                 cropState: false,
-                panelWidth: 0
+                panelWidth: 0,
+                handleResize: ['tm', 'mr', 'bm', 'ml']
             }
         },
         components: {
@@ -58,6 +59,10 @@
                 required: true
             },
             imageSource: {
+                type: String,
+                required: true
+            },
+            subtype: {
                 type: String,
                 required: true
             }

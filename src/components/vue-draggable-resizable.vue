@@ -146,6 +146,9 @@ export default {
     },
     hideOverflow: {
       type: String
+    },
+    subtype: {
+      type: String
     }
   },
 
@@ -399,12 +402,24 @@ export default {
           else if (this.parent && this.elmY + dY < this.parentY) this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
           this.elmY += diffY
           this.elmH -= diffY
+          if(this.subtype === "square" || this.subtype === "circle"){
+            this.elmW -= diffY;
+          }else if(this.subtype === "image"){
+            let proportion = this.w / this.h;
+            this.elmW -= diffY * proportion;
+          }
         }
 
         if (this.handle.indexOf('b') >= 0) {
           if (this.elmH + dY < this.minh) this.mouseOffY = (dY - (diffY = this.minh - this.elmH))
           else if (this.parent && this.elmY + this.elmH + dY > this.parentH) this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH))
           this.elmH += diffY
+          if(this.subtype === "square" || this.subtype === "circle"){
+            this.elmW += diffY;
+          }else if(this.subtype === "image"){
+            let proportion = this.w / this.h;
+            this.elmW += diffY * proportion;
+          }
         }
 
         if (this.handle.indexOf('l') >= 0) {
@@ -412,12 +427,24 @@ export default {
           else if (this.parent && this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
           this.elmX += diffX
           this.elmW -= diffX
+          if((this.subtype === "square" || this.subtype === "circle")){
+            this.elmH -= diffX;
+          }else if(this.subtype === "image"){
+            let proportion = this.h / this.w;
+            this.elmH -= diffX * proportion;
+          }
         }
 
         if (this.handle.indexOf('r') >= 0) {
           if (this.elmW + dX < this.minw) this.mouseOffX = (dX - (diffX = this.minw - this.elmW))
           else if (this.parent && this.elmX + this.elmW + dX > this.parentW) this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
           this.elmW += diffX
+          if(this.subtype === "square" || this.subtype === "circle"){
+            this.elmH += diffX;
+          }else if(this.subtype === "image"){
+            let proportion = this.h / this.w;
+            this.elmH += diffX * proportion;
+          }
         }
 
         this.left = (Math.round(this.elmX / this.grid[0]) * this.grid[0])
@@ -592,6 +619,21 @@ export default {
         }
       }
 
+      // MIDDLES RULER
+      let canvas = document.querySelector('.canvas');
+      if((left + (width / 2) <= canvas.clientWidth / 2 + 10) && (left + (width / 2) >= canvas.clientWidth / 2 - 10)){
+        this.left = canvas.clientWidth / 2 - width / 2;
+        eventBus.$emit('showMidXRuler', canvas.clientWidth / 2);
+      }else{
+        eventBus.$emit('hideMidXRuler');
+      }
+      if((top + (height / 2) <= canvas.clientHeight / 2 + 10) && (top + (height / 2) >= canvas.clientHeight / 2 - 10)){
+        this.top = canvas.clientHeight / 2 - height / 2;
+        eventBus.$emit('showMidYRuler', canvas.clientHeight / 2);
+      }else{
+        eventBus.$emit('hideMidYRuler');
+      }
+
       if(!showTopX){
         eventBus.$emit('hideTopXRuler');
       }
@@ -633,10 +675,12 @@ export default {
     },
     h: function (val) {
       this.height = val;
+      this.elmH = val;
       this.reviewDimensions();
     },
     w: function (val) {
       this.width = val;
+      this.elmW = val;
       this.reviewDimensions();
     }
   }

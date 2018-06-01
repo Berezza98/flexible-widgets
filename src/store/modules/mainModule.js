@@ -10,6 +10,7 @@ export default {
         templateName: "",
         orientationWasSelected: false,
         tempOrientation: "",
+        showInstructions: true,
         prevArr: []
     },
     getters: {
@@ -30,6 +31,9 @@ export default {
     mutations: {
         changeSearchingData(state, value){
             state.searchingData = value;
+        },
+        hideInstructions(state){
+            state.showInstructions = false;
         },
         selectTemplate(state, value){
             state.draggableInsideCanvas = value;
@@ -60,7 +64,7 @@ export default {
             state.currentScale = value;
         },
         createCopyOfElement(state, obj){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let id = new Date().getTime();
 
             obj.id = id;
@@ -71,11 +75,11 @@ export default {
         },
         // WORK WITH ELEMENTS
         addElementInsideCanvas(state, obj){
-            getPreviousValue(state);
+            setPreviousValue(state);
             state.draggableInsideCanvas.push(obj);
         },
         deleteElementFromCanvas(state){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let index = state.draggableInsideCanvas.findIndex((element, index, array) => {
                 if(element.id === state.currentActiveElement){
                     return true;
@@ -91,7 +95,7 @@ export default {
         },
         changeDimentionsOfElement(state, value){
             if(value.saveState){
-                getPreviousValue(state);
+                setPreviousValue(state);
             }
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.width = value.w;
@@ -99,14 +103,14 @@ export default {
         },
         changePositionOfElement(state, value){
             if(value.saveState){
-                getPreviousValue(state);
+                setPreviousValue(state);
             }
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.x = value.x;
             element.props.y = value.y;
         },
         rotateElement(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let width = element.props.width;
             let height = element.props.height;
@@ -115,72 +119,72 @@ export default {
             element.props.height = width;
         },
         changeImageSource(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.imageSource = value;
         },
         changeBackground(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.background = value;
         },
         changeColor(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.color = value;
         },
         changeOpacity(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.opacity = value;
         },
         changeZIndex(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             console.log(element.id, value);
             element.props.z = value;
         },
         changeInputText(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.props.textValue = value;
         },
         changeFontFamily(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['font-family'] = value;
         },
         changeFontSize(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['line-height'] = value;
             element.styles['font-size'] = value;
         },
         underline(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let textDecoration = value === true ? 'underline' : 'none';
             element.styles['text-decoration'] = textDecoration;
         },
         textBold(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let bold = value === true ? 'bold' : 'normal';
             element.styles['font-weight'] = bold;
         },
         textItalic(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             let italic = value === true ? 'italic' : 'normal';
             element.styles['font-style'] = italic;
         },
         textAlign(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['text-align'] = value;
         },
         verticalAlign(state, value){
-            getPreviousValue(state);
+            setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['align-items'] = value;
         },
@@ -211,6 +215,9 @@ function getElementByID(elements, id){
     return elem;
 }
 
-function getPreviousValue(state){
+function setPreviousValue(state){
+    if(state.prevArr.length > 20){
+        state.prevArr.shift();
+    }
     state.prevArr.push(JSON.parse(JSON.stringify(state.draggableInsideCanvas)));
 }

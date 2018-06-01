@@ -34,14 +34,16 @@
         methods: {
             droppedInside(x, y){
                 let id = new Date().getTime();
+                let {height, width} = this.getCorrectDimensionsForImage(this.$el.querySelector('.innerImage'));
                 this.$store.commit("addElementInsideCanvas", {
                     name: 'image-block',
                     id,
                     props: {
                         type: "image",
+                        subtype: "image",
                         imageSource: this.getBase64Image(this.$el.querySelector('.innerImage')),
-                        width: 600,
-                        height: 400,
+                        width,
+                        height,
                         x,
                         y,
                         z : 1
@@ -66,6 +68,30 @@
             },
             downIndex(e){
                 e.currentTarget.classList.remove('activeEl');
+            },
+            getCorrectDimensionsForImage(image){
+                let naturalHeight = image.naturalHeight;
+                let naturalWidth = image.naturalWidth;
+                let {height, width} = this.$store.state.main.tempOrientation === 'portrait' ? {height: 960, width: 540} : {height: 540, width: 960};
+
+                let scaleX = height / naturalHeight;
+                let scaleY =  width / naturalWidth;
+
+                let finalScale;
+
+                if(scaleX < 1){
+                    finalScale = scaleX;
+                }
+                if(scaleY < 1 && scaleY < scaleX){
+                    finalScale = scaleY;
+                }
+
+                finalScale = finalScale / 2 ? finalScale : 1;
+
+                return {
+                    height: naturalHeight * finalScale,
+                    width: naturalWidth * finalScale
+                };
             }
         },
         props: {

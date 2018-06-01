@@ -1,5 +1,5 @@
 <template>
-    <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
+    <draggable :z="z" :drop-zone="'.canvas'" :handles="handleResize" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :subtype="subtype" :active="showPanel" @update:active="addPanel">
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <div :style="styles" class="rectangle"></div>
         </el-tooltip>
@@ -47,6 +47,10 @@
             styles: {
                 type: Object,
                 required: true
+            },
+            subtype: {
+                type: String,
+                required: true
             }
         },
         methods: {
@@ -63,6 +67,9 @@
                     width: this.width,
                     height: this.height
                 };
+            },
+            handleResize(){
+                return this.subtype === "square" ? ['tm', 'mr', 'bm', 'ml'] : ['tl', 'tm', 'tr', 'mr', 'br', 'bm', 'bl', 'ml']; 
             }
         }
     }

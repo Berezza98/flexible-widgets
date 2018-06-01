@@ -52,22 +52,31 @@
             droppedInside(x, y){
                 let height = 200;
                 let width = 200;
+                let subtype = "";
                 let background = "rgba(78, 151, 230, 0.4)";
                 switch(this.tile){
                     case 'line':
+                        subtype = "line";
                         height = 20;
                         width = 400;
                         background = "rgba(0, 0, 0, 1)";
                         break;
 
                     case 'ellipse':
-                        height = 200;
+                        subtype = "ellipse";
                         width = 400;
                         break;
 
                     case 'rectangle':
-                        height = 200;
+                        subtype = "rectangle";
                         width = 400;
+                        break;
+                    case 'square':
+                        subtype = "square";
+                        break;
+
+                    case 'circle':
+                        subtype = "circle";
                         break;
 
                 }
@@ -79,6 +88,7 @@
                         type: "shape",
                         x, 
                         y,
+                        subtype,
                         z : 1,
                         height: height,
                         width: width

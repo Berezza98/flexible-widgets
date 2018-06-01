@@ -104,6 +104,11 @@ body{
   color: #2575b4;
 }
 
+.right-message{
+  left: 66%;
+  padding-right: 35px;
+}
+
 .information-message .el-message__content {
   line-height: 18px;
 }
