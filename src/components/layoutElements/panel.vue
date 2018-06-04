@@ -172,6 +172,7 @@
             },
             rotate(){
                 this.$store.commit('rotateElement');
+                this.$emit('rotate');
             },
             noDrag(){
                 return;

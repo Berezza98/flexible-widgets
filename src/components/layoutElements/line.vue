@@ -1,9 +1,9 @@
 <template>
     <draggable :z="z" :drop-zone="'.canvas'" :minh="2" :minw="2" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
-            <div :style="styles" class="line"></div>
+            <div :style="styles" class="line" :class="rotated ? 'rotated' : 'not_rotated'"></div>
         </el-tooltip>
-        <panel-block @closePanel="showPanel= false" :blockDimensions="dimensionsObj" v-if="showPanel"></panel-block>
+        <panel-block @closePanel="showPanel= false" :blockDimensions="dimensionsObj" @rotate="rotate" v-if="showPanel"></panel-block>
     </draggable>
 </template>
 
@@ -13,7 +13,8 @@
     export default{
         data(){
             return{
-                showPanel: false
+                showPanel: false,
+                rotated: false
             }
         },
         components: {
@@ -53,6 +54,9 @@
             addPanel(value){
                 this.showPanel = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
+            },
+            rotate(){
+                this.rotated = !this.rotated;
             }
         },
         computed: {
@@ -70,9 +74,17 @@
 
 <style scoped>
     .line{
-        height: 20%;
-        width: 100%;
         box-sizing: border-box;
         position: absolute;
+    }
+
+    .rotated{
+        height: 100%;
+        width: 20%;
+    }
+
+    .not_rotated{
+        height: 20%;
+        width: 100%;
     }
 </style>
