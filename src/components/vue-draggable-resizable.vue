@@ -398,52 +398,124 @@ export default {
 
       if (this.resizing) {
         if (this.handle.indexOf('t') >= 0) {
-          if (this.elmH - dY < this.minh) this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
-          else if (this.parent && this.elmY + dY < this.parentY) this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-          this.elmY += diffY
-          this.elmH -= diffY
-          if(this.subtype === "square" || this.subtype === "circle"){
-            this.elmW -= diffY;
-          }else if(this.subtype === "image"){
-            let proportion = this.w / this.h;
-            this.elmW -= diffY * proportion;
+          if (this.elmH - dY < this.minh){
+            this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+          } 
+          else if (this.parent && this.elmY + dY < this.parentY){
+            this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
           }
+
+          if(this.subtype !== "square" && this.subtype !== "circle" && this.subtype !== "image"){
+            this.elmY += diffY
+            this.elmH -= diffY
+          }else{
+            if(this.parent && this.elmX + this.elmW + dY > this.parentW){
+              this.mouseOffY = (dY - (diffY = this.parentW - this.elmX - this.elmW))
+              console.log(this.mouseOffY, diffY);
+            }
+            
+            if(this.parent && this.elmY >= this.parentY && this.elmX + this.elmW <= this.parentW){
+              console.log('changing dementions: ', diffY);
+              if(this.subtype === "square" || this.subtype === "circle"){
+                this.elmW -= diffY;
+                this.elmY += diffY
+                this.elmH -= diffY
+              }else if(this.subtype === "image"){
+                let proportion = this.w / this.h;
+                this.elmW -= diffY * proportion;
+                this.elmY += diffY
+                this.elmH -= diffY
+              }
+            }
+          }
+
         }
 
         if (this.handle.indexOf('b') >= 0) {
-          if (this.elmH + dY < this.minh) this.mouseOffY = (dY - (diffY = this.minh - this.elmH))
-          else if (this.parent && this.elmY + this.elmH + dY > this.parentH) this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH))
-          this.elmH += diffY
-          if(this.subtype === "square" || this.subtype === "circle"){
-            this.elmW += diffY;
-          }else if(this.subtype === "image"){
-            let proportion = this.w / this.h;
-            this.elmW += diffY * proportion;
+          if (this.elmH + dY < this.minh){
+            this.mouseOffY = (dY - (diffY = this.minh - this.elmH))
+          }else if (this.parent && this.elmY + this.elmH + dY > this.parentH){
+            this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH))
+          }
+
+          if(this.subtype !== "square" && this.subtype !== "circle" && this.subtype !== "image"){
+            this.elmH += diffY
+          }
+
+          if(this.parent && this.elmX + this.elmW + dY > this.parentW){
+            this.mouseOffY = (dY - (diffY = this.parentW - this.elmX - this.elmW))
+            console.log(this.mouseOffY, diffY);
+          }
+
+
+          if(this.parent && this.elmY + this.elmH <= this.parentH && this.elmX + this.elmW <= this.parentW){
+            if(this.subtype === "square" || this.subtype === "circle"){
+              this.elmW += diffY;
+              this.elmH += diffY
+            }else if(this.subtype === "image"){
+              let proportion = this.w / this.h;
+              this.elmW += diffY * proportion;
+              this.elmH += diffY
+            }
           }
         }
 
         if (this.handle.indexOf('l') >= 0) {
-          if (this.elmW - dX < this.minw) this.mouseOffX = (dX - (diffX = this.elmW - this.minw))
-          else if (this.parent && this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
-          this.elmX += diffX
-          this.elmW -= diffX
-          if((this.subtype === "square" || this.subtype === "circle")){
-            this.elmH -= diffX;
-          }else if(this.subtype === "image"){
-            let proportion = this.h / this.w;
-            this.elmH -= diffX * proportion;
+          if (this.elmW - dX < this.minw){
+            this.mouseOffX = (dX - (diffX = this.elmW - this.minw))
+          } 
+          else if (this.parent && this.elmX + dX < this.parentX){
+            this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
+          }
+
+          if(this.subtype !== "square" && this.subtype !== "circle" && this.subtype !== "image"){
+            this.elmX += diffX
+            this.elmW -= diffX
+          }
+
+          if(this.parent && this.elmY + this.elmH + dX > this.parentH){
+            this.mouseOffX = (dX - (diffX = this.parentH - this.elmY - this.elmH))
+          }
+
+          if(this.parent && this.elmX >= this.parentX && this.elmY + this.elmH <= this.parentH){
+            if((this.subtype === "square" || this.subtype === "circle")){
+              this.elmH -= diffX;
+              this.elmX += diffX
+              this.elmW -= diffX
+            }else if(this.subtype === "image"){
+              let proportion = this.h / this.w;
+              this.elmH -= diffX * proportion;
+              this.elmX += diffX
+              this.elmW -= diffX
+            }
           }
         }
 
         if (this.handle.indexOf('r') >= 0) {
-          if (this.elmW + dX < this.minw) this.mouseOffX = (dX - (diffX = this.minw - this.elmW))
-          else if (this.parent && this.elmX + this.elmW + dX > this.parentW) this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
-          this.elmW += diffX
-          if(this.subtype === "square" || this.subtype === "circle"){
-            this.elmH += diffX;
-          }else if(this.subtype === "image"){
-            let proportion = this.h / this.w;
-            this.elmH += diffX * proportion;
+          if (this.elmW + dX < this.minw){
+            this.mouseOffX = (dX - (diffX = this.minw - this.elmW))
+          } 
+          else if (this.parent && this.elmX + this.elmW + dX > this.parentW){
+            this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
+          }
+
+          if(this.subtype !== "square" && this.subtype !== "circle" && this.subtype !== "image"){
+            this.elmW += diffX
+          }
+
+          if(this.parent && this.elmY + this.elmH + dX > this.parentH){
+            this.mouseOffX = (dX - (diffX = this.parentH - this.elmY - this.elmH))
+          }
+          
+          if(this.parent && this.elmX + this.elmW <= this.parentW && this.elmY + this.elmH <= this.parentH){
+            if(this.subtype === "square" || this.subtype === "circle"){
+              this.elmH += diffX;
+              this.elmW += diffX
+            }else if(this.subtype === "image"){
+              let proportion = this.h / this.w;
+              this.elmH += diffX * proportion;
+              this.elmW += diffX
+            }
           }
         }
 

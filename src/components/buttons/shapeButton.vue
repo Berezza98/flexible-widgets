@@ -53,12 +53,14 @@
                 let height = 200;
                 let width = 200;
                 let subtype = "";
+                let rotated;
                 let background = "rgba(78, 151, 230, 0.4)";
                 switch(this.tile){
                     case 'line':
                         subtype = "line";
                         height = 20;
                         width = 400;
+                        rotated = false;
                         background = "rgba(0, 0, 0, 1)";
                         break;
 
@@ -81,7 +83,8 @@
 
                 }
                 let id = new Date().getTime();
-                this.$store.commit("addElementInsideCanvas", {
+
+                let obj = {
                     name: this.correctComponent,
                     id,
                     props: {
@@ -97,7 +100,11 @@
                         background: background,
                         opacity: 1
                     }
-                }, {module: "main"});
+                }
+                if(typeof rotated === 'boolean'){
+                    obj.props.rotated = rotated;
+                }
+                this.$store.commit("addElementInsideCanvas", obj, {module: "main"});
             },
             upIndex(e){
                 e.currentTarget.classList.add('activeEl');

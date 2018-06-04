@@ -13,8 +13,7 @@
     export default{
         data(){
             return{
-                showPanel: false,
-                rotated: false
+                showPanel: false
             }
         },
         components: {
@@ -48,6 +47,10 @@
             styles: {
                 type: Object,
                 required: true
+            },
+            rotated: {
+                type: Boolean,
+                required: true
             }
         },
         methods: {
@@ -56,7 +59,7 @@
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
             },
             rotate(){
-                this.rotated = !this.rotated;
+                this.$store.commit('rotateLine', {id: this.id, rotation: !this.rotated} , {module: "main"});
             }
         },
         computed: {

@@ -188,6 +188,10 @@ export default {
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['align-items'] = value;
         },
+        rotateLine(state, value){
+            let element = getElementByID(state.draggableInsideCanvas, value.id);
+            element.props.rotated = value.rotation
+        },
         undo(state){
             state.draggableInsideCanvas = state.prevArr[state.prevArr.length - 1];
             state.prevArr.pop();
