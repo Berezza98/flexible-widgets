@@ -1,28 +1,28 @@
 <template>
-    <div class="bottom_bar">
-        <el-button @click="changeOrientation" class="change_orientation" type="primary" plain>Change orientation</el-button>
-        <el-button @click="undo" class="undo" type="primary" plain :disabled="canUndo"><md-icon>undo</md-icon> Undo</el-button>
-        <el-button @click="saveWidget" type="primary" icon="el-icon-check">Save</el-button>
-        <el-tooltip content="Delete template" :open-delay="500" placement="top">
-            <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
-        </el-tooltip>
+    <div class="bar">
+        <div class="nameBlock">
+            <el-input v-model="name" class="name" placeholder="Fill in name of template here" size="large"></el-input>
+        </div>
+        <div class="buttons">
+            <el-button @click="changeOrientation" class="change_orientation" type="primary" plain>CHANGE ORIENTATION</el-button>
+            <el-button @click="saveWidget" type="primary" icon="el-icon-check">SAVE</el-button>
+            <el-tooltip content="Delete template" :open-delay="500" placement="top">
+                <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
+            </el-tooltip>
+        </div>
     </div>
 </template>
 
 <script>
     import html2canvas from 'html2canvas';
 
-    export default {
+    export default{
         data(){
             return{
-
+                name: ""
             }
         },
         methods: {
-            undo() {
-                this.$store.commit("undo", {module: "main"});
-                this.$store.commit("changeIdOfElements", {module: "main"});
-            },
             saveWidget(){
                 if(!this.name.trim()){
                     this.$message.error('Please enter the name for widget.');
@@ -61,6 +61,10 @@
                 });
 
             },
+            changeOrientation(){
+                this.$store.commit('changeTempOrientation', null, {module: "main"});
+                this.$store.commit('changeOrientation', "", {module: "main"});
+            },
             deleteWidget() {
                 this.$confirm('Are you sure you want to delete the created template?', 'Warning', {
                 confirmButtonText: 'OK',
@@ -79,51 +83,34 @@
                         message: 'Delete canceled'
                     });          
                 });
-            },
-            changeOrientation(){
-                this.$store.commit('changeTempOrientation', null, {module: "main"});
-                this.$store.commit('changeOrientation', "", {module: "main"});
             }
         },
         computed: {
-            name: {
-                get(){
-                    return this.$store.state.main.templateName;
-                },
-                set(value){
-                    this.$store.commit("changeTemplateName", value, {module: "main"});
-                }
-            },
-            canUndo(){
-                return this.$store.state.main.prevArr.length > 0 ? false : true;
-            }
+            
         }
     }
 </script>
 
 <style scoped>
-    .bottom_bar{
+    .bar{
+        display: flex;
+        justify-content: space-between;
+        align-self: flex-start;
+        align-items: center;
         width: 100%;
-        height: calc(100% - 85% - 70px);
+        height: 70px;
+        user-select: none;
+        border-bottom: 1px solid #e3e3e3;
+        padding: 0px 100px;
+    }
+
+    .buttons{
+
+    }
+
+    .nameBlock{
         display: flex;
         align-items: center;
-        justify-content: flex-end;
-    }
-
-    .undo{
-        height: 40px;
-        display: flex;
-        align-items: center;
-        padding: 0px 20px;
-    }
-
-    .change_orientation{
-        margin-right: 100px;
-    }
-
-    @media screen and (max-height: 900px) {
-        .bottom_bar{
-            height: calc(100% - 82% - 70px);
-        }
+        flex-basis: 330px;
     }
 </style>

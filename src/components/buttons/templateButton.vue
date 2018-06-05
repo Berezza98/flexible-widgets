@@ -1,14 +1,11 @@
 <template>
-    <div class="template" @click="selectTemplate">
-        <el-card class="inside_draggable" :body-style="styles">
-            <img draggable="false" class="innerImage" :class="templObj.orientation === 'portrait' ? 'portrait_image' : ''" :src="templObj.image">
-            <div class="name_block">
-                <h2 class="name">{{templObj.name}}</h2>
-                <!-- <div class="arrows">
-                    <i class="el-icon-d-arrow-right arrow"></i>
-                </div> -->
+    <div class="firstColumnButton">
+        <el-tooltip class="item" effect="dark" :open-delay="500" content="Click to add pre-made template" placement="right">
+            <div class="content">
+                <md-icon class="md-size-1x">view_compact</md-icon>
+                <h2 class="title">Pre-made templates</h2>
             </div>
-        </el-card>
+        </el-tooltip>
     </div>
 </template>
 
@@ -24,10 +21,7 @@
             }
         },
         props: {
-            templObj: {
-                type: Object,
-                required: true
-            }
+
         },
         methods: {
             selectTemplate(){
@@ -38,49 +32,71 @@
 </script>
 
 <style scoped>
-    .template{
-        width: 45%;
-        margin: calc(5%/3);
-        height: 180px;
-        margin-bottom: 10px;
-        background: bisque;
-        position: relative;
+    .firstColumnButton{
         cursor: pointer;
-    }
-
-    .portrait_image{
-        align-self: center;
-    }
-
-    .inside_draggable{
-        height: 100%;
+        position: relative;
         width: 100%;
+        height: 0;
+        padding-bottom: 100%;
+
     }
 
-    .innerImage{
-        user-select: none;
-        height: 70%;
-        max-height: 130px;
+    .md-size-1x{
+        margin: 0px;
+        height: 30px;
+        font-size: 30px!important;
     }
 
-    .name_block{
-        height: 30%;
+    .firstColumnButton:first-child{
+        margin-top: 20px;
+    }
+
+    .firstColumnButton:before{
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+
+    .content{
+        position:  absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: #c5c5c5;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
     }
 
-    .name{
-        font-size: 16px;
-        font-weight: 400;
-        margin-left: 20px;
+    .title{
+        text-decoration: none;
+        margin-top: 5px;
     }
 
-    .arrow{
-        color: #1989fa;
-        font-size: 2em;
-        font-weight: 900;
+    .menuImage{
+        height: 100px;
+        width: 100px;
     }
 
+    .firstColumnButton h2.title{
+        font-size: 1em;
+        text-align: center;
+        line-height: 1em;
+    }
 
+    @media screen and (max-width: 1800px) {
+        .firstColumnButton h2.title{
+            font-size: 0.5em;
+            text-align: center;
+            line-height: 0.8em;
+        }
+
+        .md-size-1x{
+            margin-top: 2px;
+            height: 22px;
+            font-size: 22px!important;
+        }
+    }
 </style>

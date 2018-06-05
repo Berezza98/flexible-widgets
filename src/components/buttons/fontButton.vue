@@ -1,21 +1,28 @@
 <template>
-    <div @click="droppedInside(0,0)" class="firstColumnButton">
-        <el-tooltip class="item" effect="dark" :open-delay="500" content="Click to add text block" placement="right">
+  <div class="firstColumnButton">
+    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
+        <el-tooltip class="item" effect="dark" :open-delay="500" :content="'Drag and drop to add a text'" placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">title</md-icon>
-                <h2 class="title">Add Text</h2>
+                <h2 class="title">Text</h2>
             </div>
         </el-tooltip>
-    </div>
+    </draggable>
+  </div>
 </template>
 
 <script>
     import Text from '../layoutElements/text.vue';
-    import { eventBus } from '../../main';
-
     export default{
         data(){
-
+            return{
+                bodyStyles: {
+                    "display": "flex",
+                    "justify-content": "space-between",
+                    "align-items": "center",
+                    "height": "100%"
+                }
+            }
         },
         components: {
             'text-interactive': Text
@@ -39,7 +46,7 @@
                         background: "rgba(19, 206, 102, 0)",
                         opacity: 1,
                         color: "rgba(0, 0, 0, 1)",
-                        'font-family': this.tile,
+                        'font-family': "Arial",
                         'font-size': "40px",
                         'line-height': "40px",
                         'font-weight': "normal",
@@ -53,30 +60,19 @@
         },
         props: {
 
-        },
-        created(){
-            this.$http.get('https://flexible-app.herokuapp.com/getFonts').then(({body}) => {
-                body.sort((a, b) => {
-                    if(a.toLowerCase() > b.toLowerCase()){ 
-                        return 1;
-                    }else{
-                        return -1;
-                    }
-                });
-                this.$store.commit('changeAvailableFonts', body, {module: "main"});
-            });
         }
     }
 </script>
 
 <style scoped>
     .firstColumnButton{
-        cursor: pointer;
+        cursor: -webkit-grab;
+        cursor: grab;
         position: relative;
         width: 100%;
         height: 0;
         padding-bottom: 100%;
-        margin-top: 50px;
+
     }
 
     .md-size-1x{
@@ -85,19 +81,27 @@
         font-size: 30px!important;
     }
 
+    .firstColumnButton:first-child{
+        margin-top: 20px;
+    }
+
+    .firstColumnButton:before{
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+
     .content{
         position:  absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        color: white;
+        color: #c5c5c5;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: #76B2D1;
-        border-radius: 5px;
     }
 
     .title{

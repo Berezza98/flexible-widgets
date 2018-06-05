@@ -734,4 +734,8 @@ export default {
     right: -10px;
     cursor: se-resize;
   }
+  .customDragging{
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+  }
 </style>

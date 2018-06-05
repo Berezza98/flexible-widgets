@@ -7,7 +7,6 @@ export default {
         currentScale: 1,
         draggableInsideCanvas: [],
         currentActiveElement: 0,
-        templateName: "",
         orientationWasSelected: false,
         tempOrientation: "",
         showInstructions: true,
@@ -37,9 +36,6 @@ export default {
         },
         selectTemplate(state, value){
             state.draggableInsideCanvas = value;
-        },
-        changeTemplateName(state, value){
-            state.templateName = value;
         },
         changeIdOfElements(state){
             state.draggableInsideCanvas.map(el => {

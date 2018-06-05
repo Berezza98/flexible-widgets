@@ -1,23 +1,28 @@
 <template>
   <div class="firstColumn">
-        <main-menu-button v-for="item in mainMenu" :key="item.id" :tile="item.text" :tooltip="item.tooltip" :image="item.img" :path="item.path"></main-menu-button>
         <font-button></font-button>
+        <image-button></image-button>
+        <shape-button></shape-button>
+        <template-button></template-button>
   </div>
 </template>
 
 <script>
-    import MainMenuButton from '../buttons/mainMenuButton.vue';
     import FontButton from '../buttons/fontButton.vue';
-    import mainMenu from '../../data/mainMenu.js';
+    import ImageButton from '../buttons/imageButton.vue';
+    import ShapeButton from '../buttons/shapeButton.vue';
+    import TemplateButton from '../buttons/templateButton.vue';
     export default{
         data(){
             return {
-                mainMenu
+                
             }
         },
         components: {
-            'main-menu-button': MainMenuButton,
-            'font-button': FontButton
+            'font-button': FontButton,
+            'image-button': ImageButton,
+            'shape-button': ShapeButton,
+            'template-button': TemplateButton
         }
     }
 </script>

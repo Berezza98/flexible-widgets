@@ -1,8 +1,7 @@
 <template>
     <div class="header">
-        <p class="title"><md-icon class="md-size-2x right_margin">view_quilt</md-icon> New template <br/>
-            <span class="description">Drag & drop items to create a new template</span>
-        </p>
+        <p class="title">Create new template</p>
+        <p class="description">Drag & drop items to the canvas to create your custom template</p>
     </div>
 </template>
 
@@ -18,10 +17,9 @@
 
 <style scoped>
     .header{
-        height: 70px;
+        height: 85px;
         box-sizing: border-box;
-        border-bottom: 2px solid #d2d2d2;
-        background: #ececec;
+        border-bottom: 1px solid #d2d2d2;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -31,18 +29,18 @@
     }
 
     .title{
-        color: #888888;
+        color: #4d4d4d;
         font-size: 22px;
-        height: 60px;
+        margin: 0px;
+        margin-bottom: 6px;
     }
 
     .description{
         font-size: 12px;
-        color: #a09999;
+        margin: 0px;
+        color: #f59032;
         display: inline-block;
         position: relative;
-        top: -15px;
-        left: 55px;
     }
 
     .right_margin{

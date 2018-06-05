@@ -124,7 +124,7 @@
         overflow: scroll;
     }
     .canvas_wrapper{
-        height: 85%;
+        height: 82%;
         width: 100%;
         background: #f9f9f9;
         box-sizing: border-box;

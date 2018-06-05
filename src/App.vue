@@ -2,13 +2,14 @@
 <div id="app">
   <el-row class="fullscreen">
     <custom-header></custom-header>
+    <top-bar></top-bar>
     <el-col :span="1" class="border">
       <first-column></first-column>
     </el-col>
-    <el-col :span="5" class="border">
+    <!-- <el-col :span="5" class="border">
       <second-column></second-column>
-    </el-col>
-    <el-col :span="18">
+    </el-col> -->
+    <el-col :span="23">
       <third-column></third-column>
     </el-col>
     <modal-orientation v-if="!orientation"></modal-orientation>
@@ -21,7 +22,8 @@ import FirstColumn from './components/columns/firstColumn.vue';
 import SecondColumn from './components/columns/secondColumn.vue';
 import ThirdColumn from './components/columns/thirdColumn.vue';
 import ModalOrientation from './components/layouts/modalOrientation.vue';
-import Header from './components/header.vue';
+import Header from './components/head/header.vue';
+import TopBar from './components/head/topBar.vue';
 
 import {eventBus} from './main.js';
 import messages from './data/messages.js';
@@ -38,7 +40,8 @@ export default {
     'second-column' : SecondColumn,
     'third-column' : ThirdColumn,
     'modal-orientation' : ModalOrientation,
-    'custom-header' : Header
+    'custom-header' : Header,
+    'top-bar' : TopBar
   },
   methods: {
 
@@ -76,8 +79,11 @@ input::placeholder{
 }
 
 #app {
-  height: calc(100vh - 40px);
+  height: calc(100vh - 20px);
   overflow: hidden;
+  border: 1px solid #e3e3e3;
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .fullscreen{
@@ -85,7 +91,7 @@ input::placeholder{
 }
 
 .border{
-  border-right: 1px solid #e6e6e6;
+  border-right: 1px solid #e3e3e3;
 }
 
 .fullscreen>*{
@@ -94,6 +100,7 @@ input::placeholder{
 
 body{
   margin: 0;
+  padding: 10px;
   font-size: 16px;
   overflow-y: hidden;
 }
