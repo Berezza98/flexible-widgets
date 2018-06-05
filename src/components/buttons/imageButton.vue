@@ -115,6 +115,7 @@
         position: relative;
         z-index: 1;
         user-select: none;
+        cursor: pointer;
     }
 
     .inside_draggable{

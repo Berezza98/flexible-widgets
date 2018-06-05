@@ -127,6 +127,7 @@
         float: left;
         width: 45%;
         margin: calc(5%/3);
+        cursor: pointer;
     }
 
     .shapeWrapper:before{
