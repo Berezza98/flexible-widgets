@@ -1,7 +1,7 @@
 <template>
   <div class="firstColumnButton">
-    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
-        <el-tooltip class="item" effect="dark" :open-delay="500" :content="'Drag and drop to add an image'" placement="right">
+    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside" @tooltip="tooltip">
+        <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content="'Drag and drop to add an image'" placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">insert_photo</md-icon>
                 <h2 class="title">Images</h2>
@@ -17,6 +17,7 @@
     export default{
         data(){
             return{
+                disableTooltip: false,
                 styles: {
                     'height': '140px',
                     'padding': '0px'
@@ -81,6 +82,15 @@
                     height: naturalHeight * finalScale,
                     width: naturalWidth * finalScale
                 };
+            },
+            tooltip(show){
+                if(show === false){
+                    setTimeout(() => {
+                       this.disableTooltip = show; 
+                    }, 1500);
+                }else{
+                    this.disableTooltip = show;
+                }
             }
         },
         props: {
@@ -97,13 +107,27 @@
         width: 100%;
         height: 0;
         padding-bottom: 100%;
+        border-radius: 5px;
+    }
 
+    .firstColumnButton .draggable{
+        border-radius: 5px;
+        transition: background 0.5s;
+    }
+
+    .firstColumnButton .draggable:hover{
+        border-radius: 5px;
+        background: #cce7f8;
+    }
+
+    .firstColumnButton:hover i, .firstColumnButton:hover .title{
+        color: #409EFF !important;
     }
 
     .md-size-1x{
         margin: 0px;
         height: 30px;
-        font-size: 30px!important;
+        font-size: 30px !important;
     }
 
     .firstColumnButton:first-child{
@@ -132,6 +156,7 @@
     .title{
         text-decoration: none;
         margin-top: 5px;
+        transition: color .4s cubic-bezier(.4,0,.2,1);
     }
 
     .menuImage{

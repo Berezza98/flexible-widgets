@@ -1,13 +1,11 @@
 <template>
     <div class="firstColumnButton">
-        <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside">
-            <el-tooltip class="item" effect="dark" :open-delay="500" :content="'Drag and drop to add a shape'" placement="right">
-                <div class="content">
-                    <md-icon class="md-size-1x">widgets</md-icon>
-                    <h2 class="title">Shapes</h2>
-                </div>
-            </el-tooltip>
-        </draggable>
+        <el-tooltip class="item" effect="dark" :open-delay="500" :content="'Drag and drop to add a shape'" placement="right">
+            <div class="content">
+                <md-icon class="md-size-1x">widgets</md-icon>
+                <h2 class="title">Shapes</h2>
+            </div>
+        </el-tooltip>
   </div>
 </template>
 
@@ -107,19 +105,31 @@
 
 <style scoped>
     .firstColumnButton{
-        cursor: -webkit-grab;
-        cursor: grab;
         position: relative;
         width: 100%;
         height: 0;
         padding-bottom: 100%;
+        cursor: pointer;
+        border-radius: 5px;
+    }
 
+    .firstColumnButton .draggable{
+        border-radius: 5px;
+        transition: background 0.5s;
+    }
+
+    .firstColumnButton:hover{
+        background: #cce7f8;
+    }
+
+    .firstColumnButton:hover i, .firstColumnButton:hover .title{
+        color: #409EFF !important;
     }
 
     .md-size-1x{
         margin: 0px;
         height: 30px;
-        font-size: 30px!important;
+        font-size: 30px !important;
     }
 
     .firstColumnButton:first-child{
@@ -148,6 +158,7 @@
     .title{
         text-decoration: none;
         margin-top: 5px;
+        transition: color .4s cubic-bezier(.4,0,.2,1);
     }
 
     .menuImage{

@@ -38,13 +38,22 @@
         width: 100%;
         height: 0;
         padding-bottom: 100%;
+        border-radius: 5px;
+        transition: background 0.5s;
+    }
 
+    .firstColumnButton:hover{
+        background: #cce7f8;
+    }
+
+    .firstColumnButton i, .firstColumnButton .title{
+        color: #409EFF !important;
     }
 
     .md-size-1x{
         margin: 0px;
         height: 30px;
-        font-size: 30px!important;
+        font-size: 30px !important;
     }
 
     .firstColumnButton:first-child{
@@ -73,6 +82,7 @@
     .title{
         text-decoration: none;
         margin-top: 5px;
+        transition: color .4s cubic-bezier(.4,0,.2,1);
     }
 
     .menuImage{

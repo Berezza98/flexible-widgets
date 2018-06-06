@@ -199,6 +199,7 @@ export default {
     this.reviewDimensions()
   },
   beforeDestroy: function () {
+    eventBus.$emit('showPanel', {value: false, id: this.id});
     document.documentElement.removeEventListener('mousemove', this.handleMove, true)
     document.documentElement.removeEventListener('mousedown', this.deselect, true)
     document.documentElement.removeEventListener('mouseup', this.handleUp, true)
@@ -282,9 +283,15 @@ export default {
         if (this.draggable) {
           this.dragging = true
         }
+
+        if(this.resizable){
+          eventBus.$emit('showPanel', {value: true, id: this.id});
+        }
       }
     },
     deselect: function (e) {
+      this.$emit('tooltip', true);
+
       this.mouseX = e.pageX || e.clientX + document.documentElement.scrollLeft
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
 
@@ -299,14 +306,31 @@ export default {
       const colorpicker = document.querySelector('.el-color-dropdown.el-color-picker__panel');
       let isInsideColorpicker = colorpicker && colorpicker.contains(target) ? true : false;
 
+      const panel = document.querySelector('.top_bar .panel');
+      let isInsidePanel = panel && panel.contains(target) ? true : false;
+
+      const popover = document.querySelectorAll('.el-popover');
+      let isInsidePopover = false;
+      if(popover){
+        for(let i = 0; i < popover.length; i++){
+          if(popover[i].contains(target)){
+            isInsidePopover = true;
+            break;
+          }
+        }
+      }
+
       // END
-      if (!this.$el.contains(target) && !regex.test(target.className) && !isInsideColorpicker) {
+      if (!this.$el.contains(target) && !regex.test(target.className) && !isInsideColorpicker && !isInsidePanel && !isInsidePopover) {
         if (this.enabled) {
           this.zIndex = this.z;
           this.enabled = false
 
           this.$emit('deactivated')
           this.$emit('update:active', false)
+          if(this.resizable){
+            eventBus.$emit('showPanel', {value: false, id: this.id});
+          }
         }
       }
     },
@@ -477,6 +501,7 @@ export default {
       }
     },
     handleUp: function (e) {
+      this.$emit('tooltip', false);
       if(this.hideOverflow){
         let block = document.querySelector(this.hideOverflow);
         block.style.removeProperty('overflow');
@@ -684,11 +709,13 @@ export default {
     box-sizing: border-box;
     display: none;
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     font-size: 1px;
-    background: #EEE;
-    border: 1px solid #333;
+    background: #d8d8d8;
+  }
+  .resizable.active{
+    border: 2px dashed #d8d8d8;
   }
   .handle-tl {
     top: -10px;

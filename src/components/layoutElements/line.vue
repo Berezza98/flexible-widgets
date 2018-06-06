@@ -3,12 +3,10 @@
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <div :style="styles" class="line" :class="rotated ? 'rotated' : 'not_rotated'"></div>
         </el-tooltip>
-        <panel-block @closePanel="showPanel= false" :blockDimensions="dimensionsObj" @rotate="rotate" v-if="showPanel"></panel-block>
     </draggable>
 </template>
 
 <script>
-    import Panel from './panel.vue';
 
     export default{
         data(){
@@ -17,7 +15,7 @@
             }
         },
         components: {
-            'panel-block': Panel
+
         },
         props: {
             id: {

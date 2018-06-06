@@ -74,10 +74,10 @@ export default {
             setPreviousValue(state);
             state.draggableInsideCanvas.push(obj);
         },
-        deleteElementFromCanvas(state){
+        deleteElementFromCanvas(state, {id}){
             setPreviousValue(state);
             let index = state.draggableInsideCanvas.findIndex((element, index, array) => {
-                if(element.id === state.currentActiveElement){
+                if(element.id === id){
                     return true;
                 }else{
                    return false; 
@@ -137,7 +137,6 @@ export default {
         changeZIndex(state, value){
             setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
-            console.log(element.id, value);
             element.props.z = value;
         },
         changeInputText(state, value){

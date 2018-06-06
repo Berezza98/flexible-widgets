@@ -3,13 +3,11 @@
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
         </el-tooltip>
-        <panel-block @closePanel="closePanel" :blockDimensions="dimensionsObj" @cropImage="crop" v-if="showPanel && !cropState"></panel-block>
         <crop v-if="cropState" :id="id" :imageSrc="imageSource" @closeCropping="closeCrop"></crop>
     </draggable>
 </template>
 
 <script>
-    import Panel from './panel.vue';
     import Crop from '../crop.vue';
     
     export default{
@@ -22,7 +20,6 @@
             }
         },
         components: {
-            'panel-block': Panel,
             'crop': Crop
         },
         props: {

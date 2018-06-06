@@ -72,6 +72,7 @@ export default {
 
 *{
   user-select: none;
+  outline-color: transparent;
 }
 
 input::placeholder{

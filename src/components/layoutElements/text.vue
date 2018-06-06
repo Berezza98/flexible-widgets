@@ -5,12 +5,10 @@
                 <p contenteditable="true" @mousemove.stop="selectText" @mousedown="selectTextDownClick" @blur="editContent">{{inputText}}</p>
             </div>
         </el-tooltip>
-        <panel-block @closePanel="showPanel= false" :blockDimensions="dimensionsObj" v-if="showPanel"></panel-block>
     </draggable>
 </template>
 
 <script>
-    import Panel from './panel.vue';
 
     export default {
         data(){
@@ -19,7 +17,7 @@
             }
         },
         components: {
-            'panel-block': Panel
+            
         },
         methods: {
             addPanel(value){

@@ -1,15 +1,26 @@
 <template>
-    <div class="bottom_bar">
+    <div class="top_bar">
+        <div class="panel">
+            <panel :id="currentElementID" v-if="showPanel"></panel>
+        </div>
         <el-button @click="undo" class="undo" type="primary" plain :disabled="canUndo"><md-icon>undo</md-icon> UNDO</el-button>
     </div>
 </template>
 
 <script>
+    import Panel from './panel.vue';
+
+    import { eventBus } from '../../main.js';
+
     export default {
         data(){
             return{
-
+                showPanel: false,
+                currentElementID: ""
             }
+        },
+        components: {
+            'panel': Panel
         },
         methods: {
             undo() {
@@ -21,17 +32,23 @@
             canUndo(){
                 return this.$store.state.main.prevArr.length > 0 ? false : true;
             }
+        },
+        created(){
+            eventBus.$on('showPanel', ({value, id}) => {
+                this.showPanel = value;
+                this.currentElementID = id;
+            })
         }
     }
 </script>
 
 <style scoped>
-    .bottom_bar{
+    .top_bar{
         width: 100%;
         height: calc(100% - 85% - 70px);
         display: flex;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: space-between
     }
 
     .undo{
@@ -46,7 +63,7 @@
     }
 
     @media screen and (max-height: 900px) {
-        .bottom_bar{
+        .top_bar{
             height: calc(100% - 82% - 70px);
         }
     }
