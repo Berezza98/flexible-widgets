@@ -2,37 +2,39 @@
     <div class="modalFilter" >
         <el-card class="box-card" :bodyStyle="bodyStyle">
             <div class="header">
-                <div><md-icon class="gray_color md-size-2x">add_box</md-icon> <span class="gray_color header_text">Create new template</span></div>
+                <div><span class="gray_color header_text">Create new template</span></div>
             </div>
             <div class="body">
                 <p class="gray_color body_text">Choose the orientation type of your template</p>
                 <div class="orientations">
-                    <div class="orientation">
-                        <el-radio class="orientationButton" label="portrait" v-model="radio" border>
-                            <div class="innerRadio">
-                                <md-icon class="md-size-4x getSpace">crop_portrait</md-icon>
-                                <p>Portrait</p>
-                            </div>
-                        </el-radio>
+                    <div class="orientation" @click="radio = 'portrait'" :class="radio === 'portrait' ? 'active' : ''">
+                        <img v-if="radio === 'portrait'" class="check_ico" :src="getImg('check_circle.png')"/>
+                        <div class="image">
+                            <img class="portrait" :src="getImg('portrait.png')">
+                        </div>
+                        <div class="text">
+                            <p>Portrait</p>
+                        </div>
                     </div>
-                    <div class="orientation">
-                        <el-radio class="orientationButton" label="landscape" v-model="radio" border>
-                            <div class="innerRadio">
-                                <md-icon class="md-size-4x getSpace">crop_landscape</md-icon>
-                                <p>Landscape</p>
-                            </div>
-                        </el-radio>
+                    <div class="orientation" @click="radio = 'landscape'" :class="radio === 'landscape' ? 'active' : ''">
+                        <img v-if="radio === 'landscape'" class="check_ico" :src="getImg('check_circle.png')"/>
+                        <div class="image">
+                            <img class="landscape" :src="getImg('landscape.png')">
+                        </div>
+                        <div class="text">
+                            <p>Landscape</p>
+                        </div>
                     </div>
                 </div>
                 <p class="gray_color body_text">Choose the type of your template</p>
                 <div class="options_template">
-                    <el-radio v-model="template" label="pre-made" border>Pre-made template</el-radio>
-                    <el-radio v-model="template" label="blank" border>Blank template</el-radio>
+                    <el-button v-model="template" @click="template = 'pre-made'" class="select_button" :class="template === 'pre-made' ? 'active' : ''">Premade template</el-button>
+                    <el-button v-model="template" @click="template = 'blank'" class="select_button" :class="template === 'blank' ? 'active' : ''">Start from scratch</el-button>
                 </div>
             </div>
             <div class="buttons">
-                <el-button v-if="showButtonForClose" type="primary" plain @click="closeModal">Cancel</el-button>
-                <el-button type="primary" @click="chooseOrientation">Confirm</el-button>
+                <el-button type="primary" @click="chooseOrientation">CONFIRM</el-button>
+                <el-button v-if="showButtonForClose" class="button_white" plain @click="closeModal">CANCEL</el-button>
             </div>
         </el-card>
     </div>
@@ -81,6 +83,9 @@
             },
             closeModal(){
                 this.$store.commit('changeOrientation', this.$store.state.main.tempOrientation, {module: "main"});
+            },
+            getImg(pic){
+                return require('../../assets/'+pic)
             }
         },
         props: {
@@ -115,13 +120,30 @@
         display: flex;
         align-items: center;
         padding-left: 20px;
-        background: #ececec;
-        border-bottom: 2px solid #d2d2d2;
         height: 13%;
+        box-shadow: 0px 17px 42px -24px rgba(133,131,133,1);
     }
 
     .el-button{
-        border-radius: 0px;
+        
+    }
+
+    .button_white{
+        color: #409EFF;
+    }
+
+    .select_button{
+        background: #fff1d9;
+        color: #eda768;
+    }
+
+    .select_button:hover{
+        color: #eda768;
+    }
+
+    .select_button.active{
+        color: white;
+        background: #eda768;
     }
 
     .header_text{
@@ -130,13 +152,14 @@
     }
 
     .body{
-        width: 60%;
+        width: 70%;
         height: 67%;
         margin: auto;
     }
 
     .body_text{
         margin-top: 30px;
+        margin-bottom: 30px;
     }
 
     .options_template{
@@ -153,34 +176,22 @@
     }
 
     .box-card {
-        width: 30%;
+        width: 35%;
         height: 60%;
-        border-radius: 0px;
+        border-radius: 5px;
     }
 
-    .getSpace{
-        margin-bottom: 10px;
+    .orientationButton.is-checked{
+        border: 1px solid transparent;
+        background: #eda768;
     }
 
-    .orientationButton span{
-        padding: 0px;
-    }
-
-    .orientationButton{
-        border: 1px solid #e6e6e6;
-        border-radius: 4px;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        padding: 12px 20px 10px 20px;
+    .orientationButton.is-checked p{
+        color: white;
     }
 
     p{
         margin: 0px;
-        height: 15%;
     }
 
     .orientations{
@@ -190,10 +201,59 @@
     }
 
     .orientation{
+        position: relative;
+        cursor: pointer;
         width: 50%;
         height: 100%;
         text-align: center;
         margin-right: 15px;
+        border-radius: 5px;
+        background: #fff1d9;
+    }
+
+    .check_ico{
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        color: #5b91e9;
+        height: 24px;
+        width: 24px;
+    }
+
+    .orientation.active{
+        background: #eda768;
+    }
+
+    .orientation.active .text{
+        color: white;
+    }
+
+    .image{
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image .portrait{
+        height: 100%;
+    }
+
+    .image .landscape{
+        height: 100%;
+    }
+
+    .text{
+        color: #eda768;
+        font-size: 1.2em;
+        padding: 0px 20px;
+        height: 20%;
+        display: flex;
+        align-items: center;
+    }
+
+    .text p{
+        margin-bottom: 10px;
     }
 
     .innerRadio{

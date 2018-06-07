@@ -3,6 +3,8 @@ export default {
         searchingData: "", //FOR SEARCH COMPONENT 
         availableFonts: [],
         currentOrientation: "",
+        imageSelecting: false,
+        allImages: [],
         readyForCreateWidget: false,
         currentScale: 1,
         draggableInsideCanvas: [],
@@ -42,6 +44,12 @@ export default {
                 el.id += new Date().valueOf();
                 return el;
             });
+        },
+        selectImage(state, value){
+            state.imageSelecting = value;
+        },
+        addNewImages(state, value){
+            state.allImages = value;
         },
         changeAvailableFonts(state, value){
             state.availableFonts = value;

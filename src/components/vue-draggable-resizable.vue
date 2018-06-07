@@ -709,8 +709,8 @@ export default {
     box-sizing: border-box;
     display: none;
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     font-size: 1px;
     background: #d8d8d8;
   }

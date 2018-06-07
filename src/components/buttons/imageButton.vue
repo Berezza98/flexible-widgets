@@ -30,25 +30,30 @@
         methods: {
             droppedInside(x, y){
                 let id = new Date().getTime();
-                let {height, width} = this.getCorrectDimensionsForImage(this.$el.querySelector('.innerImage'));
-                this.$store.commit("addElementInsideCanvas", {
-                    name: 'image-block',
-                    id,
-                    props: {
-                        type: "image",
-                        subtype: "image",
-                        imageSource: this.getBase64Image(this.$el.querySelector('.innerImage')),
-                        width,
-                        height,
-                        x,
-                        y,
-                        z : 1
-                    },
-                    styles: {
-                        background: "transparent",
-                        opacity: 1
-                    }
-                }, {module: "main"});
+                let image = new Image();
+                let that = this;
+                image.onload = function(){
+                    let {height, width} = that.getCorrectDimensionsForImage(image);
+                    that.$store.commit("addElementInsideCanvas", {
+                        name: 'image-block',
+                        id,
+                        props: {
+                            type: "image",
+                            subtype: "image",
+                            imageSource: that.getBase64Image(image),
+                            width,
+                            height,
+                            x,
+                            y,
+                            z : 1
+                        },
+                        styles: {
+                            background: "transparent",
+                            opacity: 1
+                        }
+                    }, {module: "main"});
+                }
+                image.src = this.getImg('start_image.png');
             },
             getBase64Image(img) {
                 var canvas = document.createElement("canvas");
@@ -91,6 +96,9 @@
                 }else{
                     this.disableTooltip = show;
                 }
+            },
+            getImg(pic){
+                return require('../../assets/'+pic)
             }
         },
         props: {

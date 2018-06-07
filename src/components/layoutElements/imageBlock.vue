@@ -3,11 +3,16 @@
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
         </el-tooltip>
+        <div class="setImage">
+            <md-icon v-if="changingImage" @click.native.stop="changeImage" class="md-size-4x">add_circle</md-icon>
+        </div>
         <crop v-if="cropState" :id="id" :imageSrc="imageSource" @closeCropping="closeCrop"></crop>
     </draggable>
 </template>
 
 <script>
+    import { eventBus } from '../../main.js';
+
     import Crop from '../crop.vue';
     
     export default{
@@ -15,8 +20,8 @@
             return{
                 showPanel: false,
                 cropState: false,
-                panelWidth: 0,
-                handleResize: ['tm', 'mr', 'bm', 'ml']
+                handleResize: ['tm', 'mr', 'bm', 'ml'],
+                changingImage: true
             }
         },
         components: {
@@ -80,6 +85,29 @@
             crop(){
                 this.showPanel= false;
                 this.cropState= true;
+            },
+            changeImage(){
+                this.$store.commit('selectImage', true, {module: "main"});
+            },
+            setNewSource(image){
+                let that = this;
+
+                let img = new Image();
+                img.crossOrigin = "Anonymous";
+                img.onload = function(){
+                    let base64 = that.getBase64Image(img);
+                    that.$store.commit('changeImageSource', base64, {module: 'main'});
+                };
+                img.src = image.src;
+            },
+            getBase64Image(img) {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                var ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+                var dataURL = canvas.toDataURL();
+                return dataURL;
             }
         },
         computed: {
@@ -91,6 +119,12 @@
                     height: this.height
                 };
             }
+        },
+        created(){
+            eventBus.$on('changeSource', (image) => {
+                this.setNewSource(image);
+                this.changingImage = false;
+            });
         }
     }
 </script>
@@ -100,6 +134,20 @@
         height: 100%;
         width: 100%;
         user-select: none;
+    }
+
+    .setImage{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .setImage i{
+        color: #676767;
+        cursor: pointer;
     }
 
     .image.active{

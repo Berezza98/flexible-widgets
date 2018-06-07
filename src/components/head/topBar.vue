@@ -4,7 +4,7 @@
             <el-input v-model="name" class="name" placeholder="Fill in name of template here" size="large"></el-input>
         </div>
         <div class="buttons">
-            <el-button @click="changeOrientation" class="change_orientation" type="primary" plain>CHANGE ORIENTATION</el-button>
+            <el-button @click="changeOrientation" class="change_orientation" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>CHANGE ORIENTATION</el-button>
             <el-button @click="saveWidget" type="primary" icon="el-icon-check">SAVE</el-button>
             <el-tooltip content="Delete template" :open-delay="500" placement="top">
                 <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
@@ -101,11 +101,18 @@
         height: 70px;
         user-select: none;
         border-bottom: 1px solid #e3e3e3;
+        box-shadow: 60px 17px 42px -24px rgba(133,131,133,1);
         padding: 0px 100px;
     }
 
     .buttons{
 
+    }
+
+    .rotate_ico{
+        margin-right: 10px;
+        height: 16px;
+        width: 16px;
     }
 
     .nameBlock{

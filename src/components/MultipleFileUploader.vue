@@ -4,9 +4,9 @@
             <div class="uploadBoxMain">
                 <div class="form-group">
                     <div class="dropArea" @ondragover="onChange" :class="dragging ? 'dropAreaDragging' : ''" @dragenter="dragging=true" @dragend="dragging=false" @dragleave="dragging=false">
-                        <md-icon class="md-size-2x color_blue">file_upload</md-icon>
+                        <md-icon class="md-size-2x color_gray">cloud_upload</md-icon>
                         <input type="file" id="items" name="items[]" required multiple @change="onChange">
-                        <p class="help-block">Drop image here or <span class="color_blue">click to upload</span></p>
+                        <p class="help-block"><span class="color_gray">Click here or drag file(s) here to upload</span></p>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@ export default {
 
         onSubmit() {
             this.isLoaderVisible = true;
-
+            this.$emit('uploading');
             if ((typeof this.postMeta === 'string' && this.postMeta !== '') ||
                 (typeof this.postMeta === 'object' && Object.keys(this.postMeta).length > 0)) {
                 this.formData.append('postMeta', this.postMeta);
@@ -143,7 +143,6 @@ form{
     background: white;
     height: 100%;
     width: 100%;
-    border: 1px solid #d3d3d3;
 }
 
 .uploadBox h3{
@@ -154,8 +153,8 @@ form{
     font-size: 16px;
 }
 
-.color_blue{
-    color: #3d94c0;
+.color_gray{
+    color: #d7d7d7;
 }
 
 .uploadBox .uploadBoxMain {
@@ -173,7 +172,6 @@ form{
     text-align: center;
     font-size: 2em;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -208,6 +206,10 @@ form{
     justify-content: center;
     background-color: #fff;
     opacity: 0.9;
+}
+
+.help-block{
+    margin-left: 20px;
 }
 
 .uploadBox .loaderImg {

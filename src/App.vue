@@ -13,6 +13,7 @@
       <third-column></third-column>
     </el-col>
     <modal-orientation v-if="!orientation"></modal-orientation>
+    <modal-images v-if="imageSelecting"></modal-images>
   </el-row>
 </div>
 </template>
@@ -21,7 +22,8 @@
 import FirstColumn from './components/columns/firstColumn.vue';
 import SecondColumn from './components/columns/secondColumn.vue';
 import ThirdColumn from './components/columns/thirdColumn.vue';
-import ModalOrientation from './components/layouts/modalOrientation.vue';
+import ModalOrientation from './components/modals/modalOrientation.vue';
+import ModalImages from './components/modals/modalImages.vue';
 import Header from './components/head/header.vue';
 import TopBar from './components/head/topBar.vue';
 
@@ -40,6 +42,7 @@ export default {
     'second-column' : SecondColumn,
     'third-column' : ThirdColumn,
     'modal-orientation' : ModalOrientation,
+    'modal-images': ModalImages,
     'custom-header' : Header,
     'top-bar' : TopBar
   },
@@ -49,6 +52,9 @@ export default {
   computed: {
     orientation(){
         return this.$store.getters.getOrientation;
+    },
+    imageSelecting(){
+        return this.$store.state.main.imageSelecting;
     }
   },
   mounted(){
@@ -61,6 +67,22 @@ export default {
     });
   },
   created(){
+    this.$http.get('https://flexible-app.herokuapp.com/getFonts').then(({body}) => {
+      body.sort((a, b) => {
+          if(a.toLowerCase() > b.toLowerCase()){ 
+              return 1;
+          }else{
+              return -1;
+          }
+      });
+
+      this.$store.commit('changeAvailableFonts', body, {module: "main"});
+    });
+
+    this.$http.get('https://flexible-app.herokuapp.com/getImages?page=16').then(({body}) => {
+        this.$store.commit('addNewImages', body, {module: "main"});
+    });
+
     eventBus.$on('closeStartInformationWindow', () => {
       this.message.close();
     });
@@ -112,11 +134,6 @@ body{
   color: #2575b4;
 }
 
-.right-message{
-  left: 66%;
-  padding-right: 35px;
-}
-
 .information-message .el-message__content {
   line-height: 18px;
 }
@@ -126,7 +143,7 @@ body{
 }
 
 .el-button{
-  border-radius: 0px !important;
+  border: 0px solid transparent;
 }
 
 .el-button--primary {
@@ -147,10 +164,6 @@ body{
   background: #2e81c4;
   border-color: #2e81c4;
   color: #fff;
-}
-.el-card {
-  box-shadow: none !important;
-  border-radius: 0px !important;
 }
 .el-input.is-active .el-input__inner, .el-input__inner:focus{
   border-color: #095fa4;

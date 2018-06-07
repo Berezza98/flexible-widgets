@@ -64,12 +64,14 @@
                 <!-- <select v-model="selectFont">
                     <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
                 </select> -->
-                <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-1x active' : 'md-size-1x'">spellcheck</md-icon>
-                <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
-                    <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
-                        <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
-                    </el-select>
-                </div>
+                <el-popover placement="bottom" width="300" trigger="click">
+                    <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
+                        <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
+                            <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
+                        </el-select>
+                    </div>
+                    <md-icon slot="reference" @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-1x active' : 'md-size-1x'">spellcheck</md-icon>
+                </el-popover>
             </div>
         </el-tooltip>
         <el-tooltip content="Align horisontal" :open-delay="500" placement="top">
@@ -196,9 +198,9 @@
             elementType(){
                 return this.activeElement.props.type;
             },
-            // fonts(){
-            //     return this.$store.state.main.availableFonts;
-            // },
+            fonts(){
+                return this.$store.state.main.availableFonts;
+            },
             background: {
                 get(){
                     return this.activeElement.styles.background;
@@ -386,9 +388,5 @@
 
     .button h2{
         margin: 0;
-    }
-
-    .el-select-dropdown__item{
-        font-size: 0.6em;
     }
 </style>

@@ -30,7 +30,6 @@
                 return require('../../assets/'+pic)
             },
             saveImage(newImages){
-                console.log('OK', newImages);
                 this.images = newImages;
             }
         },
