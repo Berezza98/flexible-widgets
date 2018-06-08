@@ -47,6 +47,8 @@
                         data: this.$store.state.main.draggableInsideCanvas
                     }
                 }).then((obj) => {
+                    let currentTemplates = this.$store.state.main.allTemplates;
+                    this.$store.commit('addNewTemplates', [obj, ...currentTemplates] ,{module: "main"});
                     return this.$http.post('https://flexible-app.herokuapp.com/setTemplate', obj);
                 }).then(() => {
                     this.name = "";

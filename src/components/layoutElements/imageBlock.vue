@@ -1,5 +1,5 @@
 <template>
-    <draggable :z="z" :drop-zone="'.canvas'" :handles="handleResize" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :subtype="subtype" :active="showPanel" @update:active="addPanel">
+    <draggable v-loading="loadingNewImage" :z="z" :drop-zone="'.canvas'" :resizable="!changingImage" :handles="handleResize" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :subtype="subtype" :active="showPanel" @update:active="addPanel">
         <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <img :style="styles" v-if="!cropState" class="image" draggable="false" :src="imageSource">
         </el-tooltip>
@@ -21,7 +21,8 @@
                 showPanel: false,
                 cropState: false,
                 handleResize: ['tm', 'mr', 'bm', 'ml'],
-                changingImage: true
+                changingImage: true,
+                loadingNewImage: false
             }
         },
         components: {
@@ -96,7 +97,9 @@
                 img.crossOrigin = "Anonymous";
                 img.onload = function(){
                     let base64 = that.getBase64Image(img);
+                    that.$store.commit('changeDimentionsOfElement', {id: that.id, w: img.naturalWidth / 2, h: img.naturalHeight / 2}, {module: 'main'});
                     that.$store.commit('changeImageSource', base64, {module: 'main'});
+                    that.loadingNewImage = false;
                 };
                 img.src = image.src;
             },
@@ -122,6 +125,7 @@
         },
         created(){
             eventBus.$on('changeSource', (image) => {
+                this.loadingNewImage = true;
                 this.setNewSource(image);
                 this.changingImage = false;
             });

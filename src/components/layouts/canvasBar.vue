@@ -1,7 +1,8 @@
 <template>
     <div class="top_bar">
-        <div class="panel">
-            <panel :id="currentElementID" v-if="showPanel"></panel>
+        <div class="left_side">
+            <panel v-if="showElement === 'panel'" :id="currentElementID"></panel>
+            <shapes v-if="showElement === 'shapes'"></shapes>
         </div>
         <el-button @click="undo" class="undo" type="primary" plain :disabled="canUndo"><md-icon>undo</md-icon> UNDO</el-button>
     </div>
@@ -9,18 +10,20 @@
 
 <script>
     import Panel from './panel.vue';
+    import Shapes from './shapes.vue';
 
     import { eventBus } from '../../main.js';
 
     export default {
         data(){
             return{
-                showPanel: false,
+                showElement: "",
                 currentElementID: ""
             }
         },
         components: {
-            'panel': Panel
+            'panel': Panel,
+            'shapes': Shapes
         },
         methods: {
             undo() {
@@ -34,9 +37,12 @@
             }
         },
         created(){
-            eventBus.$on('showPanel', ({value, id}) => {
-                this.showPanel = value;
-                this.currentElementID = id;
+            eventBus.$on('showElement', ({value, id}) => {
+                console.log(value);
+                this.showElement = value;
+                if(id){
+                    this.currentElementID = id;
+                }
             })
         }
     }
@@ -60,6 +66,13 @@
 
     .change_orientation{
         margin-right: 100px;
+    }
+
+    .left_side{
+        width: 50%;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
 
     @media screen and (max-height: 900px) {

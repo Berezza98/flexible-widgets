@@ -14,6 +14,7 @@
     </el-col>
     <modal-orientation v-if="!orientation"></modal-orientation>
     <modal-images v-if="imageSelecting"></modal-images>
+    <modal-templates v-if="templateSelecting"></modal-templates>
   </el-row>
 </div>
 </template>
@@ -24,6 +25,7 @@ import SecondColumn from './components/columns/secondColumn.vue';
 import ThirdColumn from './components/columns/thirdColumn.vue';
 import ModalOrientation from './components/modals/modalOrientation.vue';
 import ModalImages from './components/modals/modalImages.vue';
+import ModalTemplates from './components/modals/modalTemplates.vue';
 import Header from './components/head/header.vue';
 import TopBar from './components/head/topBar.vue';
 
@@ -43,6 +45,7 @@ export default {
     'third-column' : ThirdColumn,
     'modal-orientation' : ModalOrientation,
     'modal-images': ModalImages,
+    'modal-templates': ModalTemplates,
     'custom-header' : Header,
     'top-bar' : TopBar
   },
@@ -55,6 +58,9 @@ export default {
     },
     imageSelecting(){
         return this.$store.state.main.imageSelecting;
+    },
+    templateSelecting(){
+        return this.$store.state.main.templateSelecting;
     }
   },
   mounted(){
@@ -77,6 +83,10 @@ export default {
       });
 
       this.$store.commit('changeAvailableFonts', body, {module: "main"});
+    });
+
+    this.$http.get('https://flexible-app.herokuapp.com/getTemplates?page=6').then(({body}) => {
+        this.$store.commit('addNewTemplates', body, {module: "main"});
     });
 
     this.$http.get('https://flexible-app.herokuapp.com/getImages?page=16').then(({body}) => {

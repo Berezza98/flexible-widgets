@@ -4,7 +4,9 @@ export default {
         availableFonts: [],
         currentOrientation: "",
         imageSelecting: false,
+        templateSelecting: false,
         allImages: [],
+        allTemplates: [],
         readyForCreateWidget: false,
         currentScale: 1,
         draggableInsideCanvas: [],
@@ -48,8 +50,14 @@ export default {
         selectImage(state, value){
             state.imageSelecting = value;
         },
+        selectingTemplate(state, value){
+            state.templateSelecting = value;
+        },
         addNewImages(state, value){
             state.allImages = value;
+        },
+        addNewTemplates(state, value){
+            state.allTemplates = value;
         },
         changeAvailableFonts(state, value){
             state.availableFonts = value;
@@ -101,6 +109,7 @@ export default {
             if(value.saveState){
                 setPreviousValue(state);
             }
+            console.log(value.id);
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.width = value.w;
             element.props.height = value.h;

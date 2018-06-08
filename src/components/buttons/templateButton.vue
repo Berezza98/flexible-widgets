@@ -1,5 +1,5 @@
 <template>
-    <div class="firstColumnButton">
+    <div class="firstColumnButton" @click="showModal">
         <el-tooltip class="item" effect="dark" :open-delay="500" content="Click to add pre-made template" placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">view_compact</md-icon>
@@ -24,6 +24,9 @@
 
         },
         methods: {
+            showModal(){
+                this.$store.commit('selectingTemplate', true , {module: "main"});
+            },
             selectTemplate(){
                 this.$store.commit('selectTemplate', this.templObj.data , {module: "main"});
             }

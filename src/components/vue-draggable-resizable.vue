@@ -199,7 +199,9 @@ export default {
     this.reviewDimensions()
   },
   beforeDestroy: function () {
-    eventBus.$emit('showPanel', {value: false, id: this.id});
+    if(this.resizable){
+      eventBus.$emit('showElement', {value: "", id: this.id});
+    }
     document.documentElement.removeEventListener('mousemove', this.handleMove, true)
     document.documentElement.removeEventListener('mousedown', this.deselect, true)
     document.documentElement.removeEventListener('mouseup', this.handleUp, true)
@@ -285,7 +287,7 @@ export default {
         }
 
         if(this.resizable){
-          eventBus.$emit('showPanel', {value: true, id: this.id});
+          eventBus.$emit('showElement', {value: "panel", id: this.id});
         }
       }
     },
@@ -329,7 +331,7 @@ export default {
           this.$emit('deactivated')
           this.$emit('update:active', false)
           if(this.resizable){
-            eventBus.$emit('showPanel', {value: false, id: this.id});
+            eventBus.$emit('showElement', {value: "", id: this.id});
           }
         }
       }
@@ -403,7 +405,7 @@ export default {
       this.mouseY = e.pageY || e.clientY + document.documentElement.scrollTop
       //SCALE IN CANVAS = 2
       this.scale = 1;
-      if(this.resizable){
+      if(this.resizable || this.subtype === 'image'){
         this.scale = 2;
       }
       let diffX = (this.mouseX - this.lastMouseX + this.mouseOffX) * this.scale
@@ -701,6 +703,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: -webkit-grab;
+    cursor: grab;
   }
   .cloneElement{
     display: none;
@@ -718,47 +722,47 @@ export default {
     border: 2px dashed #d8d8d8;
   }
   .handle-tl {
-    top: -10px;
-    left: -10px;
+    top: -20px;
+    left: -20px;
     cursor: nw-resize;
   }
   .handle-tm {
-    top: -10px;
+    top: -20px;
     left: 50%;
-    margin-left: -5px;
+    margin-left: -20px;
     cursor: n-resize;
   }
   .handle-tr {
-    top: -10px;
-    right: -10px;
+    top: -20px;
+    right: -20px;
     cursor: ne-resize;
   }
   .handle-ml {
     top: 50%;
-    margin-top: -5px;
-    left: -10px;
+    margin-top: -20px;
+    left: -20px;
     cursor: w-resize;
   }
   .handle-mr {
     top: 50%;
-    margin-top: -5px;
-    right: -10px;
+    margin-top: -20px;
+    right: -20px;
     cursor: e-resize;
   }
   .handle-bl {
-    bottom: -10px;
-    left: -10px;
+    bottom: -20px;
+    left: -20px;
     cursor: sw-resize;
   }
   .handle-bm {
-    bottom: -10px;
+    bottom: -20px;
     left: 50%;
-    margin-left: -5px;
+    margin-left: -20px;
     cursor: s-resize;
   }
   .handle-br {
-    bottom: -10px;
-    right: -10px;
+    bottom: -20px;
+    right: -20px;
     cursor: se-resize;
   }
   .customDragging{
