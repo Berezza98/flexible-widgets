@@ -88,7 +88,7 @@
                 this.cropState= true;
             },
             changeImage(){
-                this.$store.commit('selectImage', true, {module: "main"});
+                this.$store.commit('selectImage', {show: true, id: this.id}, {module: "main"});
             },
             setNewSource(image){
                 let that = this;
@@ -124,10 +124,12 @@
             }
         },
         created(){
-            eventBus.$on('changeSource', (image) => {
-                this.loadingNewImage = true;
-                this.setNewSource(image);
-                this.changingImage = false;
+            eventBus.$on('changeSource', ({image, id}) => {
+                if(id === this.id){
+                    this.loadingNewImage = true;
+                    this.setNewSource(image);
+                    this.changingImage = false;
+                }
             });
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="bar">
         <div class="nameBlock">
-            <el-input v-model="name" class="name" placeholder="Fill in name of template here" size="large"></el-input>
+            <el-input v-model="name" :maxlength="15" class="name" placeholder="Fill in name of template here" size="large"></el-input>
         </div>
         <div class="buttons">
             <el-button @click="changeOrientation" class="change_orientation" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>CHANGE ORIENTATION</el-button>

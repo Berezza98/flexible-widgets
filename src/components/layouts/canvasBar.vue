@@ -38,7 +38,6 @@
         },
         created(){
             eventBus.$on('showElement', ({value, id}) => {
-                console.log(value);
                 this.showElement = value;
                 if(id){
                     this.currentElementID = id;

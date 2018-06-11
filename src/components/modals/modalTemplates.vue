@@ -11,6 +11,7 @@
                 <div class="templates">
                     <div v-for="(template, index) in templates" @click="chooseTemplate(template)" class="image_wrapper"  :key="index">
                         <img :src="template.image">
+                        <p class="name">{{template.name}}</p>
                     </div>
                 </div>
             </div>
@@ -36,8 +37,9 @@ export default {
         close(){
             this.$store.commit('selectingTemplate', false , {module: "main"});
         },
-        chooseTemplate(){
-
+        chooseTemplate(templ){
+            this.$store.commit('selectTemplate', templ.data , {module: "main"});
+            this.close();
         }
     },
     computed: {
@@ -86,6 +88,7 @@ export default {
         margin-right: 10px;
         margin-top: 10px;
         float: left;
+        position: relative;
     }
 
     .header .top_row p{
@@ -113,5 +116,14 @@ export default {
     .templates .image_wrapper img{
         height: 100%;
         width: 100%;
+    }
+
+    .name{
+        position: absolute;
+        color: white;
+        bottom: 25px;
+        left: 10px;
+        margin: 0px;
+        font-size: 22px;
     }
 </style>

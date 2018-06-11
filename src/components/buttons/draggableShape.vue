@@ -126,7 +126,7 @@ export default {
 
     .shape_button .draggable{
         background: #fff1d9;
-        padding: 5px 25px 5px 15px;
+        padding: 5px 10px 5px 3px;
         border-radius: 5px;
     }
 

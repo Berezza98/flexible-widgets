@@ -729,7 +729,7 @@ export default {
   .handle-tm {
     top: -20px;
     left: 50%;
-    margin-left: -20px;
+    margin-left: -10px;
     cursor: n-resize;
   }
   .handle-tr {
@@ -739,13 +739,13 @@ export default {
   }
   .handle-ml {
     top: 50%;
-    margin-top: -20px;
+    margin-top: -10px;
     left: -20px;
     cursor: w-resize;
   }
   .handle-mr {
     top: 50%;
-    margin-top: -20px;
+    margin-top: -10px;
     right: -20px;
     cursor: e-resize;
   }
@@ -757,7 +757,7 @@ export default {
   .handle-bm {
     bottom: -20px;
     left: 50%;
-    margin-left: -20px;
+    margin-left: -10px;
     cursor: s-resize;
   }
   .handle-br {

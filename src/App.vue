@@ -13,7 +13,7 @@
       <third-column></third-column>
     </el-col>
     <modal-orientation v-if="!orientation"></modal-orientation>
-    <modal-images v-if="imageSelecting"></modal-images>
+    <modal-images v-if="imageSelecting.show"></modal-images>
     <modal-templates v-if="templateSelecting"></modal-templates>
   </el-row>
 </div>

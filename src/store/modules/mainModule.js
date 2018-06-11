@@ -109,7 +109,6 @@ export default {
             if(value.saveState){
                 setPreviousValue(state);
             }
-            console.log(value.id);
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.width = value.w;
             element.props.height = value.h;

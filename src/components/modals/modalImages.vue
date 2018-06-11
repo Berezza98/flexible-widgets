@@ -7,11 +7,18 @@
                     <md-icon @click.native.stop="close" class="close">close</md-icon>
                 </div>
                 <div class="bottom_row">
-                    <div @click="selectedPage = 'upload' " class="changeContent" :class="selectedPage === 'upload' ? 'active' : ''">
-                        <span class="text">Upload</span>
+                    <div class="left_side">
+                        <div @click="selectedPage = 'upload' " class="changeContent" :class="selectedPage === 'upload' ? 'active' : ''">
+                            <span class="text">Upload</span>
+                        </div>
+                        <div @click="selectedPage = 'library' " class="changeContent" :class="selectedPage === 'library' ? 'active' : ''">
+                            <span class="text">Library</span>
+                        </div>
                     </div>
-                    <div @click="selectedPage = 'library' " class="changeContent" :class="selectedPage === 'library' ? 'active' : ''">
-                        <span class="text">Library</span>
+                    <div class="right_side">
+                        <div class="category_wrapper">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,7 +59,7 @@ export default {
     },
     methods: {
         close(){
-            this.$store.commit('selectImage', false, {module: "main"});
+            this.$store.commit('selectImage', {show: false}, {module: "main"});
         },
         saveImage(newImages){
             this.images = newImages;
@@ -60,8 +67,8 @@ export default {
             this.selectedPage = "library";
         },
         chooseImage(image){
-            eventBus.$emit('changeSource', image);
-            this.$store.commit('selectImage', false, {module: "main"});
+            eventBus.$emit('changeSource', {image, id: this.imageSelecting.id});
+            this.$store.commit('selectImage', {show: false}, {module: "main"});
         }
     },
     directives: {
@@ -93,6 +100,9 @@ export default {
                 this.$store.commit('addNewImages', value, {module: "main"});
             }
             
+        },
+        imageSelecting(){
+            return this.$store.state.main.imageSelecting;
         }
     }
 }
@@ -133,6 +143,22 @@ export default {
         height: 50%;
         display: flex;
         align-items: flex-end;
+        justify-content: space-between
+    }
+
+    .left_side{
+        display: flex;
+    }
+
+    .right_side{
+        display: flex;
+        height: 50px;
+    }
+
+    .right_side .category_wrapper{
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
 
     .header .top_row p{
