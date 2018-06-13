@@ -36,7 +36,9 @@
                 });
                 let canvas = document.querySelector(".canvas");
                 let canvasWrapper = document.querySelector(".canvas_wrapper");
+                let topBar = document.querySelector('.top_bar');
                 canvas.classList.add('canvas_flex_start');
+                topBar.classList.add('hide_bar');
                 canvasWrapper.classList.add('hide');
                 html2canvas(canvas, {logging: false}).then(canvas => {
                     this.$store.commit('changeIdOfElements', {module: "main"});
@@ -59,6 +61,7 @@
                     });
                     canvas.classList.remove('canvas_flex_start');
                     canvasWrapper.classList.remove('hide');
+                    topBar.classList.remove('hide_bar');
                     loading.close();
                 });
 

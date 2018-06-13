@@ -5,6 +5,7 @@ export default {
         currentOrientation: "",
         imageSelecting: false,
         templateSelecting: false,
+        cropToolUsing: false,
         allImages: [],
         allTemplates: [],
         readyForCreateWidget: false,
@@ -26,7 +27,7 @@ export default {
         getAllElements(state){
             return state.draggableInsideCanvas;
         },
-        getElementsDimentionAndPosition: (state) => (id) => {
+        getElementByID: (state) => (id) => {
             let element = getElementByID(state.draggableInsideCanvas, id);
             return element;
         }
@@ -52,6 +53,9 @@ export default {
         },
         selectingTemplate(state, value){
             state.templateSelecting = value;
+        },
+        cropToolOpen(state, value){
+            state.cropToolUsing = value;
         },
         addNewImages(state, value){
             state.allImages = value;
@@ -123,7 +127,8 @@ export default {
         },
         rotateElement(state, value){
             setPreviousValue(state);
-            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            let element = getElementByID(state.draggableInsideCanvas, value.id);
+            element.props.rotated = !element.props.rotated;
             let width = element.props.width;
             let height = element.props.height;
 
@@ -198,10 +203,6 @@ export default {
             setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles['align-items'] = value;
-        },
-        rotateLine(state, value){
-            let element = getElementByID(state.draggableInsideCanvas, value.id);
-            element.props.rotated = value.rotation
         },
         undo(state){
             state.draggableInsideCanvas = state.prevArr[state.prevArr.length - 1];

@@ -61,9 +61,6 @@
         </el-tooltip>
         <el-tooltip content="Font" :open-delay="500" placement="top">
             <div  v-if="elementType === 'text' || elementType === ''" class="button">
-                <!-- <select v-model="selectFont">
-                    <option v-for="(font, index) in fonts" :key="index" :value="font">{{font}}</option>
-                </select> -->
                 <el-popover placement="bottom" width="300" trigger="click">
                     <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
                         <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
@@ -142,6 +139,8 @@
 </template>
 
 <script>
+    import { eventBus } from '../../main.js';
+
     export default{
         data(){
             return {
@@ -163,7 +162,7 @@
                 this.$store.commit("deleteElementFromCanvas", {id: this.id},  {module: "main"});
             },
             saveElement(){
-                this.$emit('closePanel');
+                eventBus.$emit('closePanel', {id: this.id},  {module: "main"});
             },
             copy(){
                 // FOR DELETING OBSERVERS AND CREATE EMPTY OBJECT WITH NEEDED PROPERTIES
@@ -184,11 +183,10 @@
                 this.italicEl = !currentState;
             },
             cropImage(){
-                // this.$emit('cropImage');
+                this.$store.commit('cropToolOpen', {show: true, id: this.id}, {module: "main"});
             },
             rotate(){
-                // this.$store.commit('rotateElement');
-                // this.$emit('rotate');
+                this.$store.commit('rotateElement', {id: this.id}, {module: 'main'});
             }
         },
         computed: {

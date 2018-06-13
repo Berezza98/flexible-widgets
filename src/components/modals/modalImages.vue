@@ -17,14 +17,22 @@
                     </div>
                     <div class="right_side">
                         <div class="category_wrapper">
-                            
+                            <el-select v-model="value" class="custom_select" placeholder="Category">
+                                    <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                    </el-option>
+                            </el-select>
+                            <search></search>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="body">
                 <div v-lazy-loading v-if="selectedPage === 'library'" class="library">
-                    <div v-for="(img, index) in images" @click="chooseImage(img)" class="image_wrapper"  :key="index">
+                    <div v-for="(img, index) in correctImages" @click="chooseImage(img)" class="image_wrapper"  :key="index">
                         <img :src="img.src">
                     </div>
                 </div>
@@ -40,6 +48,7 @@
 import { eventBus } from '../../main.js';
 
 import MultipleFileUploader from '../MultipleFileUploader.vue';
+import Search from '../search.vue';
 
 export default {
     data(){
@@ -51,11 +60,29 @@ export default {
                 position: "relative"
             },
             selectedPage: "library",
-            uploading: false
+            uploading: false,
+            options: [{
+                value: 'Category 1',
+                label: 'Category 1'
+                }, {
+                value: 'Category 2',
+                label: 'Category 2'
+                }, {
+                value: 'Category 3',
+                label: 'Category 3'
+                }, {
+                value: 'Category 4',
+                label: 'Category 4'
+                }, {
+                value: 'Category 5',
+                label: 'Category 5'
+                }],
+                value: ''
         }
     },
     components: {
-        'multiple-file-uploader' :MultipleFileUploader
+        'multiple-file-uploader' :MultipleFileUploader,
+        'search': Search
     },
     methods: {
         close(){
@@ -104,6 +131,20 @@ export default {
         imageSelecting(){
             return this.$store.state.main.imageSelecting;
         }
+    },
+    asyncComputed: {
+        correctImages(){
+            let name = this.$store.state.main.searchingData.toLowerCase();
+            if(name.trim()){
+                let result = [];
+                return this.$http.get(`https://flexible-app.herokuapp.com/getImagesByName?name=${name}`).then(({body}) => body);
+            }else{
+                return this.images;
+            }
+        }
+    },
+    created(){
+        this.$store.commit('changeSearchingData', '', {module: "main"});
     }
 }
 </script>

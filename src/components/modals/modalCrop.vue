@@ -1,0 +1,195 @@
+<template>
+    <div class="modalFilter">
+        <el-card :body-style="bodyStyles" class="box-card">
+            <div class="header">
+                <div class="top_row">
+                    <p>Crop tool</p>
+                    <md-icon @click.native.stop="close" class="close">close</md-icon>
+                </div>
+            </div>
+            <div class="body">
+                <div class="img_wrapper">
+                    <img id="image" :src="currentImage.props.imageSource">
+                </div>
+                <div class="crop_panel">
+                    <div class="left">
+                        <el-button @click="rotateRight" class="md_icon_button" type="primary"><md-icon>rotate_right</md-icon></el-button>
+                        <el-button @click="rotateLeft" class="md_icon_button" type="primary"><md-icon>rotate_left</md-icon></el-button>
+                    </div>
+                    <div class="right">
+                        <el-button type="primary" @click="crop">SAVE</el-button>
+                        <el-button class="button_white" @click="close" plain>CANCEL</el-button>
+                    </div>
+                </div>
+            </div>
+        </el-card>
+    </div>
+</template>
+
+<script>
+import { eventBus } from '../../main.js';
+
+import Cropper from 'cropperjs';
+
+export default {
+    data(){
+        return {
+            bodyStyles: {
+                height: "100%",
+                width: "100%",
+                padding: "0px",
+                position: "relative"
+            },
+            cropper: null
+        }
+    },
+    components: {
+
+    },
+    props: {
+
+    },
+    computed: {
+        cropTool(){
+            return this.$store.state.main.cropToolUsing
+        },
+        currentImage(){
+            return this.$store.getters.getElementByID(this.cropTool.id)
+        }
+    },
+    methods: {
+        close(){
+            this.$store.commit('cropToolOpen', {show: false}, {module: "main"});
+        },
+        crop(){
+            let image = this.cropper.getCroppedCanvas().toDataURL();
+            let dataCropped = this.cropper.getData();
+            this.$store.commit('changeDimentionsOfElement', {id: this.cropTool.id, w: dataCropped.width / 2, h: dataCropped.height / 2}, {module: 'main'});
+            this.$store.commit('changeImageSource', image, {module: 'main'});
+
+            this.close();
+        },
+        rotateLeft(){
+            this.cropper.rotate(-90);
+            this.setCorrectDimentions(this.cropper);
+        },
+        rotateRight(){
+            this.cropper.rotate(90);
+            this.setCorrectDimentions(this.cropper);
+        },
+        setCorrectDimentions(cropper){
+            let data = cropper.getImageData();
+
+            if(Math.abs(data.rotate / 90) % 2 === 1){
+                // cropper.scaleX(0.5);
+                // cropper.scaleY(0.5);
+                cropper.scaleX(1);
+                cropper.scaleY(1);
+            }else{
+                cropper.scaleX(1);
+                cropper.scaleY(1);
+            }
+
+            let evenRotate = Math.abs(data.rotate / 90) % 2 === 1 ? false : true;
+            let correctWidth =  evenRotate ? data.naturalWidth : data.naturalHeight / 2
+            let correctHeight =  evenRotate ? data.naturalHeight : data.naturalWidth / 2
+
+            cropper.setData({
+                x: 0,
+                y: 0,
+                width: correctWidth,
+                height: correctHeight
+            });   
+        }
+    },
+    mounted(){
+        let image = document.querySelector('#image');
+        let options = {
+            autoCropArea : 1
+        };
+        this.cropper = new Cropper(image, options);
+    }
+}
+</script>
+
+<style scoped>
+    @import '~cropperjs/dist/cropper.min.css';
+
+    .modalFilter{
+        position: fixed;
+        z-index: 3;
+        top: 0px;
+        left: 0px;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0,0,0,0.5);
+    }
+
+    .box-card{
+        width: 50vw;
+        height: 60vh;
+    }
+
+    .header{
+        height: 15%;
+        padding: 0px 40px;
+        box-shadow: 0px 17px 42px -24px rgba(133,131,133,1);
+    }
+
+    .header .top_row{
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .header .top_row p{
+        font-weight: bold;
+        font-size: 25px;
+        margin: 0px;
+    }
+
+    .header .top_row .close{
+        cursor: pointer;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .body{
+        height: 85%;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .img_wrapper{
+        width: 100%;
+        height: 90%;
+
+    }
+
+    .left{
+
+    }
+
+    .right{
+
+    }
+
+    .crop_panel{
+        height: 10%;
+        width: 100%;
+        padding: 10px 5px 0px 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    img {
+        max-width: 100%;
+    }
+</style>

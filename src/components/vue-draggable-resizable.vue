@@ -179,6 +179,17 @@ export default {
       this.$store.commit('changePositionOfElement', {y: this.top, x: this.left, id: this.id}, {module: "main"});
       this.$store.commit('changeDimentionsOfElement', {w: this.width, h: this.height, id: this.id}, {module: "main"});
     }
+    let that = this;
+    eventBus.$on('closePanel', function({id}){
+      if(that.id === id){
+        that.enabled = false;
+        that.zIndex = that.z;
+
+        that.$emit('deactivated');
+        that.$emit('update:active', false);
+        eventBus.$emit('showElement', {value: "", id: this.id});
+      }
+    })
 
   },
   mounted: function () {
@@ -418,15 +429,25 @@ export default {
       let dY = diffY
       if (this.resizing) {
         if (this.handle.indexOf('t') >= 0) {
-          if (this.elmH - dY < this.minh) this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
-          else if (this.parent && this.elmY + dY < this.parentY) this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-          this.elmY += diffY
-          this.elmH -= diffY
-          if(this.subtype === "square" || this.subtype === "circle"){
+          if (this.elmH - dY < this.minh){
+            this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+          } else if (this.parent && this.elmY + dY < this.parentY){
+            this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+          } 
+
+          if(this.subtype === 'square'){
+            this.elmY += diffY
+            this.elmH -= diffY
             this.elmW -= diffY;
-          }else if(this.subtype === "image"){
-            let proportion = this.w / this.h;
-            this.elmW -= diffY * proportion;
+          }else{
+            
+            this.elmY += diffY
+            this.elmH -= diffY
+            
+            if(this.subtype === "image"){
+              let proportion = this.w / this.h;
+              this.elmW -= diffY * proportion;
+            }
           }
         }
         if (this.handle.indexOf('b') >= 0) {
@@ -512,7 +533,7 @@ export default {
       }
 
       if((this.resizable && this.resizing) || (this.resizable && this.dragging)){
-        let element = this.$store.getters.getElementsDimentionAndPosition(this.id);
+        let element = this.$store.getters.getElementByID(this.id);
         let {x, y, width, height} = element.props;
         if(x !== this.left || y !== this.top){
           // console.log(`change position: old x: ${x}, new x: ${this.left}, old y: ${y}, new y: ${this.top}`);

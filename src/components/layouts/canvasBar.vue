@@ -56,6 +56,10 @@
         justify-content: space-between
     }
 
+    .hide_bar{
+        display: none;
+    }
+
     .undo{
         height: 40px;
         display: flex;

@@ -15,6 +15,7 @@
     <modal-orientation v-if="!orientation"></modal-orientation>
     <modal-images v-if="imageSelecting.show"></modal-images>
     <modal-templates v-if="templateSelecting"></modal-templates>
+    <modal-crop v-if="cropToolUsing.show"></modal-crop>
   </el-row>
 </div>
 </template>
@@ -26,6 +27,7 @@ import ThirdColumn from './components/columns/thirdColumn.vue';
 import ModalOrientation from './components/modals/modalOrientation.vue';
 import ModalImages from './components/modals/modalImages.vue';
 import ModalTemplates from './components/modals/modalTemplates.vue';
+import ModalCrop from './components/modals/modalCrop.vue';
 import Header from './components/head/header.vue';
 import TopBar from './components/head/topBar.vue';
 
@@ -44,6 +46,7 @@ export default {
     'second-column' : SecondColumn,
     'third-column' : ThirdColumn,
     'modal-orientation' : ModalOrientation,
+    'modal-crop' : ModalCrop,
     'modal-images': ModalImages,
     'modal-templates': ModalTemplates,
     'custom-header' : Header,
@@ -61,6 +64,9 @@ export default {
     },
     templateSelecting(){
         return this.$store.state.main.templateSelecting;
+    },
+    cropToolUsing(){
+        return this.$store.state.main.cropToolUsing;
     }
   },
   mounted(){
@@ -136,6 +142,14 @@ body{
   padding: 10px;
   font-size: 16px;
   overflow-y: hidden;
+}
+
+.md_icon_button{
+  padding: 8px 20px;
+  height: 38px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .information-message{

@@ -55,9 +55,6 @@
             addPanel(value){
                 this.showPanel = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
-            },
-            rotate(){
-                this.$store.commit('rotateLine', {id: this.id, rotation: !this.rotated} , {module: "main"});
             }
         },
         computed: {

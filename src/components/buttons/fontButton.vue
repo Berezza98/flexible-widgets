@@ -30,18 +30,24 @@
         },
         methods: {
             droppedInside(x, y){
+                let width = 400;
+                let height = 200;
+
                 let id = new Date().getTime();
+
+                let positionObj = this.getCorrectPositionOfText(x, y, height, width);
+
                 this.$store.commit("addElementInsideCanvas", {
                     name: 'text-block',
                     id,
                     props: {
                         type: "text",
                         textValue: "Here will be your text",
-                        x,
-                        y,
+                        x: positionObj.x,
+                        y: positionObj.y,
                         z : 1,
-                        width: 400,
-                        height: 200
+                        width,
+                        height
                     },
                     styles: {
                         background: "rgba(19, 206, 102, 0)",
@@ -65,6 +71,36 @@
                     }, 1500);
                 }else{
                     this.disableTooltip = show;
+                }
+            },
+            getCorrectPositionOfText(x, y, height, width){
+                let canvasHeight, canvasWidth;
+                let xResult, yResult;
+                let currentOrientation = this.$store.state.main.currentOrientation;
+
+                if(currentOrientation === 'portrait'){
+                    canvasHeight = 1920;
+                    canvasWidth = 1080;
+                }else if(currentOrientation === 'landscape'){
+                    canvasHeight = 1080;
+                    canvasWidth = 1920;
+                }
+
+                if(x + width > canvasWidth){
+                    xResult = canvasWidth - width;
+                }else{
+                    xResult = x;
+                }
+
+                if(y + height > canvasHeight){
+                    yResult = canvasHeight - height;
+                }else{
+                    yResult = y;
+                }
+
+                return {
+                    x: xResult,
+                    y: yResult
                 }
             }
         },

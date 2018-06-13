@@ -5,11 +5,12 @@
                 <div class="top_row">
                     <p>Choose a premade template</p>
                     <md-icon @click.native.stop="close" class="close">close</md-icon>
+                    <search></search>
                 </div>
             </div>
             <div class="body">
                 <div class="templates">
-                    <div v-for="(template, index) in templates" @click="chooseTemplate(template)" class="image_wrapper"  :key="index">
+                    <div v-for="(template, index) in correctTemplates" @click="chooseTemplate(template)" class="image_wrapper"  :key="index">
                         <img :src="template.image">
                         <p class="name">{{template.name}}</p>
                     </div>
@@ -20,6 +21,8 @@
 </template>
 
 <script>
+import Search from '../search.vue';
+
 import { eventBus } from '../../main.js';
 
 export default {
@@ -32,6 +35,9 @@ export default {
                 position: "relative"
             }
         }
+    },
+    components: {
+        'search': Search
     },
     methods: {
         close(){
@@ -46,6 +52,20 @@ export default {
         templates(){
             return this.$store.state.main.allTemplates;
         }
+    },
+    asyncComputed: {
+        correctTemplates(){
+            let name = this.$store.state.main.searchingData.toLowerCase();
+            if(name.trim()){
+                let result = [];
+                return this.$http.get(`https://flexible-app.herokuapp.com/getTemplatesByName?name=${name}`).then(({body}) => body);
+            }else{
+                return this.templates;
+            }
+        }
+    },
+    created(){
+        this.$store.commit('changeSearchingData', '', {module: "main"});
     }
 }
 </script>
@@ -79,6 +99,8 @@ export default {
         height: 100%;
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        padding-right: 20px;
     }
 
     .body .templates .image_wrapper{
@@ -125,5 +147,8 @@ export default {
         left: 10px;
         margin: 0px;
         font-size: 22px;
+        width: 100%;
+        padding: 5px 0px;
+        background: rgba(0,0,0,0.2)
     }
 </style>

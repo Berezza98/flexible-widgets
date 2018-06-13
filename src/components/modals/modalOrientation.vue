@@ -65,6 +65,7 @@
                     // IF BLANK
                 }else if(this.template === "pre-made"){
                     // IF PRE-MADE
+                    this.$store.commit('selectingTemplate', true , {module: "main"});
                 }
 
                 eventBus.$emit('closeStartInformationWindow');

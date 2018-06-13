@@ -32,8 +32,12 @@
                 let id = new Date().getTime();
                 let image = new Image();
                 let that = this;
+
                 image.onload = function(){
                     let {height, width} = that.getCorrectDimensionsForImage(image);
+
+                    let positionObj = that.getCorrectPositionOfImage(x, y, height, width);
+
                     that.$store.commit("addElementInsideCanvas", {
                         name: 'image-block',
                         id,
@@ -43,8 +47,8 @@
                             imageSource: that.getBase64Image(image),
                             width,
                             height,
-                            x,
-                            y,
+                            x: positionObj.x,
+                            y: positionObj.y,
                             z : 1
                         },
                         styles: {
@@ -99,6 +103,36 @@
             },
             getImg(pic){
                 return require('../../assets/'+pic)
+            },
+            getCorrectPositionOfImage(x, y, height, width){
+                let canvasHeight, canvasWidth;
+                let xResult, yResult;
+                let currentOrientation = this.$store.state.main.currentOrientation;
+
+                if(currentOrientation === 'portrait'){
+                    canvasHeight = 1920;
+                    canvasWidth = 1080;
+                }else if(currentOrientation === 'landscape'){
+                    canvasHeight = 1080;
+                    canvasWidth = 1920;
+                }
+
+                if(x + width > canvasWidth){
+                    xResult = canvasWidth - width;
+                }else{
+                    xResult = x;
+                }
+
+                if(y + height > canvasHeight){
+                    yResult = canvasHeight - height;
+                }else{
+                    yResult = y;
+                }
+
+                return {
+                    x: xResult,
+                    y: yResult
+                }
             }
         },
         props: {

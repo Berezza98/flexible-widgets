@@ -2,12 +2,12 @@
     <div class="canvas_wrapper" :class="typeOfCanvas === 'landscape' ? 'canvas_flex' : 'canvas_scroll'">
         <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
             <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
-            <div class="rulerY" v-if="yTopRuler" :style="{top: postitionOfYRuler}"></div>
-            <div class="rulerY" v-if="yBottomRuler" :style="{top: postitionOfBottomYRuler}"></div>     
-            <div class="rulerX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
-            <div class="rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
-            <div class="rulerX" v-if="xMidRuler" :style="{left: postitionOfMidXRuler}"></div>
-            <div class="rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
+            <div class="ruler rulerY" v-if="yTopRuler" :style="{top: postitionOfYRuler}"></div>
+            <div class="ruler rulerY" v-if="yBottomRuler" :style="{top: postitionOfBottomYRuler}"></div>     
+            <div class="ruler rulerX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
+            <div class="ruler rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
+            <div class="ruler rulerX" v-if="xMidRuler" :style="{left: postitionOfMidXRuler}"></div>
+            <div class="ruler rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
         </div>
     </div> 
 </template>
@@ -157,6 +157,10 @@
     .landscape{
         width: 1920px;
         height: 1080px;
+    }
+
+    .ruler{
+        z-index: 999999;
     }
 
     .rulerY{

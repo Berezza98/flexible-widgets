@@ -35,15 +35,14 @@ export default {
             let height = 200;
             let width = 200;
             let subtype = "";
-            let rotated;
+            let rotated = false;
             let background = "rgba(78, 151, 230, 0.4)";
-            console.log(this.tile);
+
             switch(this.tile){
                 case 'line':
                     subtype = "line";
                     height = 20;
                     width = 400;
-                    rotated = false;
                     background = "rgba(0, 0, 0, 1)";
                     break;
 
@@ -67,25 +66,25 @@ export default {
             }
             let id = new Date().getTime();
 
+            let positionObj = this.getCorrectPositionOfShape(x, y, height, width);
+
             let obj = {
                 name: this.correctComponent,
                 id,
                 props: {
                     type: "shape",
-                    x, 
-                    y,
+                    x: positionObj.x, 
+                    y: positionObj.y,
                     subtype,
                     z : 1,
                     height: height,
-                    width: width
+                    width: width,
+                    rotated
                 },
                 styles: {
                     background: background,
                     opacity: 1
                 }
-            }
-            if(typeof rotated === 'boolean'){
-                obj.props.rotated = rotated;
             }
             this.$store.commit("addElementInsideCanvas", obj, {module: "main"});
         },
@@ -96,6 +95,36 @@ export default {
                 }, 1500);
             }else{
                 this.disableTooltip = show;
+            }
+        },
+        getCorrectPositionOfShape(x, y, height, width){
+            let canvasHeight, canvasWidth;
+            let xResult, yResult;
+            let currentOrientation = this.$store.state.main.currentOrientation;
+
+            if(currentOrientation === 'portrait'){
+                canvasHeight = 1920;
+                canvasWidth = 1080;
+            }else if(currentOrientation === 'landscape'){
+                canvasHeight = 1080;
+                canvasWidth = 1920;
+            }
+
+            if(x + width > canvasWidth){
+                xResult = canvasWidth - width;
+            }else{
+                xResult = x;
+            }
+
+            if(y + height > canvasHeight){
+                yResult = canvasHeight - height;
+            }else{
+                yResult = y;
+            }
+
+            return {
+                x: xResult,
+                y: yResult
             }
         }
     },

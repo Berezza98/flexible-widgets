@@ -101,6 +101,9 @@
                     that.$store.commit('changeImageSource', base64, {module: 'main'});
                     that.loadingNewImage = false;
                 };
+                img.onerror= function(e){
+                    console.log(e);
+                }
                 img.src = image.src;
             },
             getBase64Image(img) {
