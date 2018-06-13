@@ -1,6 +1,6 @@
 <template>
-    <draggable :z="z" :drop-zone="'.canvas'" :minh="2" :minw="2" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="showPanel" @update:active="addPanel">
-        <el-tooltip :disabled="showPanel" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+    <draggable :z="z" :drop-zone="'.canvas'" :minh="2" :minw="2" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="hideTooltip" @update:active="makeActive">
+        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <div :style="styles" class="line" :class="rotated ? 'rotated' : 'not_rotated'"></div>
         </el-tooltip>
     </draggable>
@@ -11,7 +11,7 @@
     export default{
         data(){
             return{
-                showPanel: false
+                hideTooltip: false
             }
         },
         components: {
@@ -52,8 +52,8 @@
             }
         },
         methods: {
-            addPanel(value){
-                this.showPanel = value;
+            makeActive(value){
+                this.hideTooltip = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
             }
         },

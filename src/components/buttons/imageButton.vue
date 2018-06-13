@@ -34,8 +34,8 @@
                 let that = this;
 
                 image.onload = function(){
-                    let {height, width} = that.getCorrectDimensionsForImage(image);
-
+                    let height = 400;
+                    let width = 800;
                     let positionObj = that.getCorrectPositionOfImage(x, y, height, width);
 
                     that.$store.commit("addElementInsideCanvas", {
@@ -44,7 +44,7 @@
                         props: {
                             type: "image",
                             subtype: "image",
-                            imageSource: that.getBase64Image(image),
+                            imageSource: "",
                             width,
                             height,
                             x: positionObj.x,
@@ -59,39 +59,39 @@
                 }
                 image.src = this.getImg('start_image.png');
             },
-            getBase64Image(img) {
-                var canvas = document.createElement("canvas");
-                canvas.width = img.naturalWidth;
-                canvas.height = img.naturalHeight;
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
-                var dataURL = canvas.toDataURL();
-                return dataURL;
-            },
-            getCorrectDimensionsForImage(image){
-                let naturalHeight = image.naturalHeight;
-                let naturalWidth = image.naturalWidth;
-                let {height, width} = this.$store.state.main.tempOrientation === 'portrait' ? {height: 960, width: 540} : {height: 540, width: 960};
+            // getBase64Image(img) {
+            //     var canvas = document.createElement("canvas");
+            //     canvas.width = img.naturalWidth;
+            //     canvas.height = img.naturalHeight;
+            //     var ctx = canvas.getContext("2d");
+            //     ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+            //     var dataURL = canvas.toDataURL();
+            //     return dataURL;
+            // },
+            // getCorrectDimensionsForImage(image){
+            //     let naturalHeight = image.naturalHeight;
+            //     let naturalWidth = image.naturalWidth;
+            //     let {height, width} = this.$store.state.main.tempOrientation === 'portrait' ? {height: 960, width: 540} : {height: 540, width: 960};
 
-                let scaleX = height / naturalHeight;
-                let scaleY =  width / naturalWidth;
+            //     let scaleX = height / naturalHeight;
+            //     let scaleY =  width / naturalWidth;
 
-                let finalScale;
+            //     let finalScale;
 
-                if(scaleX < 1){
-                    finalScale = scaleX;
-                }
-                if(scaleY < 1 && scaleY < scaleX){
-                    finalScale = scaleY;
-                }
+            //     if(scaleX < 1){
+            //         finalScale = scaleX;
+            //     }
+            //     if(scaleY < 1 && scaleY < scaleX){
+            //         finalScale = scaleY;
+            //     }
 
-                finalScale = finalScale / 2 ? finalScale : 1;
+            //     finalScale = finalScale / 2 ? finalScale : 1;
 
-                return {
-                    height: naturalHeight * finalScale,
-                    width: naturalWidth * finalScale
-                };
-            },
+            //     return {
+            //         height: naturalHeight * finalScale,
+            //         width: naturalWidth * finalScale
+            //     };
+            // },
             tooltip(show){
                 if(show === false){
                     setTimeout(() => {

@@ -429,21 +429,33 @@ export default {
       let dY = diffY
       if (this.resizing) {
         if (this.handle.indexOf('t') >= 0) {
-          if (this.elmH - dY < this.minh){
-            this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
-          } else if (this.parent && this.elmY + dY < this.parentY){
-            this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-          } 
 
           if(this.subtype === 'square'){
+            if (this.elmH - dY < this.minh || this.elmW - dY < this.minw){
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+            } else if (this.parent && this.elmY + dY < this.parentY){
+              console.log(this.elmX + this.elmW + dY > this.parentW);
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+            } else if(this.parent && this.elmX + this.elmW + dY > this.parentW){
+              this.mouseOffY = (dY - (diffY = (this.elmX + this.elmW) - this.parentW))
+              console.log(dY);
+              console.log(this.parentW, this.elmX + this.elmW);
+              console.log(this.mouseOffY);
+            }
+
             this.elmY += diffY
             this.elmH -= diffY
             this.elmW -= diffY;
-          }else{
+          } else{
+            if (this.elmH - dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+            } else if (this.parent && this.elmY + dY < this.parentY){
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+            } 
             
             this.elmY += diffY
             this.elmH -= diffY
-            
+
             if(this.subtype === "image"){
               let proportion = this.w / this.h;
               this.elmW -= diffY * proportion;
@@ -711,6 +723,16 @@ export default {
     w: function (val) {
       this.width = val;
       this.elmW = val;
+      this.reviewDimensions();
+    },
+    x: function(val) {
+      this.left = val;
+      this.elmX = val;
+      this.reviewDimensions();
+    },
+    y: function(val) {
+      this.top = val;
+      this.elmY = val;
       this.reviewDimensions();
     }
   }
