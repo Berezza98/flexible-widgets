@@ -419,47 +419,26 @@ export default {
       if(this.resizable || this.subtype === 'image'){
         this.scale = 2;
       }
-      let diffX = (this.mouseX - this.lastMouseX + this.mouseOffX) * this.scale
-      let diffY = (this.mouseY - this.lastMouseY + this.mouseOffY) * this.scale
+      let diffX = ((this.mouseX - this.lastMouseX) * this.scale) + this.mouseOffX
+      let diffY = ((this.mouseY - this.lastMouseY) * this.scale) + this.mouseOffY
       
       this.mouseOffX = this.mouseOffY = 0
       this.lastMouseX = this.mouseX
       this.lastMouseY = this.mouseY
       let dX = diffX
       let dY = diffY
+      
       if (this.resizing) {
         if (this.handle.indexOf('t') >= 0) {
-
-          if(this.subtype === 'square'){
-            if (this.elmH - dY < this.minh || this.elmW - dY < this.minw){
-              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
-            } else if (this.parent && this.elmY + dY < this.parentY){
-              console.log(this.elmX + this.elmW + dY > this.parentW);
-              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-            } else if(this.parent && this.elmX + this.elmW + dY > this.parentW){
-              this.mouseOffY = (dY - (diffY = (this.elmX + this.elmW) - this.parentW))
-              console.log(dY);
-              console.log(this.parentW, this.elmX + this.elmW);
-              console.log(this.mouseOffY);
-            }
-
-            this.elmY += diffY
-            this.elmH -= diffY
+          if (this.elmH - dY < this.minh) this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+          else if (this.parent && this.elmY + dY < this.parentY) this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+          this.elmY += diffY
+          this.elmH -= diffY
+          if(this.subtype === "square" || this.subtype === "circle"){
             this.elmW -= diffY;
-          } else{
-            if (this.elmH - dY < this.minh){
-              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
-            } else if (this.parent && this.elmY + dY < this.parentY){
-              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-            } 
-            
-            this.elmY += diffY
-            this.elmH -= diffY
-
-            if(this.subtype === "image"){
-              let proportion = this.w / this.h;
-              this.elmW -= diffY * proportion;
-            }
+          }else if(this.subtype === "image"){
+            let proportion = this.w / this.h;
+            this.elmW -= diffY * proportion;
           }
         }
         if (this.handle.indexOf('b') >= 0) {
@@ -504,10 +483,19 @@ export default {
         this.createRuler(false, true);
       } else if (this.dragging) {
         if (this.parent) {
-          if (this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
-          else if (this.elmX + this.elmW + dX > this.parentW) this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
-          if (this.elmY + dY < this.parentY) this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-          else if (this.elmY + this.elmH + dY > this.parentH) this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH))
+          if (this.elmX + dX < this.parentX){
+            this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
+          }
+          else if (this.elmX + this.elmW + dX > this.parentW){
+            this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
+          }
+
+          if (this.elmY + dY < this.parentY){
+            this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+          }
+          else if (this.elmY + this.elmH + dY > this.parentH){
+            this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH))
+          }
         }
         this.elmX += diffX
         this.elmY += diffY

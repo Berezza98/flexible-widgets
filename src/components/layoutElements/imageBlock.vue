@@ -80,6 +80,9 @@
                 img.crossOrigin = "Anonymous";
                 img.onload = function(){
                     let base64 = that.getBase64Image(img);
+                    let positionObj = that.getCorrectPositionOfImage(that.x, that.y, img.naturalHeight / 2, img.naturalWidth / 2);
+
+                    that.$store.commit('changePositionOfElement', {y: positionObj.y, x: positionObj.x, id: that.id}, {module: "main"});
                     that.$store.commit('changeDimentionsOfElement', {id: that.id, w: img.naturalWidth / 2, h: img.naturalHeight / 2}, {module: 'main'});
                     that.$store.commit('changeImageSource', base64, {module: 'main'});
                     that.loadingNewImage = false;
@@ -97,6 +100,36 @@
                 ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
                 var dataURL = canvas.toDataURL();
                 return dataURL;
+            },
+            getCorrectPositionOfImage(x, y, height, width){
+                let canvasHeight, canvasWidth;
+                let xResult, yResult;
+                let currentOrientation = this.$store.state.main.currentOrientation;
+
+                if(currentOrientation === 'portrait'){
+                    canvasHeight = 1920;
+                    canvasWidth = 1080;
+                }else if(currentOrientation === 'landscape'){
+                    canvasHeight = 1080;
+                    canvasWidth = 1920;
+                }
+
+                if(x + width > canvasWidth){
+                    xResult = canvasWidth - width;
+                }else{
+                    xResult = x;
+                }
+
+                if(y + height > canvasHeight){
+                    yResult = canvasHeight - height;
+                }else{
+                    yResult = y;
+                }
+
+                return {
+                    x: xResult,
+                    y: yResult
+                }
             }
         },
         computed: {

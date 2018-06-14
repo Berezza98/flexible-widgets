@@ -8,6 +8,12 @@
             <div class="ruler rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
             <div class="ruler rulerX" v-if="xMidRuler" :style="{left: postitionOfMidXRuler}"></div>
             <div class="ruler rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
+            <div class="point top_point half_top_point"></div>
+            <div class="point top_point quarter_top_point"></div>
+            <div class="point top_point three_quarter_top_point"></div>
+            <div class="point left_point half_left_point"></div>
+            <div class="point left_point quarter_left_point"></div>
+            <div class="point left_point three_quarter_left_point"></div>
         </div>
     </div> 
 </template>
@@ -122,6 +128,10 @@
     }
     .canvas_scroll{
         overflow: scroll;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        display: flex;
+        justify-content: center;
     }
     .canvas_wrapper{
         height: 82%;
@@ -133,7 +143,6 @@
     }
     .canvas{
         transform: scale(0.5);
-        align-self: center;
         position: relative;
         background: white;
         box-sizing: content-box;
@@ -152,11 +161,14 @@
     .portrait{
         height: 1920px;
         width: 1080px;
+        margin-top: -510px;
+        margin-bottom: -510px;
     }
 
     .landscape{
         width: 1920px;
         height: 1080px;
+        align-self: center;
     }
 
     .ruler{
@@ -176,6 +188,47 @@
         box-sizing: border-box;
         height: 100%;
         background: green;
+    }
+
+    .point{
+        position: absolute;
+        background: #c5c5c5;
+    }
+
+    .left_point{
+        width: 20px;
+        height: 6px;
+        left: -20px;
+    }
+
+    .top_point{
+        height: 20px;
+        width: 6px;
+        top: -20px;
+    }
+
+    .half_top_point{
+        left: calc( 50% - 3px );
+    }
+
+    .quarter_top_point{
+        left: calc( 25% - 3px );
+    }
+
+    .three_quarter_top_point{
+        left: calc( 75% - 3px );
+    }
+
+    .half_left_point{
+        top: calc( 50% - 3px );
+    }
+
+    .quarter_left_point{
+        top: calc( 25% - 3px );
+    }
+
+    .three_quarter_left_point{
+        top: calc( 75% - 3px );
     }
 
     @media screen and (max-height: 900px) {

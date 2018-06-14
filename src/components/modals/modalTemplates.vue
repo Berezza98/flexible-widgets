@@ -10,7 +10,7 @@
             </div>
             <div class="body">
                 <div class="templates">
-                    <div v-for="(template, index) in correctTemplates" @click="chooseTemplate(template)" class="image_wrapper"  :key="index">
+                    <div v-for="(template, index) in correctTemplates" @click="chooseTemplate(template)" :class="template.orientation === 'portrait' ? 'portrait' : 'landscape'" class="image_wrapper"  :key="index">
                         <img :src="template.image">
                         <p class="name">{{template.name}}</p>
                     </div>
@@ -44,6 +44,7 @@ export default {
             this.$store.commit('selectingTemplate', false , {module: "main"});
         },
         chooseTemplate(templ){
+            console.log(templ);
             this.$store.commit('selectTemplate', templ.data , {module: "main"});
             this.close();
         }
@@ -105,8 +106,6 @@ export default {
 
     .body .templates .image_wrapper{
         cursor: pointer;
-        width: calc(25% - 10px);
-        height: calc(35% - 10px);
         margin-right: 10px;
         margin-top: 10px;
         float: left;
@@ -133,6 +132,16 @@ export default {
 
     .body .templates{
         overflow-y: scroll;
+        height: 100%;
+    }
+
+    .image_wrapper.portrait{
+        height: 200px;
+        width: calc(20% - 10px);
+    }
+
+    .image_wrapper.landscape{
+        width: calc(25% - 10px);
     }
 
     .templates .image_wrapper img{
@@ -144,11 +153,10 @@ export default {
         position: absolute;
         color: white;
         bottom: 25px;
-        left: 10px;
         margin: 0px;
         font-size: 22px;
         width: 100%;
-        padding: 5px 0px;
+        padding: 5px 0px 5px 8px;
         background: rgba(0,0,0,0.2)
     }
 </style>
