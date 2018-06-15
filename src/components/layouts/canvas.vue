@@ -8,6 +8,7 @@
             <div class="ruler rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
             <div class="ruler rulerX" v-if="xMidRuler" :style="{left: postitionOfMidXRuler}"></div>
             <div class="ruler rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
+            <parent-ruler></parent-ruler>
         </div>
     </div> 
 </template>
@@ -20,6 +21,7 @@
     import Rectangle from '../layoutElements/rectangle.vue';
     import Line from '../layoutElements/line.vue';
     import Circle from '../layoutElements/circle.vue';
+    import Ruler from './ruler.vue';
     
     export default{
         data(){
@@ -43,7 +45,8 @@
             'image-block': Image,
             'rectangle-block': Rectangle,
             'line-block': Line,
-            'circle-block': Circle
+            'circle-block': Circle,
+            'parent-ruler': Ruler
         },
         computed: {
             currentScale(){
