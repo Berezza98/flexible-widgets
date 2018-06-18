@@ -80,7 +80,13 @@
 
     @media screen and (max-height: 900px) {
         .top_bar{
-            height: calc(100% - 82% - 70px);
+            height: 7%;
+        }
+    }
+
+    @media screen and (max-width: 1800px) {
+        .left_side{
+            width: 60%;
         }
     }
 </style>

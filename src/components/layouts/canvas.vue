@@ -189,7 +189,7 @@
 
     @media screen and (max-height: 900px) {
         .canvas_wrapper{
-            height: 82%;
+            height: 86%;
         }
     }
 </style>

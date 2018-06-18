@@ -78,20 +78,6 @@ export default {
         
     },
     mounted(){
-        document.querySelector('.canvas').addEventListener('mousemove', function(e){
-            let x = e.offsetX == undefined ? e.layerX : e.offsetX;
-            let y = e.offsetY == undefined ? e.layerY : e.offsetY;
-            console.log(x,y);
-        }, false);
-
-        document.querySelector('#topRuler').addEventListener('mousemove', function(e){
-            e.stopPropagation();
-        }, true);
-
-        document.querySelector('#leftRuler').addEventListener('mousemove', function(e){
-            e.stopPropagation();
-        }, true);
-
         this.canvas = this.$el.parentElement;
         this.canvasDimensios = document.querySelector('.ruler_wrapper').getBoundingClientRect();
         this.topRuler = document.querySelector('#topRuler');
@@ -99,21 +85,6 @@ export default {
 
         this.createTopRuler();
         this.createLeftRuler();
-    },
-    beforeDestroy(){
-        document.querySelector('.canvas').removeEventListener('mousemove', function(e){
-            let x = e.offsetX == undefined ? e.layerX : e.offsetX;
-            let y = e.offsetY == undefined ? e.layerY : e.offsetY;
-            console.log(x,y);
-        }, false);
-
-        document.querySelector('#topRuler').removeEventListener('mousemove', function(e){
-            e.stopPropagation();
-        }, true);
-
-        document.querySelector('#leftRuler').removeEventListener('mousemove', function(e){
-            e.stopPropagation();
-        }, true);
     }
 }
 </script>

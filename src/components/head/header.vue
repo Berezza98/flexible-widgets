@@ -46,4 +46,10 @@
     .right_margin{
         margin-right: 10px;
     }
+
+    @media screen and (max-width: 1800px) {
+        .header{
+            height: 65px;
+        }
+    }
 </style>

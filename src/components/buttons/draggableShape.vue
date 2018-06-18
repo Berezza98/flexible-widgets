@@ -177,4 +177,20 @@ export default {
     .shape_name{
         color: #f5a623;
     }
+
+    @media screen and (max-width: 1800px) {
+        .shape_button{
+            margin-left: 20px;
+            height: 40px;
+            width: 130px;
+            position: relative;
+        }
+
+        .shape_ico{
+            margin-right: 5px;
+            max-width: 30%;
+            user-select: none;
+            pointer-events: none;
+        }
+    }
 </style>

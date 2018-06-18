@@ -125,4 +125,10 @@
         align-items: center;
         flex-basis: 330px;
     }
+
+    @media screen and (max-width: 1800px) {
+        .bar{
+            height: 50px;
+        }
+    }
 </style>
