@@ -158,7 +158,7 @@
     .portrait{
         height: 1920px;
         width: 1080px;
-        margin-top: -510px;
+        margin-top: -490px;
         margin-bottom: -510px;
     }
 

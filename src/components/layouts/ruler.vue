@@ -1,7 +1,7 @@
 <template>
     <div class="ruler_wrapper">
-        <canvas id="topRuler" :width="1920" :height="50"></canvas>
-        <canvas id="leftRuler" :width="50" :height="1080 + 52"></canvas>
+        <canvas id="topRuler" :width="orientation === 'landscape' ? 1920 : 1080" :height="50"></canvas>
+        <canvas id="leftRuler" :width="50" :height="orientation === 'landscape' ? 1080 + 52 : 1920 + 52"></canvas>
     </div>
 </template>
 
@@ -12,7 +12,8 @@ export default {
             canvas: null,
             topRuler: null,
             leftRuler: null,
-            canvasDimensios: null
+            canvasDimensios: null,
+            orientation: this.$store.state.main.currentOrientation
         }
     },
     methods: {
@@ -77,14 +78,42 @@ export default {
         
     },
     mounted(){
+        document.querySelector('.canvas').addEventListener('mousemove', function(e){
+            let x = e.offsetX == undefined ? e.layerX : e.offsetX;
+            let y = e.offsetY == undefined ? e.layerY : e.offsetY;
+            console.log(x,y);
+        }, false);
+
+        document.querySelector('#topRuler').addEventListener('mousemove', function(e){
+            e.stopPropagation();
+        }, true);
+
+        document.querySelector('#leftRuler').addEventListener('mousemove', function(e){
+            e.stopPropagation();
+        }, true);
+
         this.canvas = this.$el.parentElement;
         this.canvasDimensios = document.querySelector('.ruler_wrapper').getBoundingClientRect();
         this.topRuler = document.querySelector('#topRuler');
         this.leftRuler = document.querySelector('#leftRuler');
-        console.log(this.canvasDimensios);
 
         this.createTopRuler();
         this.createLeftRuler();
+    },
+    beforeDestroy(){
+        document.querySelector('.canvas').removeEventListener('mousemove', function(e){
+            let x = e.offsetX == undefined ? e.layerX : e.offsetX;
+            let y = e.offsetY == undefined ? e.layerY : e.offsetY;
+            console.log(x,y);
+        }, false);
+
+        document.querySelector('#topRuler').removeEventListener('mousemove', function(e){
+            e.stopPropagation();
+        }, true);
+
+        document.querySelector('#leftRuler').removeEventListener('mousemove', function(e){
+            e.stopPropagation();
+        }, true);
     }
 }
 </script>
