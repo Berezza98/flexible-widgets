@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <div class="body">
+            <div class="body" v-loading="images.length < 1">
                 <div v-lazy-loading v-if="selectedPage === 'library'" class="library">
                     <div v-for="(img, index) in correctImages" @click="chooseImage(img)" class="image_wrapper"  :key="index">
                         <img :src="img.src">

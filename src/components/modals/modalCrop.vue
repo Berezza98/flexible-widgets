@@ -75,37 +75,45 @@ export default {
         },
         rotateRight(){
             this.cropper.rotate(90);
+            
             this.setCorrectDimentions(this.cropper);
         },
         setCorrectDimentions(cropper){
-            let data = cropper.getImageData();
+            let imageData = cropper.getImageData();
+            let canvasData = cropper.getCanvasData();
+            let containerData = cropper.getContainerData();
+            console.log(imageData);
 
-            if(Math.abs(data.rotate / 90) % 2 === 1){
-                // cropper.scaleX(0.5);
-                // cropper.scaleY(0.5);
-                cropper.scaleX(1);
-                cropper.scaleY(1);
+            this.cropper.zoomTo(0);
+
+            if((Math.abs(imageData.rotate) / 90) % 2 === 1){
+                // cropper.setCanvasData({
+                //     left : containerData.width / 2
+                // });
+                cropper.setCropBoxData({
+                    left : 0,
+                    top : 0,
+                    width : imageData.height,
+                    height : imageData.width
+                });
+                console.log('OK');
             }else{
-                cropper.scaleX(1);
-                cropper.scaleY(1);
+                console.log((containerData.height - imageData.height) / 2);
+                cropper.setCropBoxData({
+                    left : 0,
+                    top : 0,
+                    width : imageData.width,
+                    height : imageData.height
+                });
             }
-
-            let evenRotate = Math.abs(data.rotate / 90) % 2 === 1 ? false : true;
-            let correctWidth =  evenRotate ? data.naturalWidth : data.naturalHeight / 2
-            let correctHeight =  evenRotate ? data.naturalHeight : data.naturalWidth / 2
-
-            cropper.setData({
-                x: 0,
-                y: 0,
-                width: correctWidth,
-                height: correctHeight
-            });   
         }
     },
     mounted(){
         let image = document.querySelector('#image');
         let options = {
-            autoCropArea : 1
+            autoCropArea : 1,
+            viewMode : 2,
+            background : false
         };
         this.cropper = new Cropper(image, options);
     }
@@ -130,11 +138,11 @@ export default {
 
     .box-card{
         width: 50vw;
-        height: 60vh;
+        height: 90vh;
     }
 
     .header{
-        height: 15%;
+        height: 10%;
         padding: 0px 40px;
         box-shadow: 0px 17px 42px -24px rgba(133,131,133,1);
     }
@@ -159,7 +167,7 @@ export default {
     }
 
     .body{
-        height: 85%;
+        height: 90%;
         padding: 20px;
         display: flex;
         justify-content: center;

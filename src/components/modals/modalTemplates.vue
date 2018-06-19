@@ -8,7 +8,7 @@
                     <search></search>
                 </div>
             </div>
-            <div class="body">
+            <div class="body" v-loading="templates.length < 1">
                 <div class="templates">
                     <div v-for="(template, index) in correctTemplates" @click="chooseTemplate(template)" :class="template.orientation === 'portrait' ? 'portrait' : 'landscape'" class="image_wrapper"  :key="index">
                         <img :src="template.image">
@@ -44,7 +44,6 @@ export default {
             this.$store.commit('selectingTemplate', false , {module: "main"});
         },
         chooseTemplate(templ){
-            console.log(templ);
             this.$store.commit('selectTemplate', templ.data , {module: "main"});
             this.close();
         }

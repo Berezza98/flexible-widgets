@@ -422,6 +422,7 @@ export default {
       let diffX = ((this.mouseX - this.lastMouseX) * this.scale) + this.mouseOffX
       let diffY = ((this.mouseY - this.lastMouseY) * this.scale) + this.mouseOffY
       
+      
       this.mouseOffX = this.mouseOffY = 0
       this.lastMouseX = this.mouseX
       this.lastMouseY = this.mouseY
@@ -432,13 +433,23 @@ export default {
         if (this.handle.indexOf('t') >= 0) {
           if (this.elmH - dY < this.minh) this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
           else if (this.parent && this.elmY + dY < this.parentY) this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-          this.elmY += diffY
-          this.elmH -= diffY
+          
           if(this.subtype === "square" || this.subtype === "circle"){
+            if(this.elmX + this.elmW + dY > this.parentW){
+              this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW)));
+            }
+
             this.elmW -= diffY;
+            this.elmY += diffY
+            this.elmH -= diffY
           }else if(this.subtype === "image"){
             let proportion = this.w / this.h;
             this.elmW -= diffY * proportion;
+            this.elmY += diffY
+            this.elmH -= diffY
+          }else{
+            this.elmY += diffY
+            this.elmH -= diffY
           }
         }
         if (this.handle.indexOf('b') >= 0) {

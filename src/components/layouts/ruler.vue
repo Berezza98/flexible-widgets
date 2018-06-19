@@ -18,7 +18,6 @@ export default {
     },
     methods: {
         createTopRuler(){
-            console.log("createTopRuler");
             let context = this.topRuler.getContext('2d');
 
             context.beginPath();
@@ -43,7 +42,6 @@ export default {
             context.stroke();
         },
         createLeftRuler(){
-            console.log("createLeftRuler");
             let context = this.leftRuler.getContext('2d');
 
             context.beginPath();

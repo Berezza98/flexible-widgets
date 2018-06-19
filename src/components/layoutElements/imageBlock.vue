@@ -80,10 +80,11 @@
                 img.crossOrigin = "Anonymous";
                 img.onload = function(){
                     let base64 = that.getBase64Image(img);
-                    let positionObj = that.getCorrectPositionOfImage(that.x, that.y, img.naturalHeight / 2, img.naturalWidth / 2);
+                    let { height, width } = that.getCorrectDimensionsForImage(img);
+                    let positionObj = that.getCorrectPositionOfImage(that.x, that.y, height, width);
 
                     that.$store.commit('changePositionOfElement', {y: positionObj.y, x: positionObj.x, id: that.id}, {module: "main"});
-                    that.$store.commit('changeDimentionsOfElement', {id: that.id, w: img.naturalWidth / 2, h: img.naturalHeight / 2}, {module: 'main'});
+                    that.$store.commit('changeDimentionsOfElement', {id: that.id, w: width, h: height}, {module: 'main'});
                     that.$store.commit('changeImageSource', base64, {module: 'main'});
                     that.loadingNewImage = false;
                 };
@@ -130,6 +131,30 @@
                     x: xResult,
                     y: yResult
                 }
+            },
+            getCorrectDimensionsForImage(image){
+                let naturalHeight = image.naturalHeight;
+                let naturalWidth = image.naturalWidth;
+                let {height, width} = this.$store.state.main.tempOrientation === 'portrait' ? {height: 960, width: 540} : {height: 540, width: 960};
+
+                let scaleX = height / naturalHeight;
+                let scaleY =  width / naturalWidth;
+
+                let finalScale;
+
+                if(scaleX < 1){
+                    finalScale = scaleX;
+                }
+                if(scaleY < 1 && scaleY < scaleX){
+                    finalScale = scaleY;
+                }
+
+                finalScale = finalScale / 2 ? finalScale : 1;
+
+                return {
+                    height: naturalHeight * finalScale,
+                    width: naturalWidth * finalScale
+                };
             }
         },
         computed: {
