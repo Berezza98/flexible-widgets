@@ -19,12 +19,15 @@ export default {
     methods: {
         createTopRuler(){
             let context = this.topRuler.getContext('2d');
+            let pointCountBig = this.orientation === 'landscape' ? 192 : 180;
+            let pointCountLittle = this.orientation === 'landscape' ? 96 : 90;
 
             context.beginPath();
             context.lineWidth = 4;
             context.strokeStyle = '#e3e3e3';
             // context.font = '10px serif';
-            for(let i = 0; i <= this.canvasDimensios.width * 2; i+=192){
+
+            for(let i = 0; i <= this.canvasDimensios.width * 2; i+=pointCountBig){
                 if(i === 0 || i === this.canvasDimensios.width * 2){
                     continue;
                 }
@@ -32,7 +35,7 @@ export default {
                 context.lineTo(i,50);
                 // context.fillText(i.toString(), i - 6, 7);
             }
-            for(let i = 0; i <= this.canvasDimensios.width * 2; i+=96){
+            for(let i = 0; i <= this.canvasDimensios.width * 2; i+=pointCountLittle){
                 if(i % 192 !== 0){
                     context.moveTo(i, 25);
                     context.lineTo(i,50);
@@ -43,12 +46,14 @@ export default {
         },
         createLeftRuler(){
             let context = this.leftRuler.getContext('2d');
+            let pointCountBig = this.orientation === 'landscape' ? 180 : 192;
+            let pointCountLittle = this.orientation === 'landscape' ? 90 : 96;
 
             context.beginPath();
             context.lineWidth = 4;
             context.strokeStyle = '#e3e3e3';
             // context.font = '10px serif';
-            for(let i = 2; i <= this.canvasDimensios.height * 2; i+=180){
+            for(let i = 2; i <= this.canvasDimensios.height * 2; i+=pointCountBig){
                 if(i === 2 || i === this.canvasDimensios.height * 2){
                     continue;
                 }
@@ -56,7 +61,7 @@ export default {
                 context.lineTo(50, i + 50);
                 // context.fillText(i.toString(), i - 6, 7);
             }
-            for(let i = 2; i <= this.canvasDimensios.height * 2; i+=90){
+            for(let i = 2; i <= this.canvasDimensios.height * 2; i+=pointCountLittle){
                 if(i === 2){
                     continue;
                 }

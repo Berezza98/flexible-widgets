@@ -431,12 +431,19 @@ export default {
       
       if (this.resizing) {
         if (this.handle.indexOf('t') >= 0) {
-          if (this.elmH - dY < this.minh) this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
-          else if (this.parent && this.elmY + dY < this.parentY) this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
           
           if(this.subtype === "square" || this.subtype === "circle"){
-            if(this.elmX + this.elmW + dY > this.parentW){
+            if(this.elmX + this.elmW - dY > this.parentW){
               this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW)));
+            } else if(this.elmH - dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+            } else if(this.parent && this.elmY + dY < this.parentY){
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+            }
+
+            if(this.elmX + this.elmW - dY > this.parentW && this.elmY + dY < this.parentY){
+              diffY = 0;
+              this.mouseOffY = (dY - (this.parentY - this.elmY))
             }
 
             this.elmW -= diffY;
@@ -444,10 +451,26 @@ export default {
             this.elmH -= diffY
           }else if(this.subtype === "image"){
             let proportion = this.w / this.h;
+
+            if (this.elmH - dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+            } else if (this.parent && this.elmY + dY < this.parentY){
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+            } else if(this.elmX + this.elmW - dY > this.parentW){
+              this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW)));
+            }
+
             this.elmW -= diffY * proportion;
             this.elmY += diffY
             this.elmH -= diffY
           }else{
+            if (this.elmH - dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+            } else if (this.parent && this.elmY + dY < this.parentY){
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+              canResize = false;
+            } 
+
             this.elmY += diffY
             this.elmH -= diffY
           }

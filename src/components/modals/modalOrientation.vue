@@ -51,8 +51,8 @@
                     'height': '100%',
                     'padding': '0px'
                 },
-                radio: "landscape",
-                template: "blank"
+                radio: this.$store.state.main.tempOrientation ? this.$store.state.main.tempOrientation : "landscape",
+                template: "blank",
             }
         },
         methods: {
@@ -94,7 +94,7 @@
         },
         computed: {
             orientation(){
-                return this.$store.getters.getOrientation;
+                return this.$store.state.main.currentOrientation;
             },
             showButtonForClose(){
                 return this.$store.state.main.orientationWasSelected;
