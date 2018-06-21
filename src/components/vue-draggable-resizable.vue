@@ -433,29 +433,27 @@ export default {
         if (this.handle.indexOf('t') >= 0) {
           
           if(this.subtype === "square" || this.subtype === "circle"){
-            if(this.elmX + this.elmW - dY > this.parentW){
-              this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW)));
-            } else if(this.elmH - dY < this.minh){
-              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
-            } else if(this.parent && this.elmY + dY < this.parentY){
-              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+
+            if(this.elmH - dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh));
+            }else if(this.parent && this.elmY + dY < this.parentY){
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY));
             }
 
-            if(this.elmX + this.elmW - dY > this.parentW && this.elmY + dY < this.parentY){
-              diffY = 0;
-              this.mouseOffY = (dY - (this.parentY - this.elmY))
+            if(this.elmX + this.elmW - dY > this.parentW && this.elmY > this.parentY){
+              this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW)));
             }
 
             this.elmW -= diffY;
-            this.elmY += diffY
-            this.elmH -= diffY
+            this.elmY += diffY;
+            this.elmH -= diffY;
           }else if(this.subtype === "image"){
             let proportion = this.w / this.h;
 
             if (this.elmH - dY < this.minh){
-              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh));
             } else if (this.parent && this.elmY + dY < this.parentY){
-              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY));
             } else if(this.elmX + this.elmW - dY > this.parentW){
               this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW)));
             }
@@ -465,48 +463,128 @@ export default {
             this.elmH -= diffY
           }else{
             if (this.elmH - dY < this.minh){
-              this.mouseOffY = (dY - (diffY = this.elmH - this.minh))
+              this.mouseOffY = (dY - (diffY = this.elmH - this.minh));
             } else if (this.parent && this.elmY + dY < this.parentY){
-              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY))
-              canResize = false;
+              this.mouseOffY = (dY - (diffY = this.parentY - this.elmY));
             } 
 
-            this.elmY += diffY
-            this.elmH -= diffY
+            this.elmY += diffY;
+            this.elmH -= diffY;
           }
         }
         if (this.handle.indexOf('b') >= 0) {
-          if (this.elmH + dY < this.minh) this.mouseOffY = (dY - (diffY = this.minh - this.elmH))
-          else if (this.parent && this.elmY + this.elmH + dY > this.parentH) this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH))
-          this.elmH += diffY
           if(this.subtype === "square" || this.subtype === "circle"){
+            if (this.elmH + dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.minh - this.elmH));
+            } 
+            else if (this.parent && this.elmY + this.elmH + dY > this.parentH){
+              this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH));
+            }
+
+            if(this.elmX + this.elmW + dY > this.parentW && this.elmY + this.elmH < this.parentH){
+              this.mouseOffY = (dY - (diffY = this.parentW - this.elmX - this.elmW));
+            }
+            
+            this.elmH += diffY;
             this.elmW += diffY;
           }else if(this.subtype === "image"){
+
+            if (this.elmH + dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.minh - this.elmH));
+            } 
+            else if (this.parent && this.elmY + this.elmH + dY > this.parentH){
+              this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH));
+            }
+
             let proportion = this.w / this.h;
             this.elmW += diffY * proportion;
+            this.elmH += diffY;
+          }else{
+            if (this.elmH + dY < this.minh){
+              this.mouseOffY = (dY - (diffY = this.minh - this.elmH));
+            } 
+            else if (this.parent && this.elmY + this.elmH + dY > this.parentH){
+              this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH));
+            }
+
+            this.elmH += diffY;
           }
         }
         if (this.handle.indexOf('l') >= 0) {
-          if (this.elmW - dX < this.minw) this.mouseOffX = (dX - (diffX = this.elmW - this.minw))
-          else if (this.parent && this.elmX + dX < this.parentX) this.mouseOffX = (dX - (diffX = this.parentX - this.elmX))
-          this.elmX += diffX
-          this.elmW -= diffX
           if((this.subtype === "square" || this.subtype === "circle")){
+            if (this.elmW - dX < this.minw){
+              this.mouseOffX = (dX - (diffX = this.elmW - this.minw));
+            } 
+            else if (this.parent && this.elmX + dX < this.parentX){
+              this.mouseOffX = (dX - (diffX = this.parentX - this.elmX));
+            }
+
+            if(this.elmY + this.elmH - dX > this.parentH && this.elmX > this.parentX){
+              this.mouseOffX = (dX - (diffX = -(this.parentH - this.elmY - this.elmH)));
+            }
+
+            this.elmX += diffX;
+            this.elmW -= diffX;
             this.elmH -= diffX;
           }else if(this.subtype === "image"){
+            if (this.elmW - dX < this.minw){
+              this.mouseOffX = (dX - (diffX = this.elmW - this.minw));
+            } 
+            else if (this.parent && this.elmX + dX < this.parentX){
+              this.mouseOffX = (dX - (diffX = this.parentX - this.elmX));
+            } 
+
             let proportion = this.h / this.w;
             this.elmH -= diffX * proportion;
+            this.elmX += diffX;
+            this.elmW -= diffX;
+          }else{
+            if (this.elmW - dX < this.minw){
+              this.mouseOffX = (dX - (diffX = this.elmW - this.minw));
+            } 
+            else if (this.parent && this.elmX + dX < this.parentX){
+              this.mouseOffX = (dX - (diffX = this.parentX - this.elmX));
+            }
+
+            this.elmX += diffX;
+            this.elmW -= diffX;
           }
         }
         if (this.handle.indexOf('r') >= 0) {
-          if (this.elmW + dX < this.minw) this.mouseOffX = (dX - (diffX = this.minw - this.elmW))
-          else if (this.parent && this.elmX + this.elmW + dX > this.parentW) this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW))
-          this.elmW += diffX
           if(this.subtype === "square" || this.subtype === "circle"){
+            if (this.elmW + dX < this.minw){
+              this.mouseOffX = (dX - (diffX = this.minw - this.elmW));
+            } 
+            else if (this.parent && this.elmX + this.elmW + dX > this.parentW){
+              this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW));
+            }
+
+            if(this.elmY + this.elmH + dX > this.parentH && this.elmX + this.elmW < this.parentW){
+              this.mouseOffX = (dX - (diffX = this.parentH - this.elmY - this.elmH));
+            }
+
+            this.elmW += diffX;
             this.elmH += diffX;
           }else if(this.subtype === "image"){
+            if (this.elmW + dX < this.minw){
+              this.mouseOffX = (dX - (diffX = this.minw - this.elmW));
+            } 
+            else if (this.parent && this.elmX + this.elmW + dX > this.parentW){
+              this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW));
+            } 
+
             let proportion = this.h / this.w;
+            this.elmW += diffX;
             this.elmH += diffX * proportion;
+          }else{
+            if (this.elmW + dX < this.minw){
+              this.mouseOffX = (dX - (diffX = this.minw - this.elmW));
+            } 
+            else if (this.parent && this.elmX + this.elmW + dX > this.parentW){
+              this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW));
+            }
+
+            this.elmW += diffX;
           }
         }
         this.left = (Math.round(this.elmX / this.grid[0]) * this.grid[0])
