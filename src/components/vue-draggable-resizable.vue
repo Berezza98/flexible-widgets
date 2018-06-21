@@ -448,17 +448,18 @@ export default {
             this.elmY += diffY;
             this.elmH -= diffY;
           }else if(this.subtype === "image"){
-            let proportion = this.w / this.h;
 
             if (this.elmH - dY < this.minh){
               this.mouseOffY = (dY - (diffY = this.elmH - this.minh));
             } else if (this.parent && this.elmY + dY < this.parentY){
               this.mouseOffY = (dY - (diffY = this.parentY - this.elmY));
-            } else if(this.elmX + this.elmW - dY > this.parentW){
-              this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW)));
+            } 
+            
+            if(this.elmX + this.elmW - (dY * this.widthToHeightRatio) > this.parentW && this.elmY > this.parentY){
+              this.mouseOffY = (dY - (diffY = -(this.parentW - this.elmX - this.elmW) / this.widthToHeightRatio));
             }
 
-            this.elmW -= diffY * proportion;
+            this.elmW -= diffY * this.widthToHeightRatio;
             this.elmY += diffY
             this.elmH -= diffY
           }else{
@@ -496,8 +497,11 @@ export default {
               this.mouseOffY = (dY - (diffY = this.parentH - this.elmY - this.elmH));
             }
 
-            let proportion = this.w / this.h;
-            this.elmW += diffY * proportion;
+            if(this.elmX + this.elmW + dY * this.widthToHeightRatio > this.parentW && this.elmY + this.elmH < this.parentH){
+              this.mouseOffY = (dY - (diffY = (this.parentW - this.elmX - this.elmW) / this.widthToHeightRatio));
+            }
+
+            this.elmW += diffY * this.widthToHeightRatio;
             this.elmH += diffY;
           }else{
             if (this.elmH + dY < this.minh){
@@ -532,7 +536,11 @@ export default {
             } 
             else if (this.parent && this.elmX + dX < this.parentX){
               this.mouseOffX = (dX - (diffX = this.parentX - this.elmX));
-            } 
+            }
+
+            if(this.elmY + this.elmH - dX * this.heightToWidthRatio > this.parentH && this.elmX > this.parentX){
+              this.mouseOffX = (dX - (diffX = -((this.parentH - this.elmY - this.elmH) / this.heightToWidthRatio)));
+            }
 
             let proportion = this.h / this.w;
             this.elmH -= diffX * proportion;
@@ -571,7 +579,11 @@ export default {
             } 
             else if (this.parent && this.elmX + this.elmW + dX > this.parentW){
               this.mouseOffX = (dX - (diffX = this.parentW - this.elmX - this.elmW));
-            } 
+            }
+
+            if(this.elmY + this.elmH + dX * this.heightToWidthRatio > this.parentH && this.elmX + this.elmW < this.parentW){
+              this.mouseOffX = (dX - (diffX = (this.parentH - this.elmY - this.elmH) / this.heightToWidthRatio));
+            }
 
             let proportion = this.h / this.w;
             this.elmW += diffX;
@@ -803,6 +815,12 @@ export default {
     },
     elements(){
       return this.$store.state.main.draggableInsideCanvas.filter(element => element.id !== this.id);
+    },
+    widthToHeightRatio(){
+      return this.w / this.h;
+    },
+    heightToWidthRatio(){
+      return this.h / this.w;
     }
   },
 
