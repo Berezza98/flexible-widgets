@@ -299,6 +299,7 @@ export default {
 
         if(this.resizable){
           eventBus.$emit('showElement', {value: "panel", id: this.id});
+          eventBus.$emit('changeRulerPosition', { top: this.top + 50, left: this.left, top1: this.top + 50 + this.height, left1: this.left + this.width});
         }
       }
     },
@@ -343,6 +344,7 @@ export default {
           this.$emit('update:active', false)
           if(this.resizable){
             eventBus.$emit('showElement', {value: "", id: this.id});
+            eventBus.$emit('changeRulerPosition', { close: true});
           }
         }
       }
@@ -605,6 +607,9 @@ export default {
         this.height = (Math.round(this.elmH / this.grid[1]) * this.grid[1])
         this.$emit('resizing', this.left, this.top, this.width, this.height)
         this.createRuler(false, true);
+        if(this.resizable){
+          eventBus.$emit('changeRulerPosition', { top: this.top + 50, left: this.left, top1: this.top + 50 + this.height, left1: this.left + this.width});
+        }
       } else if (this.dragging) {
         if (this.parent) {
           if (this.elmX + dX < this.parentX){
@@ -643,6 +648,7 @@ export default {
         }
         this.$emit('dragging', this.left, this.top, e);
         if(this.resizable){
+          eventBus.$emit('changeRulerPosition', { top: this.top + 50, left: this.left, top1: this.top + 50 + this.height, left1: this.left + this.width});
           this.createRuler(true, false);
         }
       }

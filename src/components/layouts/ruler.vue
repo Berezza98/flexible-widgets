@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { eventBus } from '../../main.js';
+
 export default {
     data(){
         return {
@@ -19,6 +21,9 @@ export default {
     methods: {
         createTopRuler(){
             let context = this.topRuler.getContext('2d');
+
+            context.clearRect(0, 0, this.topRuler.width, this.topRuler.height);
+
             let pointCountBig = this.orientation === 'landscape' ? 192 : 180;
             let pointCountLittle = this.orientation === 'landscape' ? 96 : 90;
 
@@ -46,6 +51,9 @@ export default {
         },
         createLeftRuler(){
             let context = this.leftRuler.getContext('2d');
+
+            context.clearRect(0, 0, this.leftRuler.width, this.leftRuler.height);
+
             let pointCountBig = this.orientation === 'landscape' ? 180 : 192;
             let pointCountLittle = this.orientation === 'landscape' ? 90 : 96;
 
@@ -72,13 +80,47 @@ export default {
 
             }
             context.stroke();
+        },
+        createTopPoint(point){
+            let context = this.topRuler.getContext('2d');
+
+            context.beginPath();
+            context.lineWidth = 6;
+            context.strokeStyle = '#b3d8ff';
+            context.moveTo(point, 0);
+            context.lineTo(point,50);
+            context.stroke();
+        },
+
+        createLeftPoint(point){
+            let context = this.leftRuler.getContext('2d');
+
+            context.beginPath();
+            context.lineWidth = 6;
+            context.strokeStyle = '#b3d8ff';
+            context.moveTo(0, point);
+            context.lineTo(50, point);
+            context.stroke();
         }
     },
     computed: {
 
     },
     created(){
-        
+        let that = this;
+        eventBus.$on('changeRulerPosition', function({top, left, top1, left1, close}){
+            if(close && close === true){
+                that.createTopRuler();
+                that.createLeftRuler();
+            }else{
+                that.createTopRuler();
+                that.createLeftRuler();
+                that.createTopPoint(left);
+                that.createLeftPoint(top);
+                that.createTopPoint(left1);
+                that.createLeftPoint(top1);
+            }
+        })
     },
     mounted(){
         this.canvas = this.$el.parentElement;
