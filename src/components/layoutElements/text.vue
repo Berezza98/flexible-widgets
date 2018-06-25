@@ -2,7 +2,7 @@
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="hideTooltip" @update:active="makeActive">
         <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
             <div class="textBlock" :style="styles">
-                <p contenteditable="true" @mousemove.stop="selectText" @mousedown="selectTextDownClick" @blur="editContent">{{inputText}}</p>
+                <p class="cursor" contenteditable="true" @mousemove.stop="selectText" @mousedown="selectTextDownClick" @input="changeContent" @blur="save">{{textClone}}</p>
             </div>
         </el-tooltip>
     </draggable>
@@ -13,7 +13,9 @@
     export default {
         data(){
             return{
-                hideTooltip: false
+                hideTooltip: false,
+                textClone: "",
+                changingText: ""
             }
         },
         components: {
@@ -24,9 +26,8 @@
                 this.hideTooltip = value;
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
             },
-            editContent(event){
-                let text = event.target.innerText;
-                this.inputText = text;
+            save(event){
+                this.$store.commit('changeInputText', this.changingText, {module: "main"});
             },
             selectText(){
                 //just for stop propogation
@@ -35,17 +36,12 @@
                 if(this.hideTooltip){
                     e.stopPropagation();
                 }
+            },
+            changeContent(e){
+                this.changingText = e.target.innerText;
             }
         },
         computed: {
-            inputText: {
-                get(){
-                    return this.textValue;
-                },
-                set(value){
-                    this.$store.commit('changeInputText', value, {module: "main"});
-                }
-            },
             dimensionsObj(){
                 return {
                     x: this.x,
@@ -88,6 +84,9 @@
                 type: String,
                 required: true
             }
+        },
+        created(){
+            this.textClone = this.textValue;
         }
     }
 </script>
@@ -105,5 +104,10 @@
         margin: 0px;
         padding: 0px;
         width: 100%;
+        min-height: 40px;
+    }
+    .cursor{
+        cursor: auto !important;
+        white-space: pre-wrap;
     }
 </style>

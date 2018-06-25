@@ -15,9 +15,10 @@
                     <div class="left">
                         <el-button @click="rotateRight" class="md_icon_button" type="primary"><md-icon>rotate_right</md-icon></el-button>
                         <el-button @click="rotateLeft" class="md_icon_button" type="primary"><md-icon>rotate_left</md-icon></el-button>
+                        <el-button @click="crop" class="md_icon_button" type="primary"><md-icon>crop</md-icon></el-button>
                     </div>
                     <div class="right">
-                        <el-button type="primary" @click="crop">SAVE</el-button>
+                        <el-button type="primary" :disabled="!currentImageData && !currentImageSrc" @click="save">SAVE</el-button>
                         <el-button class="button_white" @click="close" plain>CANCEL</el-button>
                     </div>
                 </div>
@@ -40,7 +41,9 @@ export default {
                 padding: "0px",
                 position: "relative"
             },
-            cropper: null
+            cropper: null,
+            currentImageSrc: null,
+            currentImageData: null
         }
     },
     components: {
@@ -64,19 +67,34 @@ export default {
         crop(){
             let image = this.cropper.getCroppedCanvas().toDataURL();
             let dataCropped = this.cropper.getData();
-            this.$store.commit('changeDimentionsOfElement', {id: this.cropTool.id, w: dataCropped.width / 2, h: dataCropped.height / 2}, {module: 'main'});
-            this.$store.commit('changeImageSource', image, {module: 'main'});
+            this.currentImageSrc = image;
+            this.currentImageData = dataCropped;
+            this.cropper.replace(image);
+        },
+        save(){
+            this.$store.commit('changeDimentionsOfElement', {id: this.cropTool.id, w: this.currentImageData.width / 2, h: this.currentImageData.height / 2}, {module: 'main'});
+            this.$store.commit('changeImageSource', this.currentImageSrc, {module: 'main'});
 
             this.close();
         },
         rotateLeft(){
             this.cropper.rotate(-90);
             this.setCorrectDimentions(this.cropper);
+
+            let image = this.cropper.getCroppedCanvas().toDataURL();
+            let dataCropped = this.cropper.getData();
+            this.currentImageSrc = image;
+            this.currentImageData = dataCropped;
         },
         rotateRight(){
             this.cropper.rotate(90);
             
             this.setCorrectDimentions(this.cropper);
+
+            let image = this.cropper.getCroppedCanvas().toDataURL();
+            let dataCropped = this.cropper.getData();
+            this.currentImageSrc = image;
+            this.currentImageData = dataCropped;
         },
         setCorrectDimentions(cropper){
             let imageData = cropper.getImageData();

@@ -5,7 +5,7 @@
                 <div class="form-group">
                     <div class="dropArea" @ondragover="onChange" :class="dragging ? 'dropAreaDragging' : ''" @dragenter="dragging=true" @dragend="dragging=false" @dragleave="dragging=false">
                         <md-icon class="md-size-2x color_gray">cloud_upload</md-icon>
-                        <input type="file" id="items" name="items[]" required multiple @change="onChange">
+                        <input type="file" id="items" name="items[]" accept="image/*" required multiple @change="onChange">
                         <p class="help-block"><span class="color_gray">Click here or drag file(s) here to upload</span></p>
                     </div>
                 </div>

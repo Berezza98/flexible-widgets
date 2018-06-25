@@ -1,7 +1,7 @@
 <template>
     <div class="shape_button">
         <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @tooltip="tooltip" @dropInside="droppedInside">
-            <el-tooltip class="item" :disabled="disableTooltip" effect="dark" :open-delay="500" :content="'Drag and drop to add a text'" placement="right">
+            <el-tooltip class="item" :disabled="disableTooltip" effect="dark" :open-delay="500" :content="'Drag and drop to add shape'" placement="right">
                 <div class="content">
                     <img :src="getImg(src)" class="shape_ico">
                     <span class="shape_name">{{tile}}</span>
@@ -36,7 +36,7 @@ export default {
             let width = 200;
             let subtype = "";
             let rotated = false;
-            let background = "rgba(78, 151, 230, 0.4)";
+            let background = "rgba(78, 151, 230, 1)";
 
             switch(this.tile){
                 case 'line':

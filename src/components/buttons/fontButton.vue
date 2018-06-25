@@ -42,7 +42,7 @@
                     id,
                     props: {
                         type: "text",
-                        textValue: "Here will be your text",
+                        textValue: "Write your text here",
                         x: positionObj.x,
                         y: positionObj.y,
                         z : 1,

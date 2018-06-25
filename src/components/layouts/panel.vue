@@ -130,11 +130,11 @@
                 <md-icon class="md-size-1x">delete</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Close edit tool" :open-delay="500" placement="top">
+        <!-- <el-tooltip content="Close edit tool" :open-delay="500" placement="top">
             <div class="button" @click="saveElement">
                 <md-icon class="md-size-1x">check</md-icon>
             </div>
-        </el-tooltip>
+        </el-tooltip> -->
     </div>
 </template>
 
