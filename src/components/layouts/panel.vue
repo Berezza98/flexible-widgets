@@ -160,6 +160,7 @@
         methods: {
             deleteElement(id){
                 this.$store.commit("deleteElementFromCanvas", {id: this.id},  {module: "main"});
+                eventBus.$emit('changeRulerPosition', {close : true});
             },
             saveElement(){
                 eventBus.$emit('closePanel', {id: this.id},  {module: "main"});
