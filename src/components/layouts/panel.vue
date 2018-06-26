@@ -104,7 +104,7 @@
                 <md-icon class="md-size-1x">crop_rotate</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Shape rotation" :open-delay="500" placement="top">
+        <el-tooltip content="Rotate" :open-delay="500" placement="top">
             <div v-if="elementType === 'shape'" @click="rotate"  class="button">
                 <md-icon class="md-size-1x">rotate_90_degrees_ccw</md-icon>
             </div>
@@ -169,6 +169,49 @@
                 // FOR DELETING OBSERVERS AND CREATE EMPTY OBJECT WITH NEEDED PROPERTIES
                 let element = JSON.stringify(Object.assign({}, this.activeElement));
                 element = JSON.parse(element);
+
+                let canvasWidth = 1080;
+                let canvasHeight = 1920;
+                let orientation = this.$store.state.main.currentOrientation;
+                if(orientation === "landscape"){
+                    canvasWidth = 1920;
+                    canvasHeight = 1080;
+                }
+
+                let toX = 0;
+                let toY = 0;
+
+                if(canvasWidth - (element.props.x + element.props.width) < 40){
+                    toX = -40;
+                }else if(element.props.x < 40){
+                    toX = 40;
+                }else{
+                    toX = 40;
+                }
+                if(element.props.x < 40 && canvasWidth - (element.props.x + element.props.width) < 40){
+                    toX = 0;
+                }
+
+                if(canvasHeight - (element.props.y  + element.props.height) < 40){
+                    toY = -40;
+                }else if(element.props.y < 40){
+                    toY = 40;
+                }else{
+                    toY = 40;
+                }
+                if(element.props.y < 40 && canvasHeight - (element.props.y  + element.props.height) < 40){
+                    toY = 0;
+                }
+
+                if(canvasHeight - (element.props.y  + element.props.height) < 40 && element.props.y < 40 && element.props.x < 40 && canvasWidth - (element.props.x + element.props.width) < 40){
+                    console.log('full size element');
+                    toY = 0;
+                    toX = 0;
+                }
+
+                element.props.y += toY;
+                element.props.x += toX;
+
                 this.$store.commit("createCopyOfElement", element, {module: "main"});
             },
             underline(){

@@ -84,8 +84,8 @@ export default {
             let id = new Date().getTime();
 
             obj.id = id;
-            obj.props.x = 0;
-            obj.props.y = 0;
+            // obj.props.x = 0;
+            // obj.props.y = 0;
 
             state.draggableInsideCanvas.push(obj);
         },

@@ -25,7 +25,7 @@
         methods: {
             saveWidget(){
                 if(!this.name.trim()){
-                    this.$message.error('Please enter the name for widget.');
+                    this.$message.error('Please fill in the name field before saving.');
                     return;
                 }
                 const loading = this.$loading({
@@ -56,7 +56,7 @@
                     this.name = "";
                     this.$store.commit('selectTemplate', [] , {module: "main"});
                     this.$message({
-                        message: 'Widget has been saved.',
+                        message: 'The template has been saved.',
                         type: 'success'
                     });
                     canvas.classList.remove('canvas_flex_start');
