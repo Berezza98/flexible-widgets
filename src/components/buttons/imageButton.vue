@@ -1,6 +1,6 @@
 <template>
   <div class="firstColumnButton">
-    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dropInside="droppedInside" @tooltip="tooltip">
+    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dragging="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
         <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content="'Drag and drop to add an image'" placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">insert_photo</md-icon>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+    import { eventBus } from '../../main.js';
+
     import ImageBlock from '../layoutElements/imageBlock.vue';
 
     export default{
@@ -133,6 +135,9 @@
                     x: xResult,
                     y: yResult
                 }
+            },
+            closeShapes(){
+                eventBus.$emit('showElement', {value: ""});
             }
         },
         props: {

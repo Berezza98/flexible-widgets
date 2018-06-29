@@ -6,6 +6,8 @@ export default {
     mainPage: `Here you can add text, images and shapes to your canvas. In the left column you see the 
     different types of items you can add. Click on one and drag it to the canvas. When you click on it, 
     options will appear in the top bar. You can choose an image from your library or PC by clicking on 
-    the image item on the canvas. You can go back to the first step by clicking on 'change orientation' 
-    in the top bar.`
+    the image item on the canvas. For shapes you can choose one of the shapes that appear in the top bar 
+    after you clicked on the shape button and drag it into the canvas. You can go back to the first step 
+    by clicking on 'change oriëntation' in the top bar. You can open this tooltip again by clicking on the 
+    i icon right on top.`
 }

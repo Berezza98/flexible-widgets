@@ -14,6 +14,8 @@
 </template>
 
 <script>
+    import { eventBus } from '../../main.js';
+
     import html2canvas from 'html2canvas';
 
     export default{
@@ -67,6 +69,7 @@
 
             },
             changeOrientation(){
+                eventBus.$emit('showElement', {value: ""});
                 this.$store.commit('changeTempOrientation', null, {module: "main"});
                 this.$store.commit('changeOrientation', "", {module: "main"});
             },

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+    import { eventBus } from '../../main.js';
+
     export default{
         data(){
             return{
@@ -25,6 +27,7 @@
         },
         methods: {
             showModal(){
+                eventBus.$emit('showElement', {value: ""});
                 this.$store.commit('selectingTemplate', true , {module: "main"});
             },
             selectTemplate(){

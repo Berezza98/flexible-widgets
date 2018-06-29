@@ -71,6 +71,7 @@
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
             },
             changeImage(){
+                eventBus.$emit('showElement', {value: ""});
                 this.$store.commit('selectImage', {show: true, id: this.id}, {module: "main"});
             },
             setNewSource(image){
