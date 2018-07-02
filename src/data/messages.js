@@ -8,6 +8,6 @@ export default {
     options will appear in the top bar. You can choose an image from your library or PC by clicking on 
     the image item on the canvas. For shapes you can choose one of the shapes that appear in the top bar 
     after you clicked on the shape button and drag it into the canvas. You can go back to the first step 
-    by clicking on 'change oriëntation' in the top bar. You can open this tooltip again by clicking on the 
+    by clicking on 'change orientation' in the top bar. You can open this tooltip again by clicking on the 
     i icon right on top.`
 }

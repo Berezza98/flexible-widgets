@@ -76,7 +76,7 @@
                         message: messages.mainPage,
                         type: 'message',
                         duration: 0,
-                        customClass: 'information-message right-message'
+                        customClass: 'right-message'
                     });
                 }else{
                     this.message.close();
@@ -236,8 +236,8 @@
 
     @media screen and (max-width: 1800px) {
         .info{
-            bottom: 20px;
-            right: 30px;
+            bottom: 10px;
+            right: 10px;
         }   
     }
 </style>

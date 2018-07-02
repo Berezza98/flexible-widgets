@@ -153,6 +153,18 @@ body{
   color: #2575b4;
 }
 
+.right-message{
+  width: 370px;
+  padding: 15px 65px 15px 40px;
+  color: #2575b4;
+  bottom: 76px;
+  top: auto;
+  left: auto;
+  right: -140px;
+  padding: 15px 65px 15px 40px;
+  color: #2575b4;
+}
+
 .information-message .el-message__content {
   line-height: 18px;
 }

@@ -10,7 +10,6 @@
     import FontButton from '../buttons/fontButton.vue';
     import ImageButton from '../buttons/imageButton.vue';
     import ShapeButton from '../buttons/shapeButton.vue';
-    import TemplateButton from '../buttons/templateButton.vue';
     export default{
         data(){
             return {
@@ -20,8 +19,7 @@
         components: {
             'font-button': FontButton,
             'image-button': ImageButton,
-            'shape-button': ShapeButton,
-            'template-button': TemplateButton
+            'shape-button': ShapeButton
         }
     }
 </script>

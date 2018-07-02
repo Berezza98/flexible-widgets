@@ -76,7 +76,7 @@
                         message: messages.mainPage,
                         type: 'message',
                         duration: 60000,
-                        customClass: 'information-message right-message'
+                        customClass: 'information-message'
                     });
                 }
 
