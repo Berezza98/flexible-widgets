@@ -10,11 +10,16 @@
             <div class="ruler rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
             <parent-ruler></parent-ruler>
         </div>
+        <div class="info" @click="openInfo">
+            <md-icon class="info_ico">help_outline</md-icon><span>{{message ? "Close Help & guides" : "Help & guides"}}</span>
+        </div>
     </div> 
 </template>
 
 <script>
     import { eventBus } from '../../main.js';
+
+    import messages from '../../data/messages.js';
 
     import Text from '../layoutElements/text.vue';
     import Image from '../layoutElements/imageBlock.vue';
@@ -37,7 +42,8 @@
                 xMidRuler: false,
                 postitionOfMidXRuler: "0px",
                 yMidRuler: false,
-                postitionOfMidYRuler: "0px"
+                postitionOfMidYRuler: "0px",
+                message: null
             }
         },
         components: {
@@ -60,6 +66,22 @@
             typeOfCanvas: {
                 type: String,
                 required: true
+            }
+        },
+        methods: {
+            openInfo(){
+                if(!this.message){
+                    this.message = this.$message({
+                        showClose: false,
+                        message: messages.mainPage,
+                        type: 'message',
+                        duration: 0,
+                        customClass: 'information-message right-message'
+                    });
+                }else{
+                    this.message.close();
+                    this.message = null;
+                }
             }
         },
         created(){
@@ -187,9 +209,35 @@
         background: green;
     }
 
+    .info{
+        position: absolute;
+        cursor: pointer;
+        bottom: 20px;
+        right: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+    .info_ico{
+        color: #409EFF;
+        margin-right: 10px;
+    }
+
+    .info span{
+        color: #409EFF;
+        font-size: 14px;
+    }
+
     @media screen and (max-height: 900px) {
         .canvas_wrapper{
             height: 86%;
         }
+    }
+
+    @media screen and (max-width: 1800px) {
+        .info{
+            bottom: 20px;
+            right: 30px;
+        }   
     }
 </style>

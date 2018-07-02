@@ -4,6 +4,10 @@
             <el-input v-model="name" :maxlength="15" class="name" placeholder="Fill in name of template here" size="large"></el-input>
         </div>
         <div class="buttons">
+            <el-tooltip class="item" effect="dark" :open-delay="500" content="Click to add pre-made template" placement="top">
+                <el-button @click="showModal" class="change_orientation" type="text" plain><md-icon class="rotate_ico">view_compact</md-icon>Choose a Premade Template</el-button>
+            </el-tooltip>
+            <div class="line"></div>
             <el-button @click="changeOrientation" class="change_orientation" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>CHANGE ORIENTATION</el-button>
             <el-button @click="saveWidget" type="primary" icon="el-icon-check">SAVE</el-button>
             <el-tooltip content="Delete template" :open-delay="500" placement="top">
@@ -91,6 +95,13 @@
                         message: 'Delete canceled'
                     });          
                 });
+            },
+            showModal(){
+                eventBus.$emit('showElement', {value: ""});
+                this.$store.commit('selectingTemplate', true , {module: "main"});
+            },
+            selectTemplate(){
+                this.$store.commit('selectTemplate', this.templObj.data , {module: "main"});
             }
         },
         computed: {
@@ -114,7 +125,14 @@
     }
 
     .buttons{
+        display: flex;
+    }
 
+    .line{
+        width: 2px;
+        height: 40px;
+        background: #ebebeb;
+        margin: 0px 40px;
     }
 
     .rotate_ico{

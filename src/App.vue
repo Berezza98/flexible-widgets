@@ -6,9 +6,6 @@
     <el-col :span="1" class="border">
       <first-column></first-column>
     </el-col>
-    <!-- <el-col :span="5" class="border">
-      <second-column></second-column>
-    </el-col> -->
     <el-col :span="23">
       <third-column></third-column>
     </el-col>
@@ -22,7 +19,6 @@
 
 <script>
 import FirstColumn from './components/columns/firstColumn.vue';
-import SecondColumn from './components/columns/secondColumn.vue';
 import ThirdColumn from './components/columns/thirdColumn.vue';
 import ModalOrientation from './components/modals/modalOrientation.vue';
 import ModalImages from './components/modals/modalImages.vue';
@@ -43,7 +39,6 @@ export default {
   },
   components: {
     'first-column' : FirstColumn,
-    'second-column' : SecondColumn,
     'third-column' : ThirdColumn,
     'modal-orientation' : ModalOrientation,
     'modal-crop' : ModalCrop,

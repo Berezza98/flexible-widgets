@@ -3,8 +3,6 @@
         <font-button></font-button>
         <image-button></image-button>
         <shape-button></shape-button>
-        <div class="line"></div>
-        <template-button></template-button>
   </div>
 </template>
 
@@ -29,14 +27,6 @@
 </script>
 
 <style scoped>
-    .line{
-        margin: auto;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        width: 80%;
-        height: 1px;
-        background: #eeeeee;
-    }
 
     .firstColumn{
         height: calc(100% - 70px);
