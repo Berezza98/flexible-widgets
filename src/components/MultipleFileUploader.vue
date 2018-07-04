@@ -6,7 +6,10 @@
                     <div class="dropArea" @ondragover="onChange" :class="dragging ? 'dropAreaDragging' : ''" @dragenter="dragging=true" @dragend="dragging=false" @dragleave="dragging=false">
                         <md-icon class="md-size-2x color_gray">cloud_upload</md-icon>
                         <input type="file" id="items" name="items[]" accept="image/*" required multiple @change="onChange">
-                        <p class="help-block"><span class="color_gray">Click here or drag file(s) here to upload</span></p>
+                        <div>
+                            <p class="help-block"><span class="color_gray">Click here or drag file(s) here to upload</span></p>
+                            <p class="limitation-block"><span class="color_gray">The size of the image cannot be bigger than 1 MB</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -81,7 +84,7 @@ export default {
                     this.formData.append('items[]', this.items);
                 }
             }
-            this.onSubmit();
+            this.onSubmit(files);
         },
 
         removeItems() {
@@ -92,39 +95,44 @@ export default {
             this.dragging = false;
         },
 
-        onSubmit() {
+        onSubmit(files) {
             this.isLoaderVisible = true;
-            this.$emit('uploading');
             if ((typeof this.postMeta === 'string' && this.postMeta !== '') ||
                 (typeof this.postMeta === 'object' && Object.keys(this.postMeta).length > 0)) {
-                this.formData.append('postMeta', this.postMeta);
+                    this.formData.append('postMeta', this.postMeta);
             }
             
             if(typeof this.postData ==='object' && this.postData !== null && Object.keys(this.postData).length > 0){
-              for(var key in this.postData){
-                this.formData.append(key, this.postData[key]);
+                for(var key in this.postData){
+                    this.formData.append(key, this.postData[key]);
               }
             }
 
-            if (this.method === 'put' || this.method === 'post' ) {
-                axios({method: this.method, url: this.postURL, data: this.formData,headers:this.postHeader})
-                    .then((response) => {
-                        this.isLoaderVisible = false;
-                        this.$emit('OK', response.data);
-                        // Show success message
-                        if(this.showHttpMessages)
-                          this.successMsg = response + "." + this.successMessagePath;
-                        this.removeItems();
-                    })
-                    .catch((error) => {
-                        this.isLoaderVisible = false;
-                        if(this.showHttpMessages)
-                          this.errorMsg = error + "." + this.errorMessagePath;
-                        this.removeItems();
-                    });
-            } else {
-                if(this.showHttpMessages)
-                this.errorMsg = this.httpMethodErrorMessage;
+            if(files[0] && files[0].size < 1024 * 1024 * 1){ // * 1 MB
+                this.$emit('uploading');
+                if (this.method === 'put' || this.method === 'post' ) {
+                    axios({method: this.method, url: this.postURL, data: this.formData,headers:this.postHeader})
+                        .then((response) => {
+                            this.isLoaderVisible = false;
+                            this.$emit('OK', response.data);
+                            // Show success message
+                            if(this.showHttpMessages)
+                            this.successMsg = response + "." + this.successMessagePath;
+                            this.removeItems();
+                        })
+                        .catch((error) => {
+                            this.isLoaderVisible = false;
+                            if(this.showHttpMessages)
+                            this.errorMsg = error + "." + this.errorMessagePath;
+                            this.removeItems();
+                        });
+                } else {
+                    if(this.showHttpMessages)
+                    this.errorMsg = this.httpMethodErrorMessage;
+                    this.removeItems();
+                }
+            }else{
+                this.$message.error('The size of the image cannot be bigger than 1 MB');
                 this.removeItems();
             }
         },
@@ -210,6 +218,14 @@ form{
 
 .help-block{
     margin-left: 20px;
+    margin-bottom: 0px;
+}
+
+.limitation-block{
+    margin-left: 20px;
+    font-size: 11px !important;
+    margin-top: 2px;
+    text-align: left;
 }
 
 .uploadBox .loaderImg {
