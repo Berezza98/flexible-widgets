@@ -132,7 +132,7 @@ export default {
                     this.removeItems();
                 }
             }else{
-                this.$message.error('The size of the image cannot be bigger than 1 MB');
+                this.$message.error('The size of the image cannot be bigger than 1 MB.');
                 this.removeItems();
             }
         },
