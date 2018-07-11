@@ -301,10 +301,6 @@ export default {
           eventBus.$emit('showElement', {value: "panel", id: this.id});
           eventBus.$emit('changeRulerPosition', { top: this.top + 50, left: this.left, top1: this.top + 50 + this.height, left1: this.left + this.width});
         }
-
-        if(!this.resizable){
-          eventBus.$emit('showElement', {value: ""});
-        }
       }
     },
     deselect: function (e) {

@@ -1,6 +1,6 @@
 <template>
   <div class="firstColumnButton">
-    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dragging="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
+    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @activated="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
         <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content="'Drag and drop to add an image'" placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">insert_photo</md-icon>
