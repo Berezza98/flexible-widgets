@@ -58,7 +58,7 @@ export default {
             let name = this.$store.state.main.searchingData.toLowerCase();
             if(name.trim()){
                 let result = [];
-                return this.$http.get(`https://flexible-app.herokuapp.com/getTemplatesByName?name=${name}`).then(({body}) => body);
+                return this.$http.get(this.$store.state.main.hostURL + `/getTemplatesByName?name=${name}`).then(({body}) => body);
             }else{
                 return this.templates;
             }

@@ -48,7 +48,17 @@ export default {
     'top-bar' : TopBar
   },
   methods: {
-
+    getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == variable) {
+                return decodeURIComponent(pair[1]);
+            }
+        }
+        console.log('Query variable %s not found', variable);
+    }
   },
   computed: {
     orientation(){
@@ -74,7 +84,8 @@ export default {
     });
   },
   created(){
-    this.$http.get('https://flexible-app.herokuapp.com/getFonts').then(({body}) => {
+    this.$store.commit('changeHostURL', this.getQueryVariable('server') ? this.getQueryVariable('server') : 'https://flexible-app.herokuapp.com'); 
+    this.$http.get(this.$store.state.main.hostURL + '/getFonts').then(({body}) => {
       body.sort((a, b) => {
           if(a.toLowerCase() > b.toLowerCase()){ 
               return 1;
@@ -86,11 +97,11 @@ export default {
       this.$store.commit('changeAvailableFonts', body, {module: "main"});
     });
 
-    this.$http.get('https://flexible-app.herokuapp.com/getTemplates?page=6').then(({body}) => {
+    this.$http.get(this.$store.state.main.hostURL + '/getTemplates?page=6').then(({body}) => {
         this.$store.commit('addNewTemplates', body, {module: "main"});
     });
 
-    this.$http.get('https://flexible-app.herokuapp.com/getImages?page=16').then(({body}) => {
+    this.$http.get(this.$store.state.main.hostURL + '/getImages?page=16').then(({body}) => {
         this.$store.commit('addNewImages', body, {module: "main"});
     });
 

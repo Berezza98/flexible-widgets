@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div v-if="selectedPage === 'upload'" class="upload">
-                    <multiple-file-uploader v-loading="uploading" postURL="https://flexible-app.herokuapp.com/saveImage" @uploading=" uploading = true " @OK="saveImage" successMessagePath="" errorMessagePath=""></multiple-file-uploader>
+                    <multiple-file-uploader v-loading="uploading" :postURL="$store.state.main.hostURL + '/saveImage'" @uploading=" uploading = true " @OK="saveImage" successMessagePath="" errorMessagePath=""></multiple-file-uploader>
                 </div>
             </div>
         </el-card>
@@ -109,7 +109,7 @@ export default {
                     if(canLoad && currentTopScroll < 20){
                         canLoad = false;
                         let elements = that.images.length;
-                        that.$http.get(`https://flexible-app.herokuapp.com/getImages?page=${elements + 16}`).then(({body}) => {
+                        that.$http.get(that.$store.state.main.hostURL + `/getImages?page=${elements + 16}`).then(({body}) => {
                             that.images = [...that.images, ...body];
                             canLoad = true;
                         });
@@ -137,7 +137,7 @@ export default {
             let name = this.$store.state.main.searchingData.toLowerCase();
             if(name.trim()){
                 let result = [];
-                return this.$http.get(`https://flexible-app.herokuapp.com/getImagesByName?name=${name}`).then(({body}) => body);
+                return this.$http.get(this.$store.state.main.hostURL + `/getImagesByName?name=${name}`).then(({body}) => body);
             }else{
                 return this.images;
             }

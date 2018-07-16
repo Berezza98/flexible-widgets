@@ -1,5 +1,6 @@
 export default {
     state: {
+        hostURL: "",
         searchingData: "", //FOR SEARCH COMPONENT 
         availableFonts: [],
         currentOrientation: "",
@@ -33,6 +34,9 @@ export default {
         }
     },
     mutations: {
+        changeHostURL(state, value){
+            state.hostURL = value;
+        },
         changeSearchingData(state, value){
             state.searchingData = value;
         },

@@ -57,7 +57,7 @@
                 }).then((obj) => {
                     let currentTemplates = this.$store.state.main.allTemplates;
                     this.$store.commit('addNewTemplates', [obj, ...currentTemplates] ,{module: "main"});
-                    return this.$http.post('https://flexible-app.herokuapp.com/setTemplate', obj);
+                    return this.$http.post(this.$store.state.main.hostURL + '/setTemplate', obj);
                 }).then(() => {
                     this.name = "";
                     this.$store.commit('selectTemplate', [] , {module: "main"});
