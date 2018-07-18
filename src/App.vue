@@ -97,11 +97,11 @@ export default {
       this.$store.commit('changeAvailableFonts', body, {module: "main"});
     });
 
-    this.$http.get(this.$store.state.main.hostURL + '/getTemplates?page=6').then(({body}) => {
+    this.$http.get(this.$store.state.main.hostURL + '/getTemplates?page=1').then(({body}) => {
         this.$store.commit('addNewTemplates', body, {module: "main"});
     });
 
-    this.$http.get(this.$store.state.main.hostURL + '/getImages?page=16').then(({body}) => {
+    this.$http.get(this.$store.state.main.hostURL + '/getImages?page=1').then(({body}) => {
         this.$store.commit('addNewImages', body, {module: "main"});
     });
 

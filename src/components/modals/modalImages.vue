@@ -104,12 +104,13 @@ export default {
                 let canLoad = true;
                 let heightForLoad = 450;
                 let that = vnode.context;
+                let countOfImagesPerPage = 16;
                 el.addEventListener('scroll', () => {
                     let currentTopScroll = el.scrollHeight - el.scrollTop - el.clientHeight;
                     if(canLoad && currentTopScroll < 20){
                         canLoad = false;
                         let elements = that.images.length;
-                        that.$http.get(that.$store.state.main.hostURL + `/getImages?page=${elements + 16}`).then(({body}) => {
+                        that.$http.get(that.$store.state.main.hostURL + `/getImages?page=${(elements / countOfImagesPerPage) + 1}&limit=${countOfImagesPerPage}`).then(({body}) => {
                             that.images = [...that.images, ...body];
                             canLoad = true;
                         });
