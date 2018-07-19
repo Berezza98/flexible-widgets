@@ -28,7 +28,6 @@ import Header from './components/head/header.vue';
 import TopBar from './components/head/topBar.vue';
 
 import {eventBus} from './main.js';
-import messages from './data/messages.js';
 
 export default {
   name: 'app',
@@ -77,14 +76,21 @@ export default {
   mounted(){
     this.message = this.$message({
       showClose: true,
-      message: messages.startPage,
+      message: this.$t('messages.startPage'),
       type: 'message',
       duration: 60000,
       customClass: 'information-message'
     });
   },
   created(){
+    eventBus.$on('closeStartInformationWindow', () => {
+      this.message.close();
+    });
+
     this.$store.commit('changeHostURL', this.getQueryVariable('server') ? this.getQueryVariable('server') : 'https://flexible-app.herokuapp.com'); 
+
+    this.$i18n.locale = this.getQueryVariable('lang') ? this.getQueryVariable('lang') : "en"
+    
     this.$http.get(this.$store.state.main.hostURL + '/getFonts').then(({body}) => {
       body.sort((a, b) => {
           if(a.toLowerCase() > b.toLowerCase()){ 
@@ -97,17 +103,27 @@ export default {
       this.$store.commit('changeAvailableFonts', body, {module: "main"});
     });
 
-    this.$http.get(this.$store.state.main.hostURL + '/getTemplates?page=1').then(({body}) => {
+    this.$http.get(this.$store.state.main.hostURL + '/getTemplates?page=1&limit=16').then(({body}) => {
         this.$store.commit('addNewTemplates', body, {module: "main"});
     });
 
-    this.$http.get(this.$store.state.main.hostURL + '/getImages?page=1').then(({body}) => {
+    this.$http.get(this.$store.state.main.hostURL + '/getImages?page=1&limit=16').then(({body}) => {
         this.$store.commit('addNewImages', body, {module: "main"});
     });
 
-    eventBus.$on('closeStartInformationWindow', () => {
-      this.message.close();
+    this.$http.get(this.$store.state.main.hostURL + '/getImageCategories').then(({body}) => {
+        this.$store.commit('changeImageCategories', body, {module: "main"});
     });
+
+    this.$http.get(this.$store.state.main.hostURL + '/getRights').then(({body}) => {
+        this.$store.commit('changePermissions', body, {module: "main"});
+    });
+
+    if(this.getQueryVariable('fragmentID')){
+      this.$http.get(this.$store.state.main.hostURL + `getTemplate?id=${this.getQueryVariable('fragmentID')}`).then(({body}) => {
+        this.$store.commit('selectTemplate', body.data , {module: "main"});
+      });
+    }
   }
 }
 </script>

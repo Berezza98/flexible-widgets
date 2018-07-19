@@ -1,10 +1,10 @@
 <template>
   <div class="firstColumnButton">
     <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @activated="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
-        <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content="'Drag and drop to add a text'" placement="right">
+        <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content=" $t('tooltips.textBlock') " placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">title</md-icon>
-                <h2 class="title">Text</h2>
+                <h2 class="title">{{ $t('buttons.text') }}</h2>
             </div>
         </el-tooltip>
     </draggable>
@@ -172,6 +172,7 @@
         text-decoration: none;
         margin-top: 5px;
         transition: color .4s cubic-bezier(.4,0,.2,1);
+        text-transform: capitalize;
     }
 
     .menuImage{

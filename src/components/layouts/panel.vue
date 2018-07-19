@@ -1,6 +1,6 @@
 <template>
     <div class="panel">
-        <el-tooltip content="Background color" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.backgroundColor')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
                 <el-popover placement="bottom" width="150" trigger="click">
                     <div v-if="showSubPanel == 'background'" class="colorInside">
@@ -10,7 +10,7 @@
                 </el-popover>
             </div>
         </el-tooltip>
-        <el-tooltip content="Text color" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.textColor')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button">
                 <el-popover placement="bottom" width="150" trigger="click">
                     <div v-if="showSubPanel == 'color'" class="subPanel colorInside">
@@ -20,7 +20,7 @@
                 </el-popover>
             </div>
         </el-tooltip>
-        <el-tooltip content="Opacity" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.opacity')" :open-delay="500" placement="top">
             <div v-if="elementType === 'image' || elementType === ''" class="button">
                 <el-popover placement="bottom" width="550" trigger="click">
                     <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
@@ -32,7 +32,7 @@
                 </el-popover>
             </div>
         </el-tooltip>    
-        <el-tooltip content="Text size" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.textSize')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button">
                 <el-popover placement="bottom" width="550" trigger="click">
                     <div v-if="showSubPanel == 'fontSize'" class="subPanel sliderInside">
@@ -44,22 +44,22 @@
                 </el-popover>
             </div>
         </el-tooltip>
-        <el-tooltip content="Underline" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.underline')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" @click="underline" class="button">
                 <md-icon  :class="underlineEl !== 'none' ? 'active' : ''">format_underlined</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Bold" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.bold')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" @click="bold" class="button">
                 <md-icon :class="boldEl !== 'normal' ? 'active' : ''">format_bold</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Italic" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.italic')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" @click="italic" class="button">
                 <md-icon :class="italicEl !== 'normal' ? 'active' : ''" class="md-size-1x">format_italic</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Font" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.font')" :open-delay="500" placement="top">
             <div  v-if="elementType === 'text' || elementType === ''" class="button">
                 <el-popover placement="bottom" width="300" trigger="click">
                     <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
@@ -71,7 +71,7 @@
                 </el-popover>
             </div>
         </el-tooltip>
-        <el-tooltip content="Align horisontal" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.alignHorisontal')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === ''" class="button">
                 <el-popover placement="bottom" width="300" trigger="click">
                     <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
@@ -85,7 +85,7 @@
                 </el-popover>
             </div>
         </el-tooltip>
-        <el-tooltip content="Align vertical" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.alignVertical')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === ''" class="button">
                 <el-popover placement="bottom" width="300" trigger="click">
                     <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
@@ -99,17 +99,17 @@
                 </el-popover>
             </div>
         </el-tooltip>
-        <el-tooltip content="Crop/Rotate image" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.crop')" :open-delay="500" placement="top">
             <div v-if="elementType === 'image' || elementType === ''" class="button" @click="cropImage">
                 <md-icon class="md-size-1x">crop_rotate</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Rotate" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.rotate')" :open-delay="500" placement="top">
             <div v-if="elementType === 'shape'" @click="rotate"  class="button">
                 <md-icon class="md-size-1x">rotate_90_degrees_ccw</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Layer position" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.layerPosition')" :open-delay="500" placement="top">
             <div class="button">
                 <el-popover placement="bottom" width="300" trigger="click">
                     <div v-if="showSubPanel == 'zIndex'" class="subPanel buttonsInside">
@@ -120,12 +120,12 @@
                 </el-popover>
             </div>
         </el-tooltip>
-        <el-tooltip content="Make duplicate" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.makeDuplicate')" :open-delay="500" placement="top">
             <div class="button" @click="copy">
                 <md-icon class="md-size-1x">content_copy</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip content="Delete item" :open-delay="500" placement="top">
+        <el-tooltip :content="$t('tooltips.deleteItem')" :open-delay="500" placement="top">
             <div class="button" @click="deleteElement">
                 <md-icon class="md-size-1x">delete</md-icon>
             </div>

@@ -1,10 +1,10 @@
 <template>
   <div class="firstColumnButton">
     <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @activated="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
-        <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content="'Drag and drop to add an image'" placement="right">
+        <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content=" $t('tooltips.imageBlock') " placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">insert_photo</md-icon>
-                <h2 class="title">Images</h2>
+                <h2 class="title">{{ $t('buttons.images') }}</h2>
             </div>
         </el-tooltip>
     </draggable>
@@ -204,6 +204,7 @@
         text-decoration: none;
         margin-top: 5px;
         transition: color .4s cubic-bezier(.4,0,.2,1);
+        text-transform: capitalize;
     }
 
     .menuImage{

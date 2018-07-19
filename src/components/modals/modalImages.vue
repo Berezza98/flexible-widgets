@@ -3,26 +3,26 @@
         <el-card :body-style="bodyStyles" class="box-card">
             <div class="header">
                 <div class="top_row">
-                    <p>Add image</p>
+                    <p>{{ $t('main.addImageTile') }}</p>
                     <md-icon @click.native.stop="close" class="close">close</md-icon>
                 </div>
                 <div class="bottom_row">
                     <div class="left_side">
                         <div @click="selectedPage = 'upload' " class="changeContent" :class="selectedPage === 'upload' ? 'active' : ''">
-                            <span class="text">Upload</span>
+                            <span class="text">{{ $t('main.upload') }}</span>
                         </div>
                         <div @click="selectedPage = 'library' " class="changeContent" :class="selectedPage === 'library' ? 'active' : ''">
-                            <span class="text">Library</span>
+                            <span class="text">{{ $t('main.library') }}</span>
                         </div>
                     </div>
                     <div class="right_side">
                         <div class="category_wrapper">
-                            <el-select v-model="value" class="custom_select" placeholder="Category">
+                            <el-select v-model="value" @change="changeCategoryOfImages" class="custom_select" :placeholder="$t('main.category')">
                                     <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    v-for="item in imageCategories"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
                                     </el-option>
                             </el-select>
                             <search></search>
@@ -32,8 +32,9 @@
             </div>
             <div class="body" v-loading="images.length < 1">
                 <div v-lazy-loading v-if="selectedPage === 'library'" class="library">
-                    <div v-for="(img, index) in correctImages" @click="chooseImage(img)" class="image_wrapper"  :key="index">
+                    <div v-for="img in correctImages" @click="chooseImage(img)" class="image_wrapper"  :key="img.id">
                         <img :src="img.src">
+                        <p class="name">{{img.name}}</p>
                     </div>
                 </div>
                 <div v-if="selectedPage === 'upload'" class="upload">
@@ -61,23 +62,7 @@ export default {
             },
             selectedPage: "library",
             uploading: false,
-            options: [{
-                value: 'Category 1',
-                label: 'Category 1'
-                }, {
-                value: 'Category 2',
-                label: 'Category 2'
-                }, {
-                value: 'Category 3',
-                label: 'Category 3'
-                }, {
-                value: 'Category 4',
-                label: 'Category 4'
-                }, {
-                value: 'Category 5',
-                label: 'Category 5'
-                }],
-                value: ''
+            value: 0
         }
     },
     components: {
@@ -96,6 +81,12 @@ export default {
         chooseImage(image){
             eventBus.$emit('changeSource', {image, id: this.imageSelecting.id});
             this.$store.commit('selectImage', {show: false}, {module: "main"});
+        },
+        changeCategoryOfImages(id){
+
+            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${id}&page=1&limit=16`).then(({body}) => {
+                this.$store.commit('changeImages', body, {module: "main"});
+            });
         }
     },
     directives: {
@@ -104,15 +95,21 @@ export default {
                 let canLoad = true;
                 let heightForLoad = 450;
                 let that = vnode.context;
+                let currentPage = 2;
                 let countOfImagesPerPage = 16;
                 el.addEventListener('scroll', () => {
                     let currentTopScroll = el.scrollHeight - el.scrollTop - el.clientHeight;
                     if(canLoad && currentTopScroll < 20){
                         canLoad = false;
                         let elements = that.images.length;
-                        that.$http.get(that.$store.state.main.hostURL + `/getImages?page=${(elements / countOfImagesPerPage) + 1}&limit=${countOfImagesPerPage}`).then(({body}) => {
-                            that.images = [...that.images, ...body];
-                            canLoad = true;
+                        that.$http.get(that.$store.state.main.hostURL + `/getImages?category=${that.value}&page=${currentPage}&limit=${countOfImagesPerPage}`).then(({body}) => {
+                            that.$store.commit('addNewImages', body , {module: "main"});
+                            if(body.length === countOfImagesPerPage){
+                                canLoad = true;
+                                currentPage++;
+                            }
+                        }).catch(function(err){
+                            console.log(err);
                         });
                     }
                 }, true);
@@ -125,12 +122,15 @@ export default {
                 return this.$store.state.main.allImages;
             },
             set(value){
-                this.$store.commit('addNewImages', value, {module: "main"});
+                this.$store.commit('changeImages', value, {module: "main"});
             }
             
         },
         imageSelecting(){
             return this.$store.state.main.imageSelecting;
+        },
+        imageCategories(){
+            return this.$store.state.main.imageCategories;
         }
     },
     asyncComputed: {
@@ -138,7 +138,7 @@ export default {
             let name = this.$store.state.main.searchingData.toLowerCase();
             if(name.trim()){
                 let result = [];
-                return this.$http.get(this.$store.state.main.hostURL + `/getImagesByName?name=${name}`).then(({body}) => body);
+                return this.$http.get(this.$store.state.main.hostURL + `/getImages?search=${name}`).then(({body}) => body);
             }else{
                 return this.images;
             }
@@ -239,6 +239,7 @@ export default {
         margin-right: 10px;
         margin-top: 10px;
         float: left;
+        position: relative;
     }
 
     .library .image_wrapper img{
@@ -265,5 +266,16 @@ export default {
 
     .changeContent.active .text{
         color: #4a90e2;
+    }
+
+    .name{
+        position: absolute;
+        color: white;
+        bottom: 10px;
+        margin: 0px;
+        font-size: 22px;
+        width: 100%;
+        padding: 5px 0px 5px 8px;
+        background: rgba(0,0,0,0.2)
     }
 </style>

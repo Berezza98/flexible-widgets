@@ -1,8 +1,11 @@
 export default {
     state: {
         hostURL: "",
+        currentLanguage : "",
+        permissions: {},
         searchingData: "", //FOR SEARCH COMPONENT 
         availableFonts: [],
+        imageCategories: [{id: 0, name: "All"}],
         currentOrientation: "",
         imageSelecting: false,
         templateSelecting: false,
@@ -37,8 +40,17 @@ export default {
         changeHostURL(state, value){
             state.hostURL = value;
         },
+        changeLanguage(state, value){
+            state.currentLanguage = value;
+        },
+        changePermissions(state, value){
+            state.permissions = value;
+        },
         changeSearchingData(state, value){
             state.searchingData = value;
+        },
+        changeImageCategories(state, value){
+            state.imageCategories = [...state.imageCategories , ...value];
         },
         hideInstructions(state){
             state.showInstructions = false;
@@ -61,8 +73,11 @@ export default {
         cropToolOpen(state, value){
             state.cropToolUsing = value;
         },
-        addNewImages(state, value){
+        changeImages(state, value){
             state.allImages = value;
+        },
+        addNewImages(state, value){
+            state.allImages = [...state.allImages, ...value];
         },
         addNewTemplates(state, value){
             state.allTemplates = value;

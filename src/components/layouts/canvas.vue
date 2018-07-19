@@ -11,16 +11,13 @@
             <parent-ruler></parent-ruler>
         </div>
         <div class="info" @click="openInfo">
-            <md-icon class="info_ico">help_outline</md-icon><span>{{message ? "Close Help & guides" : "Help & guides"}}</span>
+            <md-icon class="info_ico">help_outline</md-icon><span>{{message ? $t('buttons.close') + " " +  $t('buttons.help') : $t('buttons.help')}}</span>
         </div>
     </div> 
 </template>
 
 <script>
     import { eventBus } from '../../main.js';
-
-    import messages from '../../data/messages.js';
-
     import Text from '../layoutElements/text.vue';
     import Image from '../layoutElements/imageBlock.vue';
     import Rectangle from '../layoutElements/rectangle.vue';
@@ -73,7 +70,7 @@
                 if(!this.message){
                     this.message = this.$message({
                         showClose: false,
-                        message: messages.mainPage,
+                        message: this.$t('messages.mainPage'),
                         type: 'message',
                         duration: 0,
                         customClass: 'right-message'

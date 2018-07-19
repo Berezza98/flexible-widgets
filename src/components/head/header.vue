@@ -2,8 +2,8 @@
     <div class="header">
         <div class="left_side">
             <div class="container">
-                <p class="title">Create new template</p>
-                <p class="description">Drag & drop items to the canvas to create your custom template</p>
+                <p class="title">{{ $t("main.createTemplate") }}</p>
+                <p class="description">{{ $t("main.createTemplateDescription") }}</p>
             </div>
         </div>
         <div class="right_side">

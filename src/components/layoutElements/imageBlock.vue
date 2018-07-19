@@ -1,6 +1,6 @@
 <template>
     <draggable v-loading="loadingNewImage" :z="z" :drop-zone="'.canvas'" :resizable="imageSource ? true : false" :handles="handleResize" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :subtype="subtype" :active="hideTooltip" @update:active="makeActive">
-        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.openEditTool') " placement="top">
             <img v-if="imageSource" :style="styles" class="image" draggable="false" :src="imageSource">
         </el-tooltip>
         <div class="setImage" v-if="!imageSource">
@@ -92,7 +92,8 @@
                 img.onerror= function(e){
                     console.log(e);
                 }
-                img.src = image.src;
+                
+                img.src = this.$store.state.main.hostURL + `/getImages?id=${image.id}`;
             },
             getBase64Image(img) {
                 var canvas = document.createElement("canvas");

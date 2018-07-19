@@ -1,16 +1,16 @@
 <template>
     <div class="bar">
         <div class="nameBlock">
-            <el-input v-model="name" :maxlength="15" class="name" placeholder="Fill in name of template here" size="large"></el-input>
+            <el-input v-model="name" :maxlength="15" class="name" :placeholder=" $t('main.templateNamePlaceholder') " size="large"></el-input>
         </div>
         <div class="buttons">
-            <el-tooltip class="item" effect="dark" :open-delay="500" content="Click to add pre-made template" placement="top">
-                <el-button @click="showModal" class="change_orientation" type="text" plain><md-icon class="rotate_ico">view_compact</md-icon>Choose a Premade Template</el-button>
+            <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.preMadeTemplate') " placement="top">
+                <el-button @click="showModal" class="change_orientation uppercase" type="text" plain><md-icon class="rotate_ico">view_compact</md-icon>{{ $t("buttons.choosePreMade") }}</el-button>
             </el-tooltip>
             <div class="line"></div>
-            <el-button @click="changeOrientation" class="change_orientation" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>CHANGE ORIENTATION</el-button>
-            <el-button @click="saveWidget" type="primary" icon="el-icon-check">SAVE</el-button>
-            <el-tooltip content="Delete template" :open-delay="500" placement="top">
+            <el-button @click="changeOrientation" class="change_orientation uppercase" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>{{ $t("buttons.changeOrientation") }}</el-button>
+            <el-button @click="saveWidget" class="uppercase" type="primary" icon="el-icon-check">{{ $t("buttons.save") }}</el-button>
+            <el-tooltip :content=" $t('tooltips.delete') " :open-delay="500" placement="top">
                 <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
             </el-tooltip>
         </div>
@@ -31,7 +31,11 @@
         methods: {
             saveWidget(){
                 if(!this.name.trim()){
-                    this.$message.error('Please fill in the name field before saving.');
+                    this.$message.error(this.$t('messages.nameError'));
+                    return;
+                }
+                if(this.$store.state.main.draggableInsideCanvas.length < 1){
+                    this.$message.error(this.$t('messages.emptyCanvas'));
                     return;
                 }
                 const loading = this.$loading({
@@ -41,6 +45,7 @@
                     background: 'rgba(0, 0, 0, 0.7)'
                 });
                 let canvas = document.querySelector(".canvas");
+                let HTML = canvas.innerHTML;
                 let canvasWrapper = document.querySelector(".canvas_wrapper");
                 let topBar = document.querySelector('.top_bar');
                 canvas.classList.add('canvas_flex_start');
@@ -52,7 +57,8 @@
                         image: canvas.toDataURL(),
                         name: this.name,
                         orientation: this.$store.state.main.currentOrientation,
-                        data: this.$store.state.main.draggableInsideCanvas
+                        data: this.$store.state.main.draggableInsideCanvas,
+                        html: HTML
                     }
                 }).then((obj) => {
                     let currentTemplates = this.$store.state.main.allTemplates;
@@ -62,7 +68,7 @@
                     this.name = "";
                     this.$store.commit('selectTemplate', [] , {module: "main"});
                     this.$message({
-                        message: 'The template has been saved.',
+                        message: this.$t('messages.templateSaved'),
                         type: 'success'
                     });
                     canvas.classList.remove('canvas_flex_start');
@@ -78,7 +84,7 @@
                 this.$store.commit('changeOrientation', "", {module: "main"});
             },
             deleteWidget() {
-                this.$confirm('Are you sure you want to delete the created template?', 'Warning', {
+                this.$confirm(this.$t('messages.deletingCanvas'), 'Warning', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Cancel',
                 type: 'warning'
@@ -87,12 +93,12 @@
                     this.$store.commit('selectTemplate', [] , {module: "main"});
                     this.$message({
                         type: 'success',
-                        message: 'Delete completed'
+                        message: this.$t('messages.deleteDone')
                     });
                 }).catch(() => {
                     this.$message({
                         type: 'info',
-                        message: 'Delete canceled'
+                        message: this.$t('messages.deleteCanceled')
                     });          
                 });
             },
@@ -145,6 +151,10 @@
         display: flex;
         align-items: center;
         flex-basis: 330px;
+    }
+
+    .uppercase{
+        text-transform: uppercase;
     }
 
     @media screen and (max-width: 1800px) {

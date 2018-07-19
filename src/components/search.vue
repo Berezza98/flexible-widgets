@@ -1,6 +1,6 @@
 <template>
     <div class="search">
-        <el-input class="searchBox" placeholder="search" prefix-icon="el-icon-search" v-model="search" :clearable="true" size="large"></el-input>
+        <el-input class="searchBox" :placeholder="$t('main.search')" prefix-icon="el-icon-search" v-model="search" :clearable="true" size="large"></el-input>
     </div>
 </template>
 

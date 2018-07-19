@@ -4,7 +4,7 @@
             <panel v-if="showElement === 'panel'" :id="currentElementID"></panel>
             <shapes v-if="showElement === 'shapes'"></shapes>
         </div>
-        <el-button @click="undo" class="undo" type="primary" plain :disabled="canUndo"><md-icon>undo</md-icon> UNDO</el-button>
+        <el-button @click="undo" class="undo" type="primary" plain :disabled="canUndo"><md-icon>undo</md-icon> {{ $t('buttons.undo') }}</el-button>
     </div>
 </template>
 
@@ -65,6 +65,7 @@
         display: flex;
         align-items: center;
         padding: 0px 20px;
+        text-transform: uppercase;
     }
 
     .change_orientation{

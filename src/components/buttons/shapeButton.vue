@@ -1,9 +1,9 @@
 <template>
     <div class="firstColumnButton" @click="openShapes">
-        <el-tooltip class="item" effect="dark" :open-delay="500" :content="'Click to add a shape'" placement="right">
+        <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.shapeBlock') " placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">widgets</md-icon>
-                <h2 class="title">Shapes</h2>
+                <h2 class="title">{{ $t('buttons.shapes') }}</h2>
             </div>
         </el-tooltip>
   </div>
@@ -89,6 +89,7 @@
         text-decoration: none;
         margin-top: 5px;
         transition: color .4s cubic-bezier(.4,0,.2,1);
+        text-transform: capitalize;
     }
 
     .menuImage{

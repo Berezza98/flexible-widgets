@@ -3,7 +3,7 @@
         <el-card :body-style="bodyStyles" class="box-card">
             <div class="header">
                 <div class="top_row">
-                    <p>Choose a premade template</p>
+                    <p>{{ $t('main.choosePreMadeTile') }}</p>
                     <md-icon @click.native.stop="close" class="close">close</md-icon>
                     <search></search>
                 </div>
@@ -58,7 +58,7 @@ export default {
             let name = this.$store.state.main.searchingData.toLowerCase();
             if(name.trim()){
                 let result = [];
-                return this.$http.get(this.$store.state.main.hostURL + `/getTemplatesByName?name=${name}`).then(({body}) => body);
+                return this.$http.get(this.$store.state.main.hostURL + `/getTemplates?search=${name}`).then(({body}) => body);
             }else{
                 return this.templates;
             }

@@ -3,7 +3,7 @@
         <el-card :body-style="bodyStyles" class="box-card">
             <div class="header">
                 <div class="top_row">
-                    <p>Crop tool</p>
+                    <p>{{ $t('main.cropToolTile') }}</p>
                     <md-icon @click.native.stop="close" class="close">close</md-icon>
                 </div>
             </div>
@@ -18,8 +18,8 @@
                         <el-button @click="crop" class="md_icon_button" type="primary"><md-icon>crop</md-icon></el-button>
                     </div>
                     <div class="right">
-                        <el-button type="primary" :disabled="!currentImageData && !currentImageSrc" @click="save">SAVE</el-button>
-                        <el-button class="button_white" @click="close" plain>CANCEL</el-button>
+                        <el-button type="primary" class="uppercase" :disabled="!currentImageData && !currentImageSrc" @click="save">{{ $t('buttons.save') }}</el-button>
+                        <el-button class="button_white uppercase" @click="close" plain>{{ $t('buttons.cancel') }}</el-button>
                     </div>
                 </div>
             </div>
@@ -217,5 +217,9 @@ export default {
 
     img {
         max-width: 100%;
+    }
+
+    .uppercase{
+        text-transform: uppercase;
     }
 </style>
