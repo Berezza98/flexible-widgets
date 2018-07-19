@@ -242,6 +242,10 @@ export default {
         position: relative;
     }
 
+    .library{
+        overflow-x: hidden;
+    }
+
     .library .image_wrapper img{
         height: 100%;
         width: 100%;

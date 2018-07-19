@@ -27,6 +27,7 @@
                 this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
             },
             save(event){
+                this.changeContent(event);
                 this.$store.commit('changeInputText', this.changingText, {module: "main"});
             },
             selectText(){

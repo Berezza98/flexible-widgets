@@ -84,7 +84,7 @@
                 this.$store.commit('changeOrientation', "", {module: "main"});
             },
             deleteWidget() {
-                this.$confirm(this.$t('messages.deletingCanvas'), 'Warning', {
+                this.$confirm(this.$t('messages.deletingTemplate'), 'Warning', {
                 confirmButtonText: 'OK',
                 cancelButtonText: 'Cancel',
                 type: 'warning'
