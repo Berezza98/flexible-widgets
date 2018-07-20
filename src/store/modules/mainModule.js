@@ -79,8 +79,11 @@ export default {
         addNewImages(state, value){
             state.allImages = [...state.allImages, ...value];
         },
-        addNewTemplates(state, value){
+        changeTemplates(state, value){
             state.allTemplates = value;
+        },
+        addNewTemplates(state, value){
+            state.allTemplates = [...state.allTemplates, ...value];
         },
         changeAvailableFonts(state, value){
             state.availableFonts = value;

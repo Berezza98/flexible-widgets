@@ -30,9 +30,12 @@
                     </div>
                 </div>
             </div>
-            <div class="body" v-loading="images.length < 1">
+            <div class="body">
                 <div v-lazy-loading v-if="selectedPage === 'library'" class="library">
-                    <div v-for="img in correctImages" @click="chooseImage(img)" class="image_wrapper"  :key="img.id">
+                    <div v-if="images && images.length < 1" class="no_images">
+                        <h2>{{ $t('messages.noData') }}</h2>
+                    </div>
+                    <div v-for="img in images" @click="chooseImage(img)" class="image_wrapper"  :key="img.id">
                         <img :src="img.src">
                         <p class="name">{{img.name}}</p>
                     </div>
@@ -62,7 +65,9 @@ export default {
             },
             selectedPage: "library",
             uploading: false,
-            value: 0
+            value: 0,
+            currentPage: 2,
+            canLoad: true
         }
     },
     components: {
@@ -83,30 +88,36 @@ export default {
             this.$store.commit('selectImage', {show: false}, {module: "main"});
         },
         changeCategoryOfImages(id){
-
-            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${id}&page=1&limit=16`).then(({body}) => {
-                this.$store.commit('changeImages', body, {module: "main"});
+            this.currentPage = 2;
+            this.canLoad = true;
+            this.images = [];
+            this.changeScroller();
+            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${id}&page=1&limit=16&search=${this.name}`).then(({body}) => {
+                this.$store.commit('addNewImages', body, {module: "main"});
             });
+        },
+        changeScroller(){
+            let scroller = document.querySelector('.library');
+            if(scroller){
+                scroller.scrollTop = 0;
+            }
         }
     },
     directives: {
         lazyLoading: {
             inserted: function (el, binding, vnode) {
-                let canLoad = true;
                 let heightForLoad = 450;
                 let that = vnode.context;
-                let currentPage = 2;
                 let countOfImagesPerPage = 16;
                 el.addEventListener('scroll', () => {
                     let currentTopScroll = el.scrollHeight - el.scrollTop - el.clientHeight;
-                    if(canLoad && currentTopScroll < 20){
-                        canLoad = false;
-                        let elements = that.images.length;
-                        that.$http.get(that.$store.state.main.hostURL + `/getImages?category=${that.value}&page=${currentPage}&limit=${countOfImagesPerPage}`).then(({body}) => {
+                    if(that.canLoad && currentTopScroll < 20){
+                        that.canLoad = false;
+                        that.$http.get(that.$store.state.main.hostURL + `/getImages?category=${that.value}&page=${that.currentPage}&limit=${countOfImagesPerPage}&search=${that.name}`).then(({body}) => {
                             that.$store.commit('addNewImages', body , {module: "main"});
                             if(body.length === countOfImagesPerPage){
-                                canLoad = true;
-                                currentPage++;
+                                that.canLoad = true;
+                                that.currentPage++;
                             }
                         }).catch(function(err){
                             console.log(err);
@@ -131,21 +142,26 @@ export default {
         },
         imageCategories(){
             return this.$store.state.main.imageCategories;
-        }
-    },
-    asyncComputed: {
-        correctImages(){
-            let name = this.$store.state.main.searchingData.toLowerCase();
-            if(name.trim()){
-                let result = [];
-                return this.$http.get(this.$store.state.main.hostURL + `/getImages?search=${name}`).then(({body}) => body);
-            }else{
-                return this.images;
-            }
+        },
+        name(){
+            return this.$store.state.main.searchingData.toLowerCase();
         }
     },
     created(){
         this.$store.commit('changeSearchingData', '', {module: "main"});
+    },
+    watch: {
+        name(newValue){
+            this.changeScroller();
+            this.canLoad = true;
+            this.currentPage = 2;
+            this.images = [];
+            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${this.value}&page=1&limit=16&search=${newValue}`).then(({body}) => {
+                this.$store.commit('addNewImages', body , {module: "main"});
+            }).catch(function(err){
+                console.log(err);
+            });
+        }
     }
 }
 </script>
@@ -240,6 +256,9 @@ export default {
         margin-top: 10px;
         float: left;
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .library{
@@ -247,8 +266,8 @@ export default {
     }
 
     .library .image_wrapper img{
-        height: 100%;
-        width: 100%;
+        /* height: 100%;
+        width: 100%; */
     }
 
     .changeContent{
@@ -281,5 +300,18 @@ export default {
         width: 100%;
         padding: 5px 0px 5px 8px;
         background: rgba(0,0,0,0.2)
+    }
+
+    .no_images{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .no_images h2{
+        color: #d7d7d7;
+        font-size: 20px;
     }
 </style>

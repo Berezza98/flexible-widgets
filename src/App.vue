@@ -104,11 +104,11 @@ export default {
     });
 
     this.$http.get(this.$store.state.main.hostURL + '/getTemplates?page=1&limit=16').then(({body}) => {
-        this.$store.commit('addNewTemplates', body, {module: "main"});
+        this.$store.commit('changeTemplates', body, {module: "main"});
     });
 
-    this.$http.get(this.$store.state.main.hostURL + '/getImages?page=1&limit=16').then(({body}) => {
-        this.$store.commit('addNewImages', body, {module: "main"});
+    this.$http.get(this.$store.state.main.hostURL + '/getImages?category=0&page=1&limit=16').then(({body}) => {
+        this.$store.commit('changeImages', body, {module: "main"});
     });
 
     this.$http.get(this.$store.state.main.hostURL + '/getImageCategories').then(({body}) => {

@@ -8,9 +8,12 @@
                     <search></search>
                 </div>
             </div>
-            <div class="body" v-loading="templates.length < 1">
-                <div class="templates">
-                    <div v-for="(template, index) in correctTemplates" @click="chooseTemplate(template)" :class="template.orientation === 'portrait' ? 'portrait' : 'landscape'" class="image_wrapper"  :key="index">
+            <div class="body">
+                <div v-lazy-loading class="templates">
+                    <div v-if="templates && templates.length < 1" class="no_templates">
+                        <h2>{{ $t('messages.noData') }}</h2>
+                    </div>
+                    <div v-for="(template, index) in templates" @click="chooseTemplate(template)" :class="template.orientation === 'portrait' ? 'portrait' : 'landscape'" class="image_wrapper"  :key="index">
                         <img :src="template.image">
                         <p class="name">{{template.name}}</p>
                     </div>
@@ -33,7 +36,9 @@ export default {
                 width: "100%",
                 padding: "0px",
                 position: "relative"
-            }
+            },
+            currentPage: 2,
+            canLoad: true
         }
     },
     components: {
@@ -46,26 +51,66 @@ export default {
         chooseTemplate(templ){
             this.$store.commit('selectTemplate', templ.data , {module: "main"});
             this.close();
+        },
+        changeScroller(){
+            let scroller = document.querySelector('.templates');
+            if(scroller){
+                scroller.scrollTop = 0;
+            }
         }
     },
     computed: {
-        templates(){
-            return this.$store.state.main.allTemplates;
+        templates:{
+            get(){
+                return this.$store.state.main.allTemplates;
+            },
+            set(value){
+                this.$store.commit('changeTemplates', value, {module: "main"});
+            }
+        },
+        name(){
+            return this.$store.state.main.searchingData.toLowerCase();
         }
     },
-    asyncComputed: {
-        correctTemplates(){
-            let name = this.$store.state.main.searchingData.toLowerCase();
-            if(name.trim()){
-                let result = [];
-                return this.$http.get(this.$store.state.main.hostURL + `/getTemplates?search=${name}`).then(({body}) => body);
-            }else{
-                return this.templates;
+    directives: {
+        lazyLoading: {
+            inserted: function (el, binding, vnode) {
+                let heightForLoad = 450;
+                let that = vnode.context;
+                let countOfTemplatesPerPage = 16;
+                el.addEventListener('scroll', () => {
+                    let currentTopScroll = el.scrollHeight - el.scrollTop - el.clientHeight;
+                    if(that.canLoad && currentTopScroll < 20){
+                        that.canLoad = false;
+                        that.$http.get(that.$store.state.main.hostURL + `/getTemplates?page=${that.currentPage}&limit=${countOfTemplatesPerPage}&search=${that.name}`).then(({body}) => {
+                            that.$store.commit('addNewTemplates', body , {module: "main"});
+                            if(body.length === countOfTemplatesPerPage){
+                                that.canLoad = true;
+                                that.currentPage++;
+                            }
+                        }).catch(function(err){
+                            console.log(err);
+                        });
+                    }
+                }, true);
             }
         }
     },
     created(){
         this.$store.commit('changeSearchingData', '', {module: "main"});
+    },
+    watch: {
+        name(newValue){
+            this.changeScroller();
+            this.canLoad = true;
+            this.currentPage = 2;
+            this.templates = [];
+            this.$http.get(this.$store.state.main.hostURL + `/getTemplates?page=1&limit=16&search=${newValue}`).then(({body}) => {
+                this.$store.commit('addNewTemplates', body , {module: "main"});
+            }).catch(function(err){
+                console.log(err);
+            });
+        }
     }
 }
 </script>
@@ -157,5 +202,18 @@ export default {
         width: 100%;
         padding: 5px 0px 5px 8px;
         background: rgba(0,0,0,0.2)
+    }
+
+    .no_templates{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .no_templates h2{
+        color: #d7d7d7;
+        font-size: 20px;
     }
 </style>
