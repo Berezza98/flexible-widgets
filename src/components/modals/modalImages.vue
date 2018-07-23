@@ -37,7 +37,7 @@
                     </div>
                     <div v-for="img in images" @click="chooseImage(img)" class="image_wrapper"  :key="img.id">
                         <img :src="img.src">
-                        <p class="name">{{img.name}}</p>
+                        <p class="name">{{img.name.length > 11 ? img.name.slice(0, 11) + "..." : img.name}}</p>
                         <el-tooltip class="item" :open-delay="500" :content="$t('tooltips.deleteImage')" placement="top">
                             <md-icon @click.native.stop="deleteImage(img.id)" class="delete_image">close</md-icon>
                         </el-tooltip>
@@ -95,7 +95,7 @@ export default {
             this.canLoad = true;
             this.images = [];
             this.changeScroller();
-            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${id}&page=1&limit=16&search=${this.name}`).then(({body}) => {
+            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${id}&page=1&limit=36&search=${this.name}`).then(({body}) => {
                 this.$store.commit('addNewImages', body, {module: "main"});
             });
         },
@@ -134,7 +134,7 @@ export default {
             inserted: function (el, binding, vnode) {
                 let heightForLoad = 450;
                 let that = vnode.context;
-                let countOfImagesPerPage = 16;
+                let countOfImagesPerPage = 36;
                 el.addEventListener('scroll', () => {
                     let currentTopScroll = el.scrollHeight - el.scrollTop - el.clientHeight;
                     if(that.canLoad && currentTopScroll < 20){
@@ -182,7 +182,7 @@ export default {
             this.canLoad = true;
             this.currentPage = 2;
             this.images = [];
-            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${this.value}&page=1&limit=16&search=${newValue}`).then(({body}) => {
+            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${this.value}&page=1&limit=36&search=${newValue}`).then(({body}) => {
                 this.$store.commit('addNewImages', body , {module: "main"});
             }).catch(function(err){
                 console.log(err);
@@ -276,8 +276,8 @@ export default {
 
     .body .library .image_wrapper{
         cursor: pointer;
-        width: calc(25% - 10px);
-        height: calc(35% - 10px);
+        width: calc(16.66% - 10px);
+        height: calc(26% - 10px);
         margin-right: 10px;
         margin-top: 10px;
         float: left;
@@ -334,10 +334,13 @@ export default {
         color: white;
         bottom: 10px;
         margin: 0px;
-        font-size: 22px;
+        font-size: 15px;
+        height: 20px;
         width: 100%;
+        display: flex;
+        align-items: center;
         padding: 5px 0px 5px 8px;
-        background: rgba(0,0,0,0.2)
+        background: rgba(0,0,0,0.2);
     }
 
     .no_images{

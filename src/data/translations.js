@@ -36,7 +36,7 @@ export default {
             deleteDone : 'Delete completed',
             deleteCanceled : 'Delete canceled',
             sizeError : 'The size of the image cannot be bigger than 1 MB',
-            noData : 'Nothing found',
+            noData : 'This search returned no results',
             deleteImageQuestion : 'If you remove it here, it will also be removed from My Files',
             imageDeleting : 'Delete image',
             deleteTemplateQuestion : 'Are you sure that you want to delete this template ?',

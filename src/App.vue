@@ -107,7 +107,7 @@ export default {
         this.$store.commit('changeTemplates', body, {module: "main"});
     });
 
-    this.$http.get(this.$store.state.main.hostURL + '/getImages?category=0&page=1&limit=16').then(({body}) => {
+    this.$http.get(this.$store.state.main.hostURL + '/getImages?category=0&page=1&limit=36').then(({body}) => {
         this.$store.commit('changeImages', body, {module: "main"});
     });
 
