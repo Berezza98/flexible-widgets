@@ -64,7 +64,7 @@
                 }).then((obj) => {
                     let currentTemplates = this.$store.state.main.allTemplates;
                     this.$store.commit('addNewTemplates', [obj, ...currentTemplates] ,{module: "main"});
-                    return this.$http.post(this.$store.state.main.hostURL + '/setTemplate', obj);
+                    return this.$http.post(this.$store.state.main.hostURL + this.editing ? `/setTemplate&id=${editingID}` : `/setTemplate`, obj);
                 }).then(() => {
                     this.name = "";
                     this.$store.commit('selectTemplate', [] , {module: "main"});
@@ -114,6 +114,9 @@
         computed: {
             editing(){
                 return this.$store.state.main.editingTemplate;
+            },
+            editingID(){
+                return this.$store.state.main.editingID;
             },
             name :{
                 get(){

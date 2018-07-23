@@ -4,6 +4,7 @@ export default {
         currentLanguage : "",
         permissions: {},
         editingTemplate: false,
+        editingID: "",
         searchingData: "", //FOR SEARCH COMPONENT 
         templateName: "",
         availableFonts: [],
@@ -50,6 +51,9 @@ export default {
         },
         editTemplate(state, value){
             state.editingTemplate = value;
+        },
+        changeEditingID(state, value){
+            state.editingID = value;
         },
         changePermissions(state, value){
             state.permissions = value;
