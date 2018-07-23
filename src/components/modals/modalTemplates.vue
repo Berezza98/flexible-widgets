@@ -13,9 +13,12 @@
                     <div v-if="templates && templates.length < 1" class="no_templates">
                         <h2>{{ $t('messages.noData') }}</h2>
                     </div>
-                    <div v-for="(template, index) in templates" @click="chooseTemplate(template)" :class="template.orientation === 'portrait' ? 'portrait' : 'landscape'" class="image_wrapper"  :key="index">
+                    <div v-for="template in templates" @click="chooseTemplate(template)" :class="template.orientation === 'portrait' ? 'portrait' : 'landscape'" class="image_wrapper"  :key="template.id">
                         <img :src="template.image">
                         <p class="name">{{template.name}}</p>
+                        <el-tooltip v-if="adminPermissions" class="item" :open-delay="500" :content="$t('tooltips.deleteTemplate')" placement="top">
+                            <md-icon @click.native.stop="deleteTemplate(template.id)" class="delete_template">close</md-icon>
+                        </el-tooltip>
                     </div>
                 </div>
             </div>
@@ -57,6 +60,29 @@ export default {
             if(scroller){
                 scroller.scrollTop = 0;
             }
+        },
+        deleteTemplate(id){
+            this.$confirm(this.$t('messages.deleteTemplateQuestion'), this.$t('messages.templateDeleting'), {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$http.delete(this.$store.state.main.hostURL + `/deleteTemplate?id=${id}`).then(() => {
+                    this.$store.commit('deleteTemplate', id ,{ module : 'main' });
+                    this.$message({
+                        type: 'success',
+                        message: this.$t('messages.deleteCompleted')
+                    });
+                });
+
+            }).catch(() => {
+
+                this.$message({
+                    type: 'info',
+                    message: this.$t('messages.deleteCanceled')
+                });      
+
+            });
         }
     },
     computed: {
@@ -70,6 +96,9 @@ export default {
         },
         name(){
             return this.$store.state.main.searchingData.toLowerCase();
+        },
+        adminPermissions(){
+            return this.$store.state.main.permissions.create_premade_templates;
         }
     },
     directives: {
@@ -202,6 +231,18 @@ export default {
         width: 100%;
         padding: 5px 0px 5px 8px;
         background: rgba(0,0,0,0.2)
+    }
+
+    .image_wrapper .delete_template{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        opacity: 0;
+        transition: all 0.3s;
+    }
+
+    .image_wrapper:hover .delete_template{
+        opacity: 1;
     }
 
     .no_templates{

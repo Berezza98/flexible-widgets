@@ -51,7 +51,8 @@
                 canvas.classList.add('canvas_flex_start');
                 topBar.classList.add('hide_bar');
                 canvasWrapper.classList.add('hide');
-                html2canvas(canvas, {logging: false}).then(canvas => {
+
+                html2canvas(canvas, {logging: false, useCORS: true}).then(canvas => {
                     this.$store.commit('changeIdOfElements', {module: "main"});
                     return {
                         image: canvas.toDataURL(),

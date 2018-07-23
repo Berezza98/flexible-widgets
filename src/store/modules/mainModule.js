@@ -6,7 +6,7 @@ export default {
         searchingData: "", //FOR SEARCH COMPONENT 
         availableFonts: [],
         imageCategories: [{id: 0, name: "All"}],
-        currentOrientation: "",
+        currentOrientation: "landscape",
         imageSelecting: false,
         templateSelecting: false,
         cropToolUsing: false,
@@ -76,6 +76,17 @@ export default {
         changeImages(state, value){
             state.allImages = value;
         },
+        deleteImage(state, id){
+            let images = state.allImages.filter((img) => {
+                if ( img.id !== id ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            state.allImages = images;
+        },
         addNewImages(state, value){
             state.allImages = [...state.allImages, ...value];
         },
@@ -85,12 +96,25 @@ export default {
         addNewTemplates(state, value){
             state.allTemplates = [...state.allTemplates, ...value];
         },
+        deleteTemplate(state, id){
+            let templates = state.allTemplates.filter((img) => {
+                if ( img.id !== id ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            state.allTemplates = templates;
+        },
         changeAvailableFonts(state, value){
             state.availableFonts = value;
         },
         changeOrientation(state, value){
             state.currentOrientation = value;
-            state.orientationWasSelected = true;
+            if (value) {
+                state.orientationWasSelected = true;
+            }
         },
         changeTempOrientation(state, value){
             state.tempOrientation = state.currentOrientation;

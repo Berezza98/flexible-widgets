@@ -38,6 +38,9 @@
                     <div v-for="img in images" @click="chooseImage(img)" class="image_wrapper"  :key="img.id">
                         <img :src="img.src">
                         <p class="name">{{img.name}}</p>
+                        <el-tooltip class="item" :open-delay="500" :content="$t('tooltips.deleteImage')" placement="top">
+                            <md-icon @click.native.stop="deleteImage(img.id)" class="delete_image">close</md-icon>
+                        </el-tooltip>
                     </div>
                 </div>
                 <div v-if="selectedPage === 'upload'" class="upload">
@@ -101,6 +104,29 @@ export default {
             if(scroller){
                 scroller.scrollTop = 0;
             }
+        },
+        deleteImage(id){
+            this.$confirm(this.$t('messages.deleteImageQuestion'), this.$t('messages.imageDeleting'), {
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$http.delete(this.$store.state.main.hostURL + `/deleteImage?id=${id}`).then(() => {
+                    this.$store.commit('deleteImage', id ,{ module : 'main' });
+                    this.$message({
+                        type: 'success',
+                        message: this.$t('messages.deleteCompleted')
+                    });
+                });
+
+            }).catch(() => {
+
+                this.$message({
+                    type: 'info',
+                    message: this.$t('messages.deleteCanceled')
+                });      
+
+            });
         }
     },
     directives: {
@@ -259,6 +285,18 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .image_wrapper .delete_image{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        opacity: 0;
+        transition: all 0.3s;
+    }
+
+    .image_wrapper:hover .delete_image{
+        opacity: 1;
     }
 
     .library{

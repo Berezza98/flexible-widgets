@@ -5,7 +5,7 @@
                 <div class="form-group">
                     <div class="dropArea" @ondragover="onChange" :class="dragging ? 'dropAreaDragging' : ''" @dragenter="dragging=true" @dragend="dragging=false" @dragleave="dragging=false">
                         <md-icon class="md-size-2x color_gray">cloud_upload</md-icon>
-                        <input type="file" id="items" name="items[]" accept="image/*" required @change="onChange">
+                        <input type="file" id="items" name="uploadFiles" accept="image/*" required @change="onChange">
                         <div>
                             <p class="help-block"><span class="color_gray">{{ $t('main.uploadingFiles') }}</span></p>
                             <p class="limitation-block"><span class="color_gray">{{ $t('main.imageSize') }}</span></p>
@@ -81,7 +81,7 @@ export default {
                 if (!isNaN(x)) {
                     this.items = e.target.files[x] || e.dataTransfer.files[x];
                     this.itemsNames[x] = files[x].name;
-                    this.formData.append('items[]', this.items);
+                    this.formData.append('uploadFiles', this.items);
                 }
             }
             this.onSubmit(files);

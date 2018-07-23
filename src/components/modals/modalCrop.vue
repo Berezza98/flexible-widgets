@@ -72,10 +72,11 @@ export default {
             this.cropper.replace(image);
         },
         save(){
-            this.$store.commit('changeDimentionsOfElement', {id: this.cropTool.id, w: this.currentImageData.width / 2, h: this.currentImageData.height / 2}, {module: 'main'});
-            this.$store.commit('changeImageSource', this.currentImageSrc, {module: 'main'});
-
-            this.close();
+            this.$http.post(this.$store.state.main.hostURL + '/b64ToImageFile', JSON.stringify({b64: this.currentImageSrc})).then(({body}) => {
+                this.$store.commit('changeDimentionsOfElement', {id: this.cropTool.id, w: this.currentImageData.width / 2, h: this.currentImageData.height / 2}, {module: 'main'});
+                this.$store.commit('changeImageSource', body.url, {module: 'main'});
+                this.close();   
+            });
         },
         rotateLeft(){
             this.cropper.rotate(-90);

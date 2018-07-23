@@ -120,9 +120,12 @@ export default {
     });
 
     if(this.getQueryVariable('fragmentID')){
-      this.$http.get(this.$store.state.main.hostURL + `getTemplate?id=${this.getQueryVariable('fragmentID')}`).then(({body}) => {
+      this.$http.get(this.$store.state.main.hostURL + `/getTemplate?id=${this.getQueryVariable('fragmentID')}`).then(({body}) => {
         this.$store.commit('selectTemplate', body.data , {module: "main"});
+        this.$store.commit('changeOrientation', body.orientation, {module: "main"});
       });
+    } else {
+      this.$store.commit('changeOrientation', "", {module: "main"});
     }
   }
 }

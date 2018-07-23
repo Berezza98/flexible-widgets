@@ -76,33 +76,27 @@
             },
             setNewSource(image){
                 let that = this;
+                this.$http.get(this.$store.state.main.hostURL + `/getImages?id=${image.id}`).then(({body}) => {
 
-                let img = new Image();
-                img.crossOrigin = "Anonymous";
-                img.onload = function(){
-                    let base64 = that.getBase64Image(img);
-                    let { height, width } = that.getCorrectDimensionsForImage(img);
-                    let positionObj = that.getCorrectPositionOfImage(that.x, that.y, height, width);
+                    let img = new Image();
+                    img.crossOrigin = "Anonymous";
 
-                    that.$store.commit('changePositionOfElement', {y: positionObj.y, x: positionObj.x, id: that.id}, {module: "main"});
-                    that.$store.commit('changeDimentionsOfElement', {id: that.id, w: width, h: height}, {module: 'main'});
-                    that.$store.commit('changeImageSource', base64, {module: 'main'});
-                    that.loadingNewImage = false;
-                };
-                img.onerror= function(e){
-                    console.log(e);
-                }
+                    img.onload = function(){
+                        let { height, width } = that.getCorrectDimensionsForImage(img);
+                        let positionObj = that.getCorrectPositionOfImage(that.x, that.y, height, width);
+
+                        that.$store.commit('changePositionOfElement', {y: positionObj.y, x: positionObj.x, id: that.id}, {module: "main"});
+                        that.$store.commit('changeDimentionsOfElement', {id: that.id, w: width, h: height}, {module: 'main'});
+                        that.$store.commit('changeImageSource', img.src, {module: 'main'});
+                        that.loadingNewImage = false;
+                    };
+                    img.onerror= function(e){
+                        console.log(e);
+                    }
+
+                    img.src = body[0].src;
+                });
                 
-                img.src = this.$store.state.main.hostURL + `/getImages?id=${image.id}`;
-            },
-            getBase64Image(img) {
-                var canvas = document.createElement("canvas");
-                canvas.width = img.naturalWidth;
-                canvas.height = img.naturalHeight;
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
-                var dataURL = canvas.toDataURL();
-                return dataURL;
             },
             getCorrectPositionOfImage(x, y, height, width){
                 let canvasHeight, canvasWidth;
