@@ -3,7 +3,9 @@ export default {
         hostURL: "",
         currentLanguage : "",
         permissions: {},
+        editingTemplate: false,
         searchingData: "", //FOR SEARCH COMPONENT 
+        templateName: "",
         availableFonts: [],
         imageCategories: [{id: 0, name: "All"}],
         currentOrientation: "landscape",
@@ -42,6 +44,12 @@ export default {
         },
         changeLanguage(state, value){
             state.currentLanguage = value;
+        },
+        changeTemplateName(state, value){
+            state.templateName = value;
+        },
+        editTemplate(state, value){
+            state.editingTemplate = value;
         },
         changePermissions(state, value){
             state.permissions = value;

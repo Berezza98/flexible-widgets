@@ -121,8 +121,10 @@ export default {
 
     if(this.getQueryVariable('fragmentID')){
       this.$http.get(this.$store.state.main.hostURL + `/getTemplate?id=${this.getQueryVariable('fragmentID')}`).then(({body}) => {
+        this.$store.commit('editTemplate', true , {module: "main"});
         this.$store.commit('selectTemplate', body.data , {module: "main"});
         this.$store.commit('changeOrientation', body.orientation, {module: "main"});
+        this.$store.commit('changeTemplateName', body.name, {module: "main"});
       });
     } else {
       this.$store.commit('changeOrientation', "", {module: "main"});

@@ -1,14 +1,14 @@
 <template>
     <div class="bar">
         <div class="nameBlock">
-            <el-input v-model="name" :maxlength="15" class="name" :placeholder=" $t('main.templateNamePlaceholder') " size="large"></el-input>
+            <el-input v-model="name" :disabled="editing" :maxlength="15" class="name" :placeholder=" $t('main.templateNamePlaceholder') " size="large"></el-input>
         </div>
         <div class="buttons">
             <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.preMadeTemplate') " placement="top">
                 <el-button @click="showModal" class="change_orientation uppercase" type="text" plain><md-icon class="rotate_ico">view_compact</md-icon>{{ $t("buttons.choosePreMade") }}</el-button>
             </el-tooltip>
             <div class="line"></div>
-            <el-button @click="changeOrientation" class="change_orientation uppercase" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>{{ $t("buttons.changeOrientation") }}</el-button>
+            <el-button v-if="!editing" @click="changeOrientation" class="change_orientation uppercase" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>{{ $t("buttons.changeOrientation") }}</el-button>
             <el-button @click="saveWidget" class="uppercase" type="primary" icon="el-icon-check">{{ $t("buttons.save") }}</el-button>
             <el-tooltip :content=" $t('tooltips.delete') " :open-delay="500" placement="top">
                 <el-button @click="deleteWidget" type="primary" icon="el-icon-delete" plain></el-button>
@@ -25,7 +25,7 @@
     export default{
         data(){
             return{
-                name: ""
+                
             }
         },
         methods: {
@@ -112,7 +112,17 @@
             }
         },
         computed: {
-            
+            editing(){
+                return this.$store.state.main.editingTemplate;
+            },
+            name :{
+                get(){
+                    return this.$store.state.main.templateName;
+                },
+                set(value){
+                    this.$store.commit('changeTemplateName', value);
+                }
+            }
         }
     }
 </script>
