@@ -285,6 +285,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        background: rgba(128, 128, 128, 0.3);
     }
 
     .image_wrapper .delete_image{
@@ -332,7 +333,7 @@ export default {
     .name{
         position: absolute;
         color: white;
-        bottom: 10px;
+        bottom: 0px;
         margin: 0px;
         font-size: 15px;
         height: 20px;
