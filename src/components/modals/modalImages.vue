@@ -36,7 +36,7 @@
                         <h2>{{ $t('messages.noData') }}</h2>
                     </div>
                     <div v-for="img in images" @click="chooseImage(img)" class="image_wrapper"  :key="img.id">
-                        <img :src="img.src">
+                        <img :src="img.src + '?time=' + new Date().getTime()">
                         <p class="name">{{img.name.length > 11 ? img.name.slice(0, 11) + "..." : img.name}}</p>
                         <el-tooltip class="item" :open-delay="500" :content="$t('tooltips.deleteImage')" placement="top">
                             <md-icon @click.native.stop="deleteImage(img.id)" class="delete_image">close</md-icon>
@@ -81,10 +81,16 @@ export default {
         close(){
             this.$store.commit('selectImage', {show: false}, {module: "main"});
         },
-        saveImage(newImages){
-            this.images = newImages;
+        saveImage(newImage){
+            let obj = {
+                name : newImage.name,
+                src : newImage.url,
+                id : newImage.id
+            };
+            this.$store.commit('uploadImage', obj, {module: "main"});
             this.uploading = false;
-            this.selectedPage = "library";
+
+            this.chooseImage(obj);
         },
         chooseImage(image){
             eventBus.$emit('changeSource', {image, id: this.imageSelecting.id});
@@ -305,8 +311,7 @@ export default {
     }
 
     .library .image_wrapper img{
-        /* height: 100%;
-        width: 100%; */
+        max-height: 90px;
     }
 
     .changeContent{
@@ -355,5 +360,21 @@ export default {
     .no_images h2{
         color: #d7d7d7;
         font-size: 20px;
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        .body .library .image_wrapper{
+            width: calc(25% - 10px);
+            height: calc(26% - 10px);
+        }
+
+        .right_side .category_wrapper{
+            padding-left: 20px;
+        }
+
+        .search{
+            margin-left: 10px !important;
+        }
+        
     }
 </style>

@@ -28,13 +28,13 @@
                 </div>
                 <p class="gray_color body_text">{{ $t('main.chooseType') }}</p>
                 <div class="options_template">
-                    <el-button v-model="template" @click="template = 'pre-made'" class="select_button" :class="template === 'pre-made' ? 'active' : ''">{{ $t('buttons.preMadeTemplate') }}</el-button>
-                    <el-button v-model="template" @click="template = 'blank'" class="select_button" :class="template === 'blank' ? 'active' : ''">{{ $t('buttons.scratchTemplate') }}</el-button>
+                    <el-button v-model="template" @click="template = 'pre-made'" class="select_button" size="small" :class="template === 'pre-made' ? 'active' : ''">{{ $t('buttons.preMadeTemplate') }}</el-button>
+                    <el-button v-model="template" @click="template = 'blank'" class="select_button" size="small" :class="template === 'blank' ? 'active' : ''">{{ $t('buttons.scratchTemplate') }}</el-button>
                 </div>
             </div>
             <div class="buttons">
-                <el-button type="primary" class="uppercase" @click="chooseOrientation">{{ $t('buttons.confirm') }}</el-button>
-                <el-button v-if="showButtonForClose" class="button_white uppercase" plain @click="closeModal">{{ $t('buttons.cancel') }}</el-button>
+                <el-button type="primary" class="uppercase" @click="chooseOrientation" size="small">{{ $t('buttons.confirm') }}</el-button>
+                <el-button v-if="showButtonForClose" class="button_white uppercase" plain @click="closeModal" size="small">{{ $t('buttons.cancel') }}</el-button>
             </div>
         </el-card>
     </div>
@@ -59,6 +59,10 @@
                 this.$store.commit('changeOrientation', this.radio, {module: "main"});
                 this.$store.commit('selectTemplate', [] , {module: "main"});
                 this.$store.commit('createWidget', {module: "main"});
+
+                this.$http.get(this.$store.state.main.hostURL + `/getTemplates?page=1&orientation=${this.orientation}&limit=16`).then(({body}) => {
+                    this.$store.commit('changeTemplates', body, {module: "main"});
+                });
 
                 if(this.template === "blank"){
                     // IF BLANK
@@ -279,6 +283,13 @@
             width: 40%;
             height: 70%;
             margin-top: 120px;
+        }
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        .box-card {
+            width: 55%;
+            height: 65%;
         }
     }
 </style>

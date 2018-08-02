@@ -4,7 +4,7 @@
             <panel v-if="showElement === 'panel'" :id="currentElementID"></panel>
             <shapes v-if="showElement === 'shapes'"></shapes>
         </div>
-        <el-button @click="undo" class="undo" type="primary" plain :disabled="canUndo"><md-icon>undo</md-icon> {{ $t('buttons.undo') }}</el-button>
+        <el-button @click="undo" class="undo" type="primary" size="small" plain :disabled="canUndo || disableAllControls"><md-icon class="undo_ico">undo</md-icon> {{ $t('buttons.undo') }}</el-button>
     </div>
 </template>
 
@@ -34,6 +34,9 @@
         computed: {
             canUndo(){
                 return this.$store.state.main.prevArr.length > 0 ? false : true;
+            },
+            disableAllControls(){
+                return this.$store.state.main.disableAllControls;
             }
         },
         created(){
@@ -50,7 +53,7 @@
 <style scoped>
     .top_bar{
         width: 100%;
-        height: calc(100% - 85% - 70px);
+        height: 8%;
         display: flex;
         align-items: center;
         justify-content: space-between
@@ -61,11 +64,14 @@
     }
 
     .undo{
-        height: 40px;
         display: flex;
         align-items: center;
-        padding: 0px 20px;
         text-transform: uppercase;
+    }
+    
+    .undo_ico{
+        height: 16px;
+        width: 16px;
     }
 
     .change_orientation{
@@ -81,7 +87,7 @@
 
     @media screen and (max-height: 900px) {
         .top_bar{
-            height: 7%;
+
         }
     }
 

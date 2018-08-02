@@ -1,5 +1,5 @@
 <template>
-  <div class="firstColumnButton">
+  <div :class="'firstColumnButton' + (disableAllControls ? ' disable' : '')">
     <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @activated="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
         <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content=" $t('tooltips.imageBlock') " placement="right">
             <div class="content">
@@ -140,8 +140,10 @@
                 eventBus.$emit('showElement', {value: ""});
             }
         },
-        props: {
-
+        computed: {
+            disableAllControls(){
+                return this.$store.state.main.disableAllControls;
+            }
         }
     }
 </script>
@@ -200,6 +202,10 @@
         align-items: center;
     }
 
+    .disable{
+        pointer-events: none;
+    }
+
     .title{
         text-decoration: none;
         margin-top: 5px;
@@ -220,7 +226,7 @@
 
     @media screen and (max-width: 1800px) {
         .firstColumnButton h2.title{
-            font-size: 0.5em;
+            font-size: 0.6em;
             text-align: center;
             line-height: 0.8em;
         }

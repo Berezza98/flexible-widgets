@@ -1,5 +1,5 @@
 <template>
-    <div class="firstColumnButton" @click="openShapes">
+    <div :class="'firstColumnButton' + (disableAllControls ? ' disable' : '')" @click="openShapes">
         <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.shapeBlock') " placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">widgets</md-icon>
@@ -28,6 +28,11 @@
         methods: {
             openShapes(){
                 eventBus.$emit('showElement', {value: "shapes"});
+            }
+        },
+        computed: {
+            disableAllControls(){
+                return this.$store.state.main.disableAllControls;
             }
         }
     }
@@ -97,6 +102,10 @@
         width: 100px;
     }
 
+    .disable{
+        pointer-events: none;
+    }
+
     .firstColumnButton h2.title{
         font-size: 1em;
         text-align: center;
@@ -105,7 +114,7 @@
 
     @media screen and (max-width: 1800px) {
         .firstColumnButton h2.title{
-            font-size: 0.5em;
+            font-size: 0.6em;
             text-align: center;
             line-height: 0.8em;
         }

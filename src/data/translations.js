@@ -14,7 +14,11 @@ export default {
             imageSize : "The size of the image cannot be bigger than 1 MB",
             choosePreMadeTile : "Choose a premade template",
             cropToolTile : "Crop tool",
-            category : "Category"
+            category : "Category",
+            editWidget : "Edit template",
+            editTemplate : "Edit template",
+			writeTextHere : "Write your text here",
+			all : "All"
         },
         messages : {
             startPage : `Welcome to the flexible tool! Here you can create your own template from a blank canvas. 
@@ -27,8 +31,8 @@ export default {
                         options will appear in the top bar. You can choose an image from your library or PC by clicking on 
                         the image item on the canvas. For shapes you can choose one of the shapes that appear in the top bar 
                         after you clicked on the shape button and drag it into the canvas. You can go back to the first step 
-                        by clicking on 'change orientation' in the top bar. You can open this tooltip again by clicking on the 
-                        i icon right at the bottom.`,
+                        by clicking on 'change orientation' in the top bar. You can open this tooltip again by clicking on  
+                        explanation right at the bottom.`,
             nameError : 'Please fill in the name field before saving.',
             emptyCanvas : 'Canvas is empty.',
             templateSaved : 'The template has been saved.',
@@ -42,7 +46,8 @@ export default {
             deleteTemplateQuestion : 'Are you sure that you want to delete this template ?',
             templateDeleting : 'Delete template',
             deleteCanceled : 'Delete canceled',
-            deleteCompleted : 'Delete completed'
+            deleteCompleted : 'Delete completed',
+			warning : 'warning'
         },
         tooltips : {
             textBlock : "Drag and drop to add a text",
@@ -53,6 +58,7 @@ export default {
             delete : "Delete template",
             deleteImage : "Delete image",
             deleteTemplate : "Delete template",
+            editTemplate : "Edit template",
             openEditTool : "Click on item to open edit options.",
             backgroundColor : "Background color",
             textColor : "Text color",
@@ -68,11 +74,16 @@ export default {
             deleteItem : "Delete item",
             rotate : "Rotate",
             opacity : "Opacity",
-            crop : "Crop/Rotate image"
+            crop : "Crop/Rotate image",
+			rotateLeft : "Rotate left",
+			rotateRight : "Rotate right",
+            cropArea : "crop selected area",
+            duration : "Duration"
 
         },
         buttons : {
-            confirm : "confirm",
+            ok : "confirm",
+			confirm : "confirm",
             cancel : "cancel",
             choosePreMade : "Choose a Premade Template",
             changeOrientation : "Change orientation",
@@ -86,17 +97,133 @@ export default {
             ellipse : "ellipse",
             circle : "circle",
             line : "line",
-            help : "Help & guides",
+            help : "explanation",
             close : "Close",
             portrait : "Portrait",
             landscape : "Landscape",
             preMadeTemplate : "Premade template",
-            scratchTemplate : "Start from scratch"
+            scratchTemplate : "Start from scratch",
+			front : "front",
+			back : "back",
+			top : "top",
+			center : "center",
+			bottom : "bottom",
+			left : "left",
+			right : "right"
         }
     },
 
     nl : {
+        main : {
+            createTemplate : "Maak nieuwe template",
+            createTemplateDescription : "Sleep items naar het canvas om je eigen template te creëren",
+            templateNamePlaceholder : "Vul hier de naam van de template in",
+            chooseOrientation : "Kies de oriëntatie van je template",
+            chooseType : "Kies het type template",
+            addImageTile : "Voeg afbeelding toe",
+            upload : "Upload",
+            library : "Bibliotheek",
+            search : "zoek",
+            uploadingFiles : "Klik of sleep bestand(en) hier om te uploaden",
+            imageSize : "Het formaat van de afbeelding mag niet groter zijn dan 1 MB",
+            choosePreMadeTile : "Kies een voorgemaakte template",
+            cropToolTile : "Crop tool",
+            category : "Categorie",
+			editWidget : "Bewerk template",
+            editTemplate : "Bewerk template",
+			writeTextHere : "Schrijf hier je tekst",
+			all : "Alle"
+        },
+        messages : {
+            startPage : `Welkom bij de flexible tool! Hier kun je je eigen template creëren op een blanco canvas. 
+                        In deze eerste stap kies je of je een landscape of portrait template wilt maken en of je   
+                        met een blanco template wilt beginnen of met een voorgemaakte template die je kunt bewerken.  
+                        Selecteer een optie door er op te klikken en op 'bevestig' te klikken rechtsonder.`,
 
+            mainPage :  `Hier kun je tekst, afbeeldingen en vormen toevoegen aan je canvas. In de linkerkolom zie je de verschillende 
+                        items die je toe kunt voegen. Klik er op en sleep ze naar het canvas. Als je er op klikt, 
+                        verschijnen er optie in de balk aan de bovenkant. Je kunt een afbeelding kiezen van je bibliotheek of PC door te klikken 
+                        op het afbeelding item op je canvas. Voor vormen kun je eentje kiezen uit de selectie die bovenaan verschijnt in de balk 
+                        nadat je op de vorm knop hebt geklikt en je sleept deze dan op het canvas. Je kunt terug gaan naar de eerste stap door te klikken 
+                        op 'verander oriëntatie' bovenaan. Je kunt deze tooltip weer openen door op uitleg rechtsonder te klikken.`,
+                       
+            nameError : 'Vul eerst een naam in om op te slaan.',
+            emptyCanvas : 'Canvas is leeg.',
+            templateSaved : 'De template is opgeslagen.',
+            deletingTemplate : 'Weet je zeker dat je de gemaakte template wilt verwijderen?',
+            deleteDone : 'Verwijderen gelukt',
+            deleteCanceled : 'Verwijderen geannuleerd',
+            sizeError : 'Het formaat van de afbeelding mag niet groter zijn dan 1 MB',
+            noData : 'Deze zoekterm heeft geen resultaat',
+            deleteImageQuestion : 'Als je het bestand hier verwijderd, wordt hij ook uit Mijn Bestanden verwijderd',
+            imageDeleting : 'Verwijder afbeelding',
+            deleteTemplateQuestion : 'Weet je zeker dat je deze template wilt verwijderen?',
+            templateDeleting : 'Verwijder template',
+            deleteCanceled : 'Verwijderen geannuleerd',
+            deleteCompleted : 'Verwijderen gelukt',
+			warning : 'let op'
+        },
+        tooltips : {
+            textBlock : "Sleep om tekst toe te voegen",
+            imageBlock : "Sleep om afbeelding toe te voegen",
+            shapeBlock : "Klik om vorm toe te voegen",
+            draggableShape : "Sleep om vorm toe te voegen",
+            preMadeTemplate : "Klik om een voorgemaakte template toe te voegen",
+            delete : "Verwijder template",
+            deleteImage : "Verwijder afbeelding",
+            deleteTemplate : "Verwijder template",
+            openEditTool : "Klik op item om bewerk opties te openen.",
+            backgroundColor : "Achtergrondkleur",
+            textColor : "Tekstkleur",
+            textSize : "Tekst grootte",
+            underline : "Onderstrepen",
+            bold : "Dikgedrukt",
+            italic : "Schuingedrukt",
+            font : "Font",
+            alignHorisontal : "Horizontaal uitlijnen",
+            alignVertical : "Verticaal uitlijnen",
+            layerPosition : "Layer positie",
+            makeDuplicate : "Dupliceer",
+            deleteItem : "Verwijder item",
+            rotate : "Draaien",
+            opacity : "Doorzichtigheid",
+            crop : "Crop/Draai afbeelding",
+			rotateLeft : "Roteer linksom",
+			rotateRight : "Roteer rechtsom",
+			cropArea : "Crop geselecteerd oppervlak",
+            duration : "Duratie"
+
+        },
+        buttons : {
+            ok : "bevestig",
+			confirm : "bevestig",
+            cancel : "annuleer",
+            choosePreMade : "Kies een voorgemaakte template",
+            changeOrientation : "Verander oriëntatie",
+            save : "opslaan",
+            undo : "ongedaan maken",
+            text : "tekst",
+            images : "afbeeldingen",
+            shapes : "vormen",
+            rectangle : "rechthoek",
+            square : "vierkant",
+            ellipse : "ellips",
+            circle : "cirkel",
+            line : "lijn",
+            help : "Uitleg",
+            close : "Sluit",
+            portrait : "Portrait",
+            landscape : "Landscape",
+            preMadeTemplate : "Voorgemaakte template",
+            scratchTemplate : "Start met blanco canvas",
+			front : "naar voren",
+			back : "naar achteren",
+			top : "boven",
+			center : "midden",
+			bottom : "onder",
+			left : "links",
+			right : "rechts"
+        }
     },
 
     de : {

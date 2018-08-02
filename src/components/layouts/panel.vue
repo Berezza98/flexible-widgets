@@ -76,9 +76,9 @@
                 <el-popover placement="bottom" width="300" trigger="click">
                     <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
                         <el-radio-group v-model="textAlign">
-                            <el-radio-button label="Left"></el-radio-button>
-                            <el-radio-button label="Center"></el-radio-button>
-                            <el-radio-button label="Right"></el-radio-button>
+                            <el-radio-button :label="$t('buttons.left')"></el-radio-button>
+                            <el-radio-button :label="$t('buttons.center')"></el-radio-button>
+                            <el-radio-button :label="$t('buttons.right')"></el-radio-button>
                         </el-radio-group>
                     </div>
                     <md-icon slot="reference" @click.native.self="showSubPanel = 'align'" :class="showSubPanel == 'align' ? 'md-size-1x active' : 'md-size-1x'">format_align_right</md-icon>
@@ -90,9 +90,9 @@
                 <el-popover placement="bottom" width="300" trigger="click">
                     <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
                         <el-radio-group v-model="verticalAlign">
-                            <el-radio-button label="Top"></el-radio-button>
-                            <el-radio-button label="Center"></el-radio-button>
-                            <el-radio-button label="Bottom"></el-radio-button>
+                            <el-radio-button :label="$t('buttons.top')"></el-radio-button>
+                            <el-radio-button :label="$t('buttons.center')"></el-radio-button>
+                            <el-radio-button :label="$t('buttons.bottom')"></el-radio-button>
                         </el-radio-group>
                     </div>
                     <md-icon slot="reference" @click.native.self="showSubPanel = 'verAlign'" :class="showSubPanel == 'verAlign' ? 'md-size-1x active' : 'md-size-1x'">vertical_align_center</md-icon>

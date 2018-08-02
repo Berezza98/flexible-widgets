@@ -5,10 +5,12 @@ export default {
         permissions: {},
         editingTemplate: false,
         editingID: "",
+        disableAllControls: false,
         searchingData: "", //FOR SEARCH COMPONENT 
         templateName: "",
+        templateDuration: "",
         availableFonts: [],
-        imageCategories: [{id: 0, name: "All"}],
+        imageCategories: [],
         currentOrientation: "landscape",
         imageSelecting: false,
         templateSelecting: false,
@@ -46,8 +48,14 @@ export default {
         changeLanguage(state, value){
             state.currentLanguage = value;
         },
+        disableControls(state, value){
+            state.disableAllControls = value;
+        },
         changeTemplateName(state, value){
             state.templateName = value;
+        },
+        changeTemplateDuration(state, value){
+            state.templateDuration = value;
         },
         editTemplate(state, value){
             state.editingTemplate = value;
@@ -99,8 +107,22 @@ export default {
 
             state.allImages = images;
         },
+        deleteEmptyImageElements(state){
+            let elements = state.draggableInsideCanvas.filter(elm => {
+                if ( elm.name === "image-block" && !elm.props.imageSource ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            state.draggableInsideCanvas = elements;
+        },
         addNewImages(state, value){
             state.allImages = [...state.allImages, ...value];
+        },
+        uploadImage(state, value){
+            state.allImages = [value, ...state.allImages];
         },
         changeTemplates(state, value){
             state.allTemplates = value;

@@ -1,5 +1,5 @@
 <template>
-  <div class="firstColumnButton">
+  <div :class="'firstColumnButton' + (disableAllControls ? ' disable' : '')">
     <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @activated="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
         <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content=" $t('tooltips.textBlock') " placement="right">
             <div class="content">
@@ -44,7 +44,7 @@
                     id,
                     props: {
                         type: "text",
-                        textValue: "Write your text here",
+                        textValue: this.$t('main.writeTextHere'),
                         x: positionObj.x,
                         y: positionObj.y,
                         z : 1,
@@ -52,7 +52,7 @@
                         height
                     },
                     styles: {
-                        background: "rgba(19, 206, 102, 0)",
+                        background: "rgba(255, 255, 255, 1)",
                         opacity: 1,
                         color: "rgba(0, 0, 0, 1)",
                         'font-family': "Arial",
@@ -109,8 +109,10 @@
                 eventBus.$emit('showElement', {value: ""});
             }
         },
-        props: {
-
+        computed: {
+            disableAllControls(){
+                return this.$store.state.main.disableAllControls;
+            }
         }
     }
 </script>
@@ -121,9 +123,13 @@
         cursor: grab;
         position: relative;
         width: 100%;
-        height: 0;
-        padding-bottom: 100%;
         border-radius: 5px;
+    }
+
+    .firstColumnButton:after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
     }
 
     .firstColumnButton .draggable{
@@ -145,15 +151,6 @@
         font-size: 30px !important;
     }
 
-    .firstColumnButton:first-child{
-        margin-top: 20px;
-    }
-
-    .firstColumnButton:before{
-        content: "";
-        display: block;
-        padding-top: 100%;
-    }
 
     .content{
         position:  absolute;
@@ -180,6 +177,10 @@
         width: 100px;
     }
 
+    .disable{
+        pointer-events: none;
+    }
+
     .firstColumnButton h2.title{
         font-size: 1em;
         text-align: center;
@@ -188,7 +189,7 @@
 
     @media screen and (max-width: 1800px) {
         .firstColumnButton h2.title{
-            font-size: 0.5em;
+            font-size: 0.6em;
             text-align: center;
             line-height: 0.8em;
         }
@@ -197,6 +198,12 @@
             margin-top: 2px;
             height: 22px;
             font-size: 22px!important;
+        }
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        .firstColumnButton{
+            
         }
     }
 </style>

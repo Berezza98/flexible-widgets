@@ -2,7 +2,7 @@
     <div class="header">
         <div class="left_side">
             <div class="container">
-                <p class="title">{{ $t("main.createTemplate") }}</p>
+                <p class="title">{{ correctPhrase }}</p>
                 <p class="description">{{ $t("main.createTemplateDescription") }}</p>
             </div>
         </div>
@@ -21,13 +21,30 @@
         },
         methods: {
             
+        },
+        computed: {
+            editingTemplate(){
+                return this.$store.state.main.editingTemplate;
+            },
+            adminPermissions(){
+                return this.$store.state.main.permissions.create_premade_templates;
+            },
+            correctPhrase(){
+                if (this.editingTemplate && this.adminPermissions) {
+                    return this.$t("main.editTemplate");
+                } else if (this.editingTemplate) {
+                    return this.$t("main.editWidget");
+                } else {
+                    return this.$t("main.createTemplate");
+                }
+            }
         }
     }
 </script>
 
 <style scoped>
     .header{
-        height: 85px;
+        height: 9vh;
         box-sizing: border-box;
         border-bottom: 1px solid #d2d2d2;
         display: flex;
@@ -71,7 +88,7 @@
 
     @media screen and (max-width: 1800px) {
         .header{
-            height: 65px;
+            
         }
     }
 </style>

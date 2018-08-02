@@ -13,9 +13,15 @@
                 </div>
                 <div class="crop_panel">
                     <div class="left">
-                        <el-button @click="rotateRight" class="md_icon_button" type="primary"><md-icon>rotate_right</md-icon></el-button>
-                        <el-button @click="rotateLeft" class="md_icon_button" type="primary"><md-icon>rotate_left</md-icon></el-button>
-                        <el-button @click="crop" class="md_icon_button" type="primary"><md-icon>crop</md-icon></el-button>
+                        <el-tooltip :content="$t('tooltips.rotateRight')" :open-delay="500" placement="top">
+                            <el-button @click="rotateRight" class="md_icon_button" type="primary"><md-icon>rotate_right</md-icon></el-button>
+                        </el-tooltip>
+                        <el-tooltip :content="$t('tooltips.rotateLeft')" :open-delay="500" placement="top">
+                            <el-button @click="rotateLeft" class="md_icon_button" type="primary"><md-icon>rotate_left</md-icon></el-button>
+                        </el-tooltip>
+                        <el-tooltip :content="$t('tooltips.cropArea')" :open-delay="500" placement="top">
+                            <el-button @click="crop" class="md_icon_button" type="primary"><md-icon>crop</md-icon></el-button>
+                        </el-tooltip>
                     </div>
                     <div class="right">
                         <el-button type="primary" class="uppercase" :disabled="!currentImageData && !currentImageSrc" @click="save">{{ $t('buttons.save') }}</el-button>

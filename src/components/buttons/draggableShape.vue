@@ -149,8 +149,9 @@ export default {
     .shape_button{
         margin-left: 20px;
         height: 50px;
-        width: 200px;
+        width: 160px;
         position: relative;
+        flex-shrink: 0;
     }
 
     .shape_button .draggable{
@@ -192,5 +193,9 @@ export default {
             user-select: none;
             pointer-events: none;
         }
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        
     }
 </style>

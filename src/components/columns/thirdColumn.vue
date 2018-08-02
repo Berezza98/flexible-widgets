@@ -31,7 +31,8 @@
 
 <style scoped>
     .thirdColumn{
-        height: calc(100% - 70px);
+        height: 100%;
+        width: 94%;
         position: relative;
         padding: 0px 20px;
     }

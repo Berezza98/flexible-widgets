@@ -275,7 +275,7 @@ export default {
 
       }
       const target = e.target || e.srcElement
-      this.zIndex = 2000;
+      // this.zIndex = 2000;
 
       if (this.$el.contains(target)) {
         if (

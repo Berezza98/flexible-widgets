@@ -14,10 +14,13 @@
                         <h2>{{ $t('messages.noData') }}</h2>
                     </div>
                     <div v-for="template in templates" @click="chooseTemplate(template)" :class="template.orientation === 'portrait' ? 'portrait' : 'landscape'" class="image_wrapper"  :key="template.id">
-                        <img :src="template.image">
+                        <img :src="template.image + '?time=' + (new Date().getTime())">
                         <p class="name">{{template.name}}</p>
                         <el-tooltip v-if="adminPermissions" class="item" :open-delay="500" :content="$t('tooltips.deleteTemplate')" placement="top">
                             <md-icon @click.native.stop="deleteTemplate(template.id)" class="delete_template">close</md-icon>
+                        </el-tooltip>
+                        <el-tooltip v-if="adminPermissions" class="item" :open-delay="500" :content="$t('tooltips.editTemplate')" placement="top">
+                            <md-icon @click.native.stop="editTemplate(template)" class="edit_template">edit</md-icon>
                         </el-tooltip>
                     </div>
                 </div>
@@ -83,6 +86,15 @@ export default {
                 });      
 
             });
+        },
+        editTemplate(templ){
+            this.$store.commit('editTemplate', true , {module: "main"});
+            this.$store.commit('changeEditingID', templ.id , {module: "main"});
+            this.$store.commit('selectTemplate', templ.data , {module: "main"});
+            this.$store.commit('changeOrientation', templ.orientation, {module: "main"});
+            this.$store.commit('changeTemplateName', templ.name, {module: "main"});
+
+            this.close();
         }
     },
     computed: {
@@ -99,6 +111,9 @@ export default {
         },
         adminPermissions(){
             return this.$store.state.main.permissions.create_premade_templates;
+        },
+        orientation(){
+            return this.$store.state.main.currentOrientation;
         }
     },
     directives: {
@@ -111,7 +126,7 @@ export default {
                     let currentTopScroll = el.scrollHeight - el.scrollTop - el.clientHeight;
                     if(that.canLoad && currentTopScroll < 20){
                         that.canLoad = false;
-                        that.$http.get(that.$store.state.main.hostURL + `/getTemplates?page=${that.currentPage}&limit=${countOfTemplatesPerPage}&search=${that.name}`).then(({body}) => {
+                        that.$http.get(that.$store.state.main.hostURL + `/getTemplates?page=${that.currentPage}&orientation=${that.orientation}&limit=${countOfTemplatesPerPage}&search=${that.name}`).then(({body}) => {
                             that.$store.commit('addNewTemplates', body , {module: "main"});
                             if(body.length === countOfTemplatesPerPage){
                                 that.canLoad = true;
@@ -134,7 +149,7 @@ export default {
             this.canLoad = true;
             this.currentPage = 2;
             this.templates = [];
-            this.$http.get(this.$store.state.main.hostURL + `/getTemplates?page=1&limit=16&search=${newValue}`).then(({body}) => {
+            this.$http.get(this.$store.state.main.hostURL + `/getTemplates?page=1&orientation=${this.orientation}&limit=16&search=${newValue}`).then(({body}) => {
                 this.$store.commit('addNewTemplates', body , {module: "main"});
             }).catch(function(err){
                 console.log(err);
@@ -225,7 +240,7 @@ export default {
     .name{
         position: absolute;
         color: white;
-        bottom: 25px;
+        bottom: 0px;
         margin: 0px;
         font-size: 22px;
         width: 100%;
@@ -241,7 +256,20 @@ export default {
         transition: all 0.3s;
     }
 
+    .image_wrapper .edit_template{
+        position: absolute;
+        top: 0px;
+        right: 25px;
+        opacity: 0;
+        transition: all 0.3s;
+        font-size: 20px !important;
+    }
+
     .image_wrapper:hover .delete_template{
+        opacity: 1;
+    }
+
+    .image_wrapper:hover .edit_template{
         opacity: 1;
     }
 

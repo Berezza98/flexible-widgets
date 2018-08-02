@@ -150,7 +150,7 @@
         justify-content: center;
     }
     .canvas_wrapper{
-        height: 82%;
+        height: 91%;
         width: 100%;
         background: #f9f9f9;
         box-sizing: border-box;
@@ -227,7 +227,7 @@
 
     @media screen and (max-height: 900px) {
         .canvas_wrapper{
-            height: 86%;
+            
         }
     }
 
@@ -236,5 +236,21 @@
             bottom: 10px;
             right: 10px;
         }   
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        .info{
+            bottom: 2px;
+        }
+
+        .canvas_wrapper{
+            /* background: transparent;
+            border: 0px solid transparent; */
+        }
+
+        .canvas{
+            margin: 25px 0px 0px 25px;
+        }
+        
     }
 </style>
