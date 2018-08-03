@@ -2,46 +2,34 @@
     <div class="panel">
         <el-tooltip :content="$t('tooltips.backgroundColor')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === 'shape'" class="button">
-                <el-popover placement="bottom" width="150" trigger="click">
-                    <div v-if="showSubPanel == 'background'" class="colorInside">
-                        <el-color-picker @click.native.stop v-model="background" show-alpha></el-color-picker>
+                <popover v-if="showSubPanel == 'background'" width="60">
+                    <div class="colorInside">
+                        <el-color-picker size="medium" @click.native.stop v-model="background" show-alpha></el-color-picker>
                     </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'background'" :class="showSubPanel == 'background' ? 'md-size-1x active' : 'md-size-1x'">format_color_fill</md-icon>
-                </el-popover>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'background'" :class="showSubPanel == 'background' ? 'md-size-1x active' : 'md-size-1x'">format_color_fill</md-icon>
             </div>
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.textColor')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button">
-                <el-popover placement="bottom" width="150" trigger="click">
-                    <div v-if="showSubPanel == 'color'" class="subPanel colorInside">
-                        <el-color-picker @click.native.stop v-model="color" show-alpha></el-color-picker>
+                <popover v-if="showSubPanel == 'color'" width="60">
+                    <div class="subPanel colorInside">
+                        <el-color-picker size="medium" @click.native.stop v-model="color" show-alpha></el-color-picker>
                     </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'color'" :class="showSubPanel == 'color' ? 'md-size-1x active' : 'md-size-1x'">format_color_text</md-icon>
-                </el-popover>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'color'" :class="showSubPanel == 'color' ? 'md-size-1x active' : 'md-size-1x'">format_color_text</md-icon>
             </div>
         </el-tooltip>
-        <el-tooltip :content="$t('tooltips.opacity')" :open-delay="500" placement="top">
-            <div v-if="elementType === 'image' || elementType === ''" class="button">
-                <el-popover placement="bottom" width="550" trigger="click">
-                    <div v-if="showSubPanel == 'opacity'" class="subPanel sliderInside">
-                        <div class="sliderWrapper">
-                            <el-slider v-model="opacity" :min="0" :max="1" :step="0.1" show-input></el-slider>
-                        </div>
-                    </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'opacity'" :class="showSubPanel == 'opacity' ? 'md-size-1x active' : 'md-size-1x'">opacity</md-icon>
-                </el-popover>
-            </div>
-        </el-tooltip>    
         <el-tooltip :content="$t('tooltips.textSize')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text'" class="button">
-                <el-popover placement="bottom" width="550" trigger="click">
-                    <div v-if="showSubPanel == 'fontSize'" class="subPanel sliderInside">
+                <popover v-if="showSubPanel == 'fontSize'" width="500">
+                    <div class="subPanel sliderInside">
                         <div class="sliderWrapper">
                             <el-slider v-model="fontSize" :min="1" :max="100" :step="1" show-input></el-slider>
                         </div>
                     </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'fontSize'" :class="showSubPanel == 'fontSize' ? 'md-size-1x active' : 'md-size-1x'">format_size</md-icon>
-                </el-popover>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'fontSize'" :class="showSubPanel == 'fontSize' ? 'md-size-1x active' : 'md-size-1x'">format_size</md-icon>
             </div>
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.underline')" :open-delay="500" placement="top">
@@ -61,42 +49,42 @@
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.font')" :open-delay="500" placement="top">
             <div  v-if="elementType === 'text' || elementType === ''" class="button">
-                <el-popover placement="bottom" width="300" trigger="click">
-                    <div v-if="showSubPanel == 'fontFamily'" class="subPanel radioInside">
+                <popover v-if="showSubPanel == 'fontFamily'" width="240">
+                    <div class="subPanel radioInside">
                         <el-select :popper-append-to-body="false" v-model="selectFont" placeholder="Select font">
                             <el-option v-for="(font, index) in fonts" :key="index" :label="font" :value="font"></el-option>
                         </el-select>
                     </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-1x active' : 'md-size-1x'">spellcheck</md-icon>
-                </el-popover>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'fontFamily'" :class="showSubPanel == 'fontFamily' ? 'md-size-1x active' : 'md-size-1x'">spellcheck</md-icon>
             </div>
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.alignHorisontal')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === ''" class="button">
-                <el-popover placement="bottom" width="300" trigger="click">
-                    <div v-if="showSubPanel == 'align'" class="subPanel radioInside">
+                <popover v-if="showSubPanel == 'align'" width="270">
+                    <div class="subPanel radioInside">
                         <el-radio-group v-model="textAlign">
                             <el-radio-button :label="$t('buttons.left')"></el-radio-button>
                             <el-radio-button :label="$t('buttons.center')"></el-radio-button>
                             <el-radio-button :label="$t('buttons.right')"></el-radio-button>
                         </el-radio-group>
                     </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'align'" :class="showSubPanel == 'align' ? 'md-size-1x active' : 'md-size-1x'">format_align_right</md-icon>
-                </el-popover>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'align'" :class="showSubPanel == 'align' ? 'md-size-1x active' : 'md-size-1x'">format_align_right</md-icon>
             </div>
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.alignVertical')" :open-delay="500" placement="top">
             <div v-if="elementType === 'text' || elementType === ''" class="button">
-                <el-popover placement="bottom" width="300" trigger="click">
-                    <div v-if="showSubPanel == 'verAlign'" class="subPanel radioInside">
+                <popover v-if="showSubPanel == 'verAlign'" width="270">
+                    <div class="subPanel radioInside">
                         <el-radio-group v-model="verticalAlign">
                             <el-radio-button :label="$t('buttons.top')"></el-radio-button>
                             <el-radio-button :label="$t('buttons.center')"></el-radio-button>
                             <el-radio-button :label="$t('buttons.bottom')"></el-radio-button>
                         </el-radio-group>
                     </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'verAlign'" :class="showSubPanel == 'verAlign' ? 'md-size-1x active' : 'md-size-1x'">vertical_align_center</md-icon>
-                </el-popover>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'verAlign'" :class="showSubPanel == 'verAlign' ? 'md-size-1x active' : 'md-size-1x'">vertical_align_center</md-icon>
             </div>
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.crop')" :open-delay="500" placement="top">
@@ -111,13 +99,13 @@
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.layerPosition')" :open-delay="500" placement="top">
             <div class="button">
-                <el-popover placement="bottom" width="300" trigger="click">
-                    <div v-if="showSubPanel == 'zIndex'" class="subPanel buttonsInside">
+                <popover v-if="showSubPanel == 'zIndex'" width="220">
+                    <div class="subPanel buttonsInside">
                         <el-button @click="++zIndex">To front</el-button>
                         <el-button @click="--zIndex">To back</el-button>
                     </div>
-                    <md-icon slot="reference" @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-1x active' : 'md-size-1x'">layers</md-icon>
-                </el-popover>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-1x active' : 'md-size-1x'">layers</md-icon>
             </div>
         </el-tooltip>
         <el-tooltip :content="$t('tooltips.makeDuplicate')" :open-delay="500" placement="top">
@@ -125,6 +113,18 @@
                 <md-icon class="md-size-1x">content_copy</md-icon>
             </div>
         </el-tooltip>
+        <el-tooltip :content="$t('tooltips.opacity')" :open-delay="500" placement="top">
+            <div v-if="elementType === 'image' || elementType === ''" class="button">
+                <popover v-if="showSubPanel == 'opacity'" width="500">
+                    <div class="subPanel sliderInside">
+                        <div class="sliderWrapper">
+                            <el-slider v-model="opacity" :min="0" :max="1" :step="0.1" show-input></el-slider>
+                        </div>
+                    </div>
+                </popover>
+                <md-icon @click.native.self="showSubPanel = 'opacity'" :class="showSubPanel == 'opacity' ? 'md-size-1x active' : 'md-size-1x'">opacity</md-icon>
+            </div>
+        </el-tooltip>    
         <el-tooltip :content="$t('tooltips.deleteItem')" :open-delay="500" placement="top">
             <div class="button" @click="deleteElement">
                 <md-icon class="md-size-1x">delete</md-icon>
@@ -139,6 +139,8 @@
 </template>
 
 <script>
+    import Popover from '../popover.vue';
+
     import { eventBus } from '../../main.js';
 
     export default{
@@ -147,6 +149,9 @@
                 showSubPanel: "",
                 elWidth: 0
             }
+        },
+        components: {
+            "popover": Popover
         },
         props: {
             id: {
@@ -159,6 +164,7 @@
         },
         methods: {
             deleteElement(id){
+                this.showSubPanel = 'delete';
                 this.$store.commit("deleteElementFromCanvas", {id: this.id},  {module: "main"});
                 eventBus.$emit('changeRulerPosition', {close : true});
             },
@@ -166,6 +172,7 @@
                 eventBus.$emit('closePanel', {id: this.id},  {module: "main"});
             },
             copy(){
+                this.showSubPanel = 'copy';
                 // FOR DELETING OBSERVERS AND CREATE EMPTY OBJECT WITH NEEDED PROPERTIES
                 let element = JSON.stringify(Object.assign({}, this.activeElement));
                 element = JSON.parse(element);
@@ -215,21 +222,26 @@
                 this.$store.commit("createCopyOfElement", element, {module: "main"});
             },
             underline(){
+                this.showSubPanel = 'underline';
                 let currentState = this.underlineEl === 'none' ? false : true;
                 this.underlineEl = !currentState;
             },
             bold(){
+                this.showSubPanel = 'bold';
                 let currentState = this.boldEl === 'normal' ? false : true;
                 this.boldEl = !currentState;
             },
             italic(){
+                this.showSubPanel = 'italic';
                 let currentState = this.italicEl === 'normal' ? false : true;
                 this.italicEl = !currentState;
             },
             cropImage(){
+                this.showSubPanel = 'crop';
                 this.$store.commit('cropToolOpen', {show: true, id: this.id}, {module: "main"});
             },
             rotate(){
+                this.showSubPanel = 'rotate';
                 this.$store.commit('rotateElement', {id: this.id}, {module: 'main'});
             }
         },
@@ -372,7 +384,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 6px 20px;
+        padding: 0px 5px;
     }
 
     .buttonsInside{

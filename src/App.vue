@@ -74,7 +74,7 @@ export default {
     }
   },
   mounted(){
-    if (!this.$store.state.main.editingTemplate) {
+    if (!this.getQueryVariable('fragmentID')) {
       this.message = this.$message({
         showClose: true,
         message: this.$t('messages.startPage'),

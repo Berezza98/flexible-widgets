@@ -61,7 +61,7 @@
 
                     html2canvas(canvas, {logging: false, useCORS: true}).then(canvas => {
                         this.$store.commit('changeIdOfElements', {module: "main"});
-                        console.log(canvas.toDataURL());
+                        // console.log(canvas.toDataURL());
                         return {
                             image: canvas.toDataURL(),
                             name: this.name,
