@@ -166,8 +166,11 @@
         flex-shrink: 0;
     }
 
-    .canvas_flex_start{
-        align-self: flex-start !important;
+    .canvas_opacity{
+        z-index: -9999;
+        position: absolute;
+        top: -2000px;
+        left: -2000px;
     }
 
     .hide{
@@ -240,7 +243,7 @@
 
     @media screen and (max-width: 1200px) and (min-width: 1000px) {
         .info{
-            bottom: 2px;
+            bottom: 0px;
         }
 
         .canvas_wrapper{

@@ -2,7 +2,7 @@
     <div class="bar">
         <div class="nameBlock">
             <el-input v-model="name" :disabled="editing || disableAllControls" :maxlength="15" size="medium" class="name" :placeholder=" $t('main.templateNamePlaceholder') "></el-input>
-            <el-input v-model="duration" :disabled="editing || disableAllControls" :maxlength="6" type="number" size="medium" class="duration" :placeholder=" $t('tooltips.duration') "></el-input>
+            <el-input v-model="duration" :disabled="editing || disableAllControls" :maxlength="6" size="medium" class="duration" :placeholder=" $t('tooltips.duration') "></el-input>
         </div>
         <div class="buttons">
             <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.preMadeTemplate') " placement="top">
@@ -37,64 +37,73 @@
                 }
 
                 this.deleteEmptyImageElements();
-                
-                if(this.$store.state.main.draggableInsideCanvas.length < 1){
-                    this.$message.error(this.$t('messages.emptyCanvas'));
-                    return;
-                }
-                const loading = this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(0, 0, 0, 0.7)'
-                });
-                let canvas = document.querySelector(".canvas");
-                let canvasWrapper = document.querySelector(".canvas_wrapper");
-                let HTML = canvasWrapper.cloneNode(true);
-                let topBar = document.querySelector('.top_bar');
-                canvas.classList.add('canvas_flex_start');
-                topBar.classList.add('hide_bar');
-                canvasWrapper.classList.add('hide');
-                console.log(this.clearHTML(HTML));
-
-                html2canvas(canvas, {logging: false, useCORS: true}).then(canvas => {
-                    this.$store.commit('changeIdOfElements', {module: "main"});
-                    return {
-                        image: canvas.toDataURL(),
-                        name: this.name,
-                        orientation: this.$store.state.main.currentOrientation,
-                        data: this.$store.state.main.draggableInsideCanvas,
-                        html: this.clearHTML(HTML)
-                    }
-                }).then((obj) => {
-                    return this.$http.post(this.$store.state.main.hostURL + (this.editing ? `/setTemplate/${this.editingID}` : `/setTemplate`), obj);
-                }).then(({ body }) => {
-                    console.log(body);
-                    if (this.editing && this.adminPermissions) {
-                        this.$store.commit('deleteTemplate', this.editingID ,{module: "main"});
+                // NEXT TICK - do something after rerender UI
+                this.$nextTick(() => {
+                    if(this.$store.state.main.draggableInsideCanvas.length < 1){
+                        this.$message.error(this.$t('messages.emptyCanvas'));
+                        return;
                     }
 
-                    if (this.adminPermissions) {
-                        this.$store.commit('addNewTemplates', [body] ,{module: "main"});
-                    }
-
-                    this.name = "";
-                    this.$store.commit('selectTemplate', [] , {module: "main"});
-                    this.$message({
-                        message: this.$t('messages.templateSaved'),
-                        type: 'success'
+                    const loading = this.$loading({
+                        lock: true,
+                        text: 'Loading',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
                     });
-                    canvas.classList.remove('canvas_flex_start');
-                    canvasWrapper.classList.remove('hide');
-                    topBar.classList.remove('hide_bar');
-                    loading.close();
-                    if (!this.adminPermissions) {
-                        this.$store.commit('disableControls', true, {module: "main"});
-                        setTimeout(() => {
-                            window.parent.postMessage({'closeTool': {} }, '*');
-                        }, 2000);
-                    }
+
+                    let canvas = document.querySelector(".canvas");
+                    let canvasWrapper = document.querySelector(".canvas_wrapper");
+                    let HTML = canvasWrapper.cloneNode(true);
+                    let topBar = document.querySelector('.top_bar');
+                    canvas.classList.add('canvas_opacity');
+
+                    document.querySelector('body').insertBefore(canvas, document.querySelector('#app'));
+
+                    html2canvas(canvas, {logging: false, useCORS: true}).then(canvas => {
+                        this.$store.commit('changeIdOfElements', {module: "main"});
+                        console.log(canvas.toDataURL());
+                        return {
+                            image: canvas.toDataURL(),
+                            name: this.name,
+                            orientation: this.$store.state.main.currentOrientation,
+                            data: this.$store.state.main.draggableInsideCanvas,
+                            html: this.clearHTML(HTML)
+                        }
+                    }).then((obj) => {
+                        return this.$http.post(this.$store.state.main.hostURL + (this.editing ? `/setTemplate/${this.editingID}` : `/setTemplate`), obj);
+                    }).then(({ body }) => {
+                        console.log(body);
+                        if (this.editing && this.adminPermissions) {
+                            this.$store.commit('deleteTemplate', this.editingID ,{module: "main"});
+                        }
+
+                        if (this.adminPermissions) {
+                            this.$store.commit('addNewTemplates', [body] ,{module: "main"});
+                        }
+
+                        this.name = "";
+                        this.$store.commit('selectTemplate', [] , {module: "main"});
+                        this.$message({
+                            message: this.$t('messages.templateSaved'),
+                            type: 'success'
+                        });
+
+                        let canvas = document.querySelector(".canvas");
+                        let canvasWrapper = document.querySelector(".canvas_wrapper");
+
+                        canvasWrapper.appendChild(canvas);
+                        canvas.classList.remove('canvas_opacity');
+
+                        loading.close();
+                        if (!this.adminPermissions) {
+                            this.$store.commit('disableControls', true, {module: "main"});
+                            setTimeout(() => {
+                                window.parent.postMessage({'closeTool': {} }, '*');
+                            }, 2000);
+                        }
+                    });
                 });
+                
 
             },
             clearHTML(html){
@@ -214,6 +223,15 @@
         text-transform: uppercase;
     }
 
+    .name{
+        width: 245px;
+        margin-right: 20px;
+    }
+
+    .duration{
+        width: 85px;
+    }
+
     @media screen and (max-width: 1800px) {
         .bar{
 
@@ -226,12 +244,12 @@
         }
 
         .name{
-            width: 220px;
+            width: 245px;
             margin-right: 20px;
         }
 
         .duration{
-            width: 90px;
+            width: 85px;
         }
     }
 </style>

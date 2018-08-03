@@ -180,6 +180,11 @@ export default {
 
 input::placeholder{
   color: #888888 !important;
+  font-size: 13px;
+}
+
+.el-button--mini, .el-button--small {
+    font-size: 10px;
 }
 
 #app {

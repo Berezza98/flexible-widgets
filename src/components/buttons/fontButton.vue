@@ -185,6 +185,7 @@
         font-size: 1em;
         text-align: center;
         line-height: 1em;
+        font-weight: normal;
     }
 
     @media screen and (max-width: 1800px) {
