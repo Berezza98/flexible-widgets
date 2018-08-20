@@ -18,7 +18,9 @@ export default {
             editWidget : "Edit template",
             editTemplate : "Edit template",
 			writeTextHere : "Write your text here",
-			all : "All"
+            all : "All",
+            saveAsTitle : "New name template",
+            saveAsDescr : "Please fill in new name for template"
         },
         messages : {
             startPage : `Welcome to the flexible tool! Here you can create your own template from a blank canvas. 
@@ -47,7 +49,9 @@ export default {
             templateDeleting : 'Delete template',
             deleteCanceled : 'Delete canceled',
             deleteCompleted : 'Delete completed',
-			warning : 'warning'
+            warning : 'warning',
+            durationError: 'Please fill in duration.',
+            wrongDuration: 'Wrong value in duration field'
         },
         tooltips : {
             textBlock : "Drag and drop to add a text",
@@ -88,6 +92,7 @@ export default {
             choosePreMade : "Choose a Premade Template",
             changeOrientation : "Change orientation",
             save : "save",
+            saveAs : "save as",
             undo : "undo",
             text : "text",
             images : "images",
@@ -132,7 +137,9 @@ export default {
 			editWidget : "Bewerk template",
             editTemplate : "Bewerk template",
 			writeTextHere : "Schrijf hier je tekst",
-			all : "Alle"
+			all : "Alle",
+            saveAsTitle : "Nieuwe naam template",
+            saveAsDescr : "Vul hier nieuwe naam in"
         },
         messages : {
             startPage : `Welkom bij de flexible tool! Hier kun je je eigen template creëren op een blanco canvas. 
@@ -161,7 +168,9 @@ export default {
             templateDeleting : 'Verwijder template',
             deleteCanceled : 'Verwijderen geannuleerd',
             deleteCompleted : 'Verwijderen gelukt',
-			warning : 'let op'
+			warning : 'let op',
+            durationError: 'Vul duratie veld in.',
+            wrongDuration: 'Foutieve waarde in duratie veld'
         },
         tooltips : {
             textBlock : "Sleep om tekst toe te voegen",
@@ -201,6 +210,7 @@ export default {
             choosePreMade : "Kies een voorgemaakte template",
             changeOrientation : "Verander oriëntatie",
             save : "opslaan",
+            saveAs : "opslaan als",
             undo : "ongedaan maken",
             text : "tekst",
             images : "afbeeldingen",

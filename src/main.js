@@ -1,3 +1,6 @@
+import "babel-polyfill";
+import "./polyfills.js";
+
 import Vue from 'vue';
 import App from './App.vue';
 import VueI18n from 'vue-i18n';
@@ -40,4 +43,4 @@ new Vue({
   store,
   i18n,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

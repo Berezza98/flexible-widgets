@@ -27,14 +27,14 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        use: ["style-loader", "css-loader", "postcss-loader"]
       },
       {
         test: /\.(eot|ttf|woff|woff2)(\?\S*)?$/,
         loader: 'file-loader'
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+        test: /\.(png|jpe?g|gif|svg|cur)(\?\S*)?$/,
         loader: 'file-loader',
         query: {
           name: '[name].[ext]?[hash]'

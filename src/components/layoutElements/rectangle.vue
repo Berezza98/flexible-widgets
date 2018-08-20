@@ -80,6 +80,8 @@
         width: 100%;
         box-sizing: border-box;
         position: absolute;
+        top: 0px;
+        left: 0px;
         transform-origin: center;
     }
 </style>

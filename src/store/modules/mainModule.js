@@ -240,6 +240,38 @@ export default {
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.opacity = value;
         },
+        toFrontZ(state){
+            setPreviousValue(state);
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            
+            state.draggableInsideCanvas.forEach(elem => {
+                if (element.id !== elem.id) {
+                    elem.props.z = elem.props.z - 1;
+                } else {
+                    elem.props.z = state.draggableInsideCanvas.length;
+                }
+            });
+        },
+        toBackZ(state){
+            setPreviousValue(state);
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+
+            let minimumLayer = 0;
+            
+            state.draggableInsideCanvas.forEach(elem => {
+                if (element.props.z < minimumLayer) {
+                    minimumLayer = elem.props.z;
+                }
+            });
+
+            state.draggableInsideCanvas.forEach(elem => {
+                if (element.id !== elem.id) {
+                    elem.props.z = elem.props.z + 1;
+                } else {
+                    elem.props.z = minimumLayer;
+                }
+            });
+        },
         changeZIndex(state, value){
             setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);

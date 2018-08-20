@@ -178,15 +178,19 @@
     .image{
         height: 100%;
         width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
         user-select: none;
     }
 
     .setImage{
         position: absolute;
+        top: 0px;
+        left: 0px;
         height: 100%;
         width: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
         background-image: url('../../assets/start_image.png');
         background-size: contain;

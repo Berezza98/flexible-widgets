@@ -2,7 +2,7 @@
     <div class="bar">
         <div class="nameBlock">
             <el-input v-model="name" :disabled="editing || disableAllControls" :maxlength="15" size="medium" class="name" :placeholder=" $t('main.templateNamePlaceholder') "></el-input>
-            <el-input v-model="duration" :disabled="editing || disableAllControls" :maxlength="6" size="medium" class="duration" :placeholder=" $t('tooltips.duration') "></el-input>
+            <el-input v-model="duration" @keypress.native="isNumber($event)" :disabled="disableAllControls" :maxlength="6" size="medium" class="duration" :placeholder=" $t('tooltips.duration') "></el-input>
         </div>
         <div class="buttons">
             <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.preMadeTemplate') " placement="top">
@@ -10,7 +10,8 @@
             </el-tooltip>
             <div class="line"></div>
             <el-button v-if="!editing" :disabled="disableAllControls" @click="changeOrientation" size="small" class="change_orientation uppercase" type="primary" plain><md-icon class="rotate_ico">rotate_90_degrees_ccw</md-icon>{{ $t("buttons.changeOrientation") }}</el-button>
-            <el-button :disabled="disableAllControls" @click="saveWidget" class="uppercase" size="small" type="primary" icon="el-icon-check">{{ $t("buttons.save") }}</el-button>
+            <el-button :disabled="disableAllControls" @click="saveWidget(name, false)" class="uppercase" size="small" type="primary" icon="el-icon-check">{{ $t("buttons.save") }}</el-button>
+            <el-button v-if="editing" :disabled="disableAllControls" @click="saveAs" class="uppercase" size="small" type="primary" icon="el-icon-check">{{ $t("buttons.saveAs") }}</el-button>
             <el-tooltip :content=" $t('tooltips.delete') " :open-delay="500" placement="top">
                 <el-button :disabled="disableAllControls" @click="deleteWidget" type="primary" size="small" icon="el-icon-delete" plain></el-button>
             </el-tooltip>
@@ -30,13 +31,24 @@
             }
         },
         methods: {
-            saveWidget(){
-                if(!this.name.trim()){
+            saveWidget(name, saveAs){
+                if(!name.trim()){
                     this.$message.error(this.$t('messages.nameError'));
                     return;
                 }
 
+                if(!(this.duration.toString()).trim()){
+                    this.$message.error(this.$t('messages.durationError'));
+                    return;
+                }
+
+                if(Number.isNaN(+(this.duration.toString()).trim())) {
+                    this.$message.error(this.$t('messages.wrongDuration'));
+                    return;
+                }
+
                 this.deleteEmptyImageElements();
+
                 // NEXT TICK - do something after rerender UI
                 this.$nextTick(() => {
                     if(this.$store.state.main.draggableInsideCanvas.length < 1){
@@ -64,13 +76,14 @@
                         // console.log(canvas.toDataURL());
                         return {
                             image: canvas.toDataURL(),
-                            name: this.name,
+                            name,
+                            duration: parseInt(this.duration),
                             orientation: this.$store.state.main.currentOrientation,
                             data: this.$store.state.main.draggableInsideCanvas,
                             html: this.clearHTML(HTML)
                         }
                     }).then((obj) => {
-                        return this.$http.post(this.$store.state.main.hostURL + (this.editing ? `/setTemplate/${this.editingID}` : `/setTemplate`), obj);
+                        return this.$http.post(this.$store.state.main.hostURL + (this.editing && !saveAs ? `/setTemplate/${this.editingID}` : `/setTemplate`), obj);
                     }).then(({ body }) => {
                         console.log(body);
                         if (this.editing && this.adminPermissions) {
@@ -82,6 +95,7 @@
                         }
 
                         this.name = "";
+                        this.duration = "";
                         this.$store.commit('selectTemplate', [] , {module: "main"});
                         this.$message({
                             message: this.$t('messages.templateSaved'),
@@ -89,7 +103,7 @@
                         });
 
                         let canvas = document.querySelector(".canvas");
-                        let canvasWrapper = document.querySelector(".canvas_wrapper");
+                        let canvasWrapper = document.querySelector(".canvas_wrapper .canvas_mini");
 
                         canvasWrapper.appendChild(canvas);
                         canvas.classList.remove('canvas_opacity');
@@ -101,10 +115,44 @@
                                 window.parent.postMessage({'closeTool': {} }, '*');
                             }, 2000);
                         }
-                    });
+                    }).catch((err) => {
+                        console.log(err);
+                        if (err.status === 400) {
+                            this.$message.error(err.body.message);
+                        }
+
+                        let canvas = document.querySelector(".canvas");
+                        let canvasWrapper = document.querySelector(".canvas_wrapper  .canvas_mini");
+
+                        canvasWrapper.appendChild(canvas);
+                        canvas.classList.remove('canvas_opacity');
+
+                        loading.close();
+                        
+                    })
                 });
                 
 
+            },
+            saveAs(){
+                this.$prompt(this.$t('main.saveAsDescr'), this.$t('main.saveAsTitle'), {
+                    confirmButtonText: this.$t('buttons.ok'),
+                    cancelButtonText: this.$t('buttons.cancel'),
+                    inputErrorMessage: 'Invalid Email'
+                }).then(obj => {
+                    console.log(this, obj.value);
+                    this.saveWidget(obj.value, true);
+                }).catch(() => {
+
+                });
+            },
+            isNumber(e){
+                if (e.key.length > 1) {
+                    return;
+                }
+                if (!/^\d+$/.test(String.fromCharCode(e.which))) {
+                    e.preventDefault();
+                }
             },
             clearHTML(html){
                 let badElements = html.querySelectorAll('.ruler_wrapper, .handle, .el-loading-mask, .info');

@@ -76,7 +76,7 @@ export default {
                     x: positionObj.x, 
                     y: positionObj.y,
                     subtype,
-                    z : 1,
+                    z : this.layerIndex,
                     height: height,
                     width: width,
                     rotated
@@ -140,6 +140,11 @@ export default {
         correctComponent: {
             type: String,
             required: true
+        }
+    },
+    computed: {
+        layerIndex(){
+            return this.$store.state.main.draggableInsideCanvas.length;
         }
     }
 }

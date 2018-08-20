@@ -51,7 +51,7 @@
                             height,
                             x: positionObj.x,
                             y: positionObj.y,
-                            z : 1
+                            z : that.layerIndex
                         },
                         styles: {
                             background: "transparent",
@@ -143,6 +143,9 @@
         computed: {
             disableAllControls(){
                 return this.$store.state.main.disableAllControls;
+            },
+            layerIndex(){
+                return this.$store.state.main.draggableInsideCanvas.length;
             }
         }
     }
@@ -152,6 +155,7 @@
     .firstColumnButton{
         cursor: -webkit-grab;
         cursor: grab;
+        cursor: url('../../assets/cursors/openhand.cur'), move;
         position: relative;
         width: 100%;
         height: 0;

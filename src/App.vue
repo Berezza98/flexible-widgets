@@ -161,6 +161,7 @@ export default {
         this.$store.commit('selectTemplate', body.data , {module: "main"});
         this.$store.commit('changeOrientation', body.orientation, {module: "main"});
         this.$store.commit('changeTemplateName', body.name, {module: "main"});
+        this.$store.commit('changeTemplateDuration', body.duration, {module: "main"});
       });
     } else {
       this.$store.commit('changeOrientation', "", {module: "main"});
@@ -293,5 +294,13 @@ body{
 
 ::-webkit-scrollbar-thumb {
   background-color: #cfcfcf;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
 </style>

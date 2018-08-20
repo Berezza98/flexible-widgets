@@ -79,10 +79,12 @@
     .rotated{
         height: 100%;
         width: 20%;
+        top: 0px;
     }
 
     .not_rotated{
         height: 20%;
         width: 100%;
+        left: 0px;
     }
 </style>

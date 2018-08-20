@@ -101,8 +101,8 @@
             <div class="button">
                 <popover v-if="showSubPanel == 'zIndex'" width="220">
                     <div class="subPanel buttonsInside">
-                        <el-button @click="++zIndex">To front</el-button>
-                        <el-button @click="--zIndex">To back</el-button>
+                        <el-button @click="toFront">To front</el-button>
+                        <el-button @click="toBack">To back</el-button>
                     </div>
                 </popover>
                 <md-icon @click.native.self="showSubPanel = 'zIndex'" :class="showSubPanel == 'zIndex' ? 'md-size-1x active' : 'md-size-1x'">layers</md-icon>
@@ -243,6 +243,12 @@
             rotate(){
                 this.showSubPanel = 'rotate';
                 this.$store.commit('rotateElement', {id: this.id}, {module: 'main'});
+            },
+            toFront(){
+                this.$store.commit('toFrontZ', {id: this.id}, {module: 'main'});
+            },
+            toBack(){
+                this.$store.commit('toBackZ', {id: this.id}, {module: 'main'});
             }
         },
         computed: {
