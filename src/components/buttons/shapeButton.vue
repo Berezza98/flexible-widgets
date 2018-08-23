@@ -1,9 +1,9 @@
 <template>
-    <div class="firstColumnButton" @click="openShapes">
-        <el-tooltip class="item" effect="dark" :open-delay="500" :content="'Click to add a shape'" placement="right">
+    <div :class="'firstColumnButton' + (disableAllControls ? ' disable' : '')" @click="openShapes">
+        <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.shapeBlock') " placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">widgets</md-icon>
-                <h2 class="title">Shapes</h2>
+                <h2 class="title">{{ $t('buttons.shapes') }}</h2>
             </div>
         </el-tooltip>
   </div>
@@ -28,6 +28,11 @@
         methods: {
             openShapes(){
                 eventBus.$emit('showElement', {value: "shapes"});
+            }
+        },
+        computed: {
+            disableAllControls(){
+                return this.$store.state.main.disableAllControls;
             }
         }
     }
@@ -89,6 +94,7 @@
         text-decoration: none;
         margin-top: 5px;
         transition: color .4s cubic-bezier(.4,0,.2,1);
+        text-transform: capitalize;
     }
 
     .menuImage{
@@ -96,15 +102,20 @@
         width: 100px;
     }
 
+    .disable{
+        pointer-events: none;
+    }
+
     .firstColumnButton h2.title{
         font-size: 1em;
         text-align: center;
         line-height: 1em;
+        font-weight: normal;
     }
 
     @media screen and (max-width: 1800px) {
         .firstColumnButton h2.title{
-            font-size: 0.5em;
+            font-size: 0.6em;
             text-align: center;
             line-height: 0.8em;
         }

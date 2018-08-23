@@ -1,26 +1,25 @@
 <template>
     <div class="canvas_wrapper" :class="typeOfCanvas === 'landscape' ? 'canvas_flex' : 'canvas_scroll'">
-        <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
-            <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
-            <div class="ruler rulerY" v-if="yTopRuler" :style="{top: postitionOfYRuler}"></div>
-            <div class="ruler rulerY" v-if="yBottomRuler" :style="{top: postitionOfBottomYRuler}"></div>     
-            <div class="ruler rulerX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
-            <div class="ruler rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
-            <div class="ruler rulerX" v-if="xMidRuler" :style="{left: postitionOfMidXRuler}"></div>
-            <div class="ruler rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
-            <parent-ruler></parent-ruler>
+        <div :class="typeOfCanvas === 'portrait' ? 'canvas_mini portrait_mini' : 'canvas_mini landscape_mini'">
+            <div :class="typeOfCanvas === 'portrait' ? 'canvas portrait' : 'canvas landscape'">
+                <component v-for="(element) in draggableInsideCanvas" :key="element.id" :is="element.name" :id="element.id" v-bind="element.props" :styles="element.styles"></component>
+                <div class="ruler rulerY" v-if="yTopRuler" :style="{top: postitionOfYRuler}"></div>
+                <div class="ruler rulerY" v-if="yBottomRuler" :style="{top: postitionOfBottomYRuler}"></div>     
+                <div class="ruler rulerX" v-if="xTopRuler" :style="{left: postitionOfXRuler}"></div>
+                <div class="ruler rulerX" v-if="xBottomRuler" :style="{left: postitionOfBottomXRuler}"></div>
+                <div class="ruler rulerX" v-if="xMidRuler" :style="{left: postitionOfMidXRuler}"></div>
+                <div class="ruler rulerY" v-if="yMidRuler" :style="{top: postitionOfMidYRuler}"></div>
+                <parent-ruler></parent-ruler>
+            </div>
         </div>
         <div class="info" @click="openInfo">
-            <md-icon class="info_ico">help_outline</md-icon><span>{{message ? "Close Help & guides" : "Help & guides"}}</span>
+            <md-icon class="info_ico">help_outline</md-icon><span>{{message ? $t('buttons.close') + " " +  $t('buttons.help') : $t('buttons.help')}}</span>
         </div>
     </div> 
 </template>
 
 <script>
     import { eventBus } from '../../main.js';
-
-    import messages from '../../data/messages.js';
-
     import Text from '../layoutElements/text.vue';
     import Image from '../layoutElements/imageBlock.vue';
     import Rectangle from '../layoutElements/rectangle.vue';
@@ -73,7 +72,7 @@
                 if(!this.message){
                     this.message = this.$message({
                         showClose: false,
-                        message: messages.mainPage,
+                        message: this.$t('messages.mainPage'),
                         type: 'message',
                         duration: 0,
                         customClass: 'right-message'
@@ -145,15 +144,29 @@
         display: flex;
         justify-content: center;
     }
+    .canvas_mini{
+        flex-shrink: 0;
+        align-self: center;
+    }
+    .portrait_mini{
+        height: 960px;
+        width: 540px;
+        align-self: flex-start !important;
+    }
+    .landscape_mini{
+        height: 540px;
+        width: 960px;
+    }
     .canvas_scroll{
-        overflow: scroll;
+        overflow-y: scroll;
+        overflow-x: hidden;
         padding-top: 50px;
         padding-bottom: 50px;
         display: flex;
         justify-content: center;
     }
     .canvas_wrapper{
-        height: 82%;
+        height: 91%;
         width: 100%;
         background: #f9f9f9;
         box-sizing: border-box;
@@ -162,15 +175,18 @@
     }
     .canvas{
         transform: scale(0.5);
+        transform-origin: 0px 0px;
         position: relative;
         background: white;
         box-sizing: content-box;
         border: 2px solid #dadada;
-        flex-shrink: 0;
     }
 
-    .canvas_flex_start{
-        align-self: flex-start !important;
+    .canvas_opacity{
+        z-index: -9999;
+        position: absolute;
+        top: -2000px;
+        left: -2000px;
     }
 
     .hide{
@@ -180,8 +196,6 @@
     .portrait{
         height: 1920px;
         width: 1080px;
-        margin-top: -490px;
-        margin-bottom: -510px;
     }
 
     .landscape{
@@ -230,7 +244,7 @@
 
     @media screen and (max-height: 900px) {
         .canvas_wrapper{
-            height: 86%;
+            
         }
     }
 
@@ -239,5 +253,21 @@
             bottom: 10px;
             right: 10px;
         }   
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        .info{
+            bottom: 0px;
+        }
+
+        .canvas_wrapper{
+            /* background: transparent;
+            border: 0px solid transparent; */
+        }
+
+        .canvas{
+            
+        }
+        
     }
 </style>

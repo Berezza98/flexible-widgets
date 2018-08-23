@@ -3,7 +3,7 @@
         <el-card :body-style="bodyStyles" class="box-card">
             <div class="header">
                 <div class="top_row">
-                    <p>Crop tool</p>
+                    <p>{{ $t('main.cropToolTile') }}</p>
                     <md-icon @click.native.stop="close" class="close">close</md-icon>
                 </div>
             </div>
@@ -13,13 +13,19 @@
                 </div>
                 <div class="crop_panel">
                     <div class="left">
-                        <el-button @click="rotateRight" class="md_icon_button" type="primary"><md-icon>rotate_right</md-icon></el-button>
-                        <el-button @click="rotateLeft" class="md_icon_button" type="primary"><md-icon>rotate_left</md-icon></el-button>
-                        <el-button @click="crop" class="md_icon_button" type="primary"><md-icon>crop</md-icon></el-button>
+                        <el-tooltip :content="$t('tooltips.rotateRight')" :open-delay="500" placement="top">
+                            <el-button @click="rotateRight" class="md_icon_button" type="primary"><md-icon>rotate_right</md-icon></el-button>
+                        </el-tooltip>
+                        <el-tooltip :content="$t('tooltips.rotateLeft')" :open-delay="500" placement="top">
+                            <el-button @click="rotateLeft" class="md_icon_button" type="primary"><md-icon>rotate_left</md-icon></el-button>
+                        </el-tooltip>
+                        <el-tooltip :content="$t('tooltips.cropArea')" :open-delay="500" placement="top">
+                            <el-button @click="crop" class="md_icon_button" type="primary"><md-icon>crop</md-icon></el-button>
+                        </el-tooltip>
                     </div>
                     <div class="right">
-                        <el-button type="primary" :disabled="!currentImageData && !currentImageSrc" @click="save">SAVE</el-button>
-                        <el-button class="button_white" @click="close" plain>CANCEL</el-button>
+                        <el-button type="primary" class="uppercase" :disabled="!currentImageData && !currentImageSrc" @click="save">{{ $t('buttons.save') }}</el-button>
+                        <el-button class="button_white uppercase" @click="close" plain>{{ $t('buttons.cancel') }}</el-button>
                     </div>
                 </div>
             </div>
@@ -72,10 +78,11 @@ export default {
             this.cropper.replace(image);
         },
         save(){
-            this.$store.commit('changeDimentionsOfElement', {id: this.cropTool.id, w: this.currentImageData.width / 2, h: this.currentImageData.height / 2}, {module: 'main'});
-            this.$store.commit('changeImageSource', this.currentImageSrc, {module: 'main'});
-
-            this.close();
+            this.$http.post(this.$store.state.main.hostURL + '/b64ToImageFile', JSON.stringify({b64: this.currentImageSrc})).then(({body}) => {
+                this.$store.commit('changeDimentionsOfElement', {id: this.cropTool.id, w: this.currentImageData.width / 2, h: this.currentImageData.height / 2}, {module: 'main'});
+                this.$store.commit('changeImageSource', body.url, {module: 'main'});
+                this.close();   
+            });
         },
         rotateLeft(){
             this.cropper.rotate(-90);
@@ -217,5 +224,9 @@ export default {
 
     img {
         max-width: 100%;
+    }
+
+    .uppercase{
+        text-transform: uppercase;
     }
 </style>

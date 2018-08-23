@@ -1,6 +1,6 @@
 <template>
     <draggable v-loading="loadingNewImage" :z="z" :drop-zone="'.canvas'" :resizable="imageSource ? true : false" :handles="handleResize" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :subtype="subtype" :active="hideTooltip" @update:active="makeActive">
-        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.openEditTool') " placement="top">
             <img v-if="imageSource" :style="styles" class="image" draggable="false" :src="imageSource">
         </el-tooltip>
         <div class="setImage" v-if="!imageSource">
@@ -76,32 +76,27 @@
             },
             setNewSource(image){
                 let that = this;
+                this.$http.get(this.$store.state.main.hostURL + `/getImages?id=${image.id}`).then(({body}) => {
 
-                let img = new Image();
-                img.crossOrigin = "Anonymous";
-                img.onload = function(){
-                    let base64 = that.getBase64Image(img);
-                    let { height, width } = that.getCorrectDimensionsForImage(img);
-                    let positionObj = that.getCorrectPositionOfImage(that.x, that.y, height, width);
+                    let img = new Image();
+                    img.crossOrigin = "Anonymous";
 
-                    that.$store.commit('changePositionOfElement', {y: positionObj.y, x: positionObj.x, id: that.id}, {module: "main"});
-                    that.$store.commit('changeDimentionsOfElement', {id: that.id, w: width, h: height}, {module: 'main'});
-                    that.$store.commit('changeImageSource', base64, {module: 'main'});
-                    that.loadingNewImage = false;
-                };
-                img.onerror= function(e){
-                    console.log(e);
-                }
-                img.src = image.src;
-            },
-            getBase64Image(img) {
-                var canvas = document.createElement("canvas");
-                canvas.width = img.naturalWidth;
-                canvas.height = img.naturalHeight;
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
-                var dataURL = canvas.toDataURL();
-                return dataURL;
+                    img.onload = function(){
+                        let { height, width } = that.getCorrectDimensionsForImage(img);
+                        let positionObj = that.getCorrectPositionOfImage(that.x, that.y, height, width);
+
+                        that.$store.commit('changePositionOfElement', {y: positionObj.y, x: positionObj.x, id: that.id}, {module: "main"});
+                        that.$store.commit('changeDimentionsOfElement', {id: that.id, w: width, h: height}, {module: 'main'});
+                        that.$store.commit('changeImageSource', img.src, {module: 'main'});
+                        that.loadingNewImage = false;
+                    };
+                    img.onerror= function(e){
+                        console.log(e);
+                    }
+
+                    img.src = body[0].src;
+                });
+                
             },
             getCorrectPositionOfImage(x, y, height, width){
                 let canvasHeight, canvasWidth;
@@ -183,15 +178,19 @@
     .image{
         height: 100%;
         width: 100%;
+        position: absolute;
+        top: 0px;
+        left: 0px;
         user-select: none;
     }
 
     .setImage{
         position: absolute;
+        top: 0px;
+        left: 0px;
         height: 100%;
         width: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
         background-image: url('../../assets/start_image.png');
         background-size: contain;

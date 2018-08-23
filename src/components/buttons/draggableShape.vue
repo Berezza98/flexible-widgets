@@ -1,10 +1,10 @@
 <template>
     <div class="shape_button">
         <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @tooltip="tooltip" @dropInside="droppedInside">
-            <el-tooltip class="item" :disabled="disableTooltip" effect="dark" :open-delay="500" :content="'Drag and drop to add shape'" placement="right">
+            <el-tooltip class="item" :disabled="disableTooltip" effect="dark" :open-delay="500" :content=" $t('tooltips.draggableShape') " placement="right">
                 <div class="content">
                     <img :src="getImg(src)" class="shape_ico">
-                    <span class="shape_name">{{tile}}</span>
+                    <span class="shape_name">{{ $t(`buttons.${tile}`) }}</span>
                 </div>
             </el-tooltip>
         </draggable>
@@ -76,7 +76,7 @@ export default {
                     x: positionObj.x, 
                     y: positionObj.y,
                     subtype,
-                    z : 1,
+                    z : this.layerIndex,
                     height: height,
                     width: width,
                     rotated
@@ -141,6 +141,11 @@ export default {
             type: String,
             required: true
         }
+    },
+    computed: {
+        layerIndex(){
+            return this.$store.state.main.draggableInsideCanvas.length;
+        }
     }
 }
 </script>
@@ -149,8 +154,9 @@ export default {
     .shape_button{
         margin-left: 20px;
         height: 50px;
-        width: 200px;
+        width: 160px;
         position: relative;
+        flex-shrink: 0;
     }
 
     .shape_button .draggable{
@@ -192,5 +198,9 @@ export default {
             user-select: none;
             pointer-events: none;
         }
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        
     }
 </style>

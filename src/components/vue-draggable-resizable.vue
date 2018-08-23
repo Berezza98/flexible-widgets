@@ -88,11 +88,7 @@ export default {
     },
     z: {
       type: [ String, Number ],
-      default: 'auto',
-      validator: function (val) {
-        let valid = (typeof val === 'string') ? val === 'auto' : val >= 0
-        return valid
-      }
+      default: 'auto'
     },
     handles: {
       type: Array,
@@ -275,7 +271,7 @@ export default {
 
       }
       const target = e.target || e.srcElement
-      this.zIndex = 2000;
+      // this.zIndex = 2000;
 
       if (this.$el.contains(target)) {
         if (
@@ -835,9 +831,7 @@ export default {
       this.enabled = val
     },
     z: function (val) {
-      if (val >= 0 || val === 'auto') {
         this.zIndex = val
-      }
     },
     h: function (val) {
       this.height = val;
@@ -872,6 +866,7 @@ export default {
     align-items: center;
     cursor: -webkit-grab;
     cursor: grab;
+    cursor: url('../assets/cursors/openhand.cur'), move;
   }
   .cloneElement{
     display: none;
@@ -935,5 +930,6 @@ export default {
   .customDragging{
     cursor: -webkit-grabbing;
     cursor: grabbing;
+    cursor: url('../assets/cursors/closedhand.cur'), move !important;
   }
 </style>

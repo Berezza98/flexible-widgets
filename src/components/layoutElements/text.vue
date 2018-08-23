@@ -1,8 +1,8 @@
 <template>
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="hideTooltip" @update:active="makeActive">
-        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.openEditTool') " placement="top">
             <div class="textBlock" :style="styles">
-                <p class="cursor" contenteditable="true" @mousemove.stop="selectText" @mousedown="selectTextDownClick" @input="changeContent" @blur="save">{{textClone}}</p>
+                <p class="cursor" contenteditable="true" spellcheck="false" @mousemove.stop="selectText" @paste="paste" @mousedown="selectTextDownClick" @input="changeContent" @blur="save">{{textClone}}</p>
             </div>
         </el-tooltip>
     </draggable>
@@ -24,9 +24,17 @@
         methods: {
             makeActive(value){
                 this.hideTooltip = value;
-                this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
+                if (!value) {
+                    window.getSelection().removeAllRanges();
+                    // this.$store.commit('changeInputText', this.changingText, {module: "main"});
+                } else {
+                    console.log("element with index: " + this.id);
+                    this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
+                }
             },
             save(event){
+                this.changeContent(event);
+                console.log(event.target.innerText);
                 this.$store.commit('changeInputText', this.changingText, {module: "main"});
             },
             selectText(){
@@ -39,6 +47,17 @@
             },
             changeContent(e){
                 this.changingText = e.target.innerText;
+            },
+            paste(e){
+                e.preventDefault();
+
+                if (navigator.userAgent.indexOf('Trident/') < 0) {
+                    let text = e.clipboardData.getData("text/plain");
+                    document.execCommand("insertHTML", false, text);
+                } else {
+                    let text = window.clipboardData.getData('Text');
+                    document.execCommand('paste', false, text);
+                }
             }
         },
         computed: {
@@ -94,12 +113,15 @@
 <style scoped>
     .textBlock{
         position: absolute;
+        top: 0px;
+        left: 0px;
         height: 100%;
         width: 100%;
         display: flex;
+        overflow: hidden;
     }
     .textBlock p{
-        user-select: none;
+        user-select: text;
         outline: none;
         margin: 0px;
         padding: 0px;

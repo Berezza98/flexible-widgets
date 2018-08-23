@@ -1,6 +1,6 @@
 <template>
     <draggable :z="z" :drop-zone="'.canvas'" :minh="2" :minw="2" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="hideTooltip" @update:active="makeActive">
-        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" content="Click on item to open edit options." placement="top">
+        <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.openEditTool') " placement="top">
             <div :style="styles" class="line" :class="rotated ? 'rotated' : 'not_rotated'"></div>
         </el-tooltip>
     </draggable>
@@ -79,10 +79,12 @@
     .rotated{
         height: 100%;
         width: 20%;
+        top: 0px;
     }
 
     .not_rotated{
         height: 20%;
         width: 100%;
+        left: 0px;
     }
 </style>

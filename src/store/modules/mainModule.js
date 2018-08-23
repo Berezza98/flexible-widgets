@@ -1,8 +1,17 @@
 export default {
     state: {
+        hostURL: "",
+        currentLanguage : "",
+        permissions: {},
+        editingTemplate: false,
+        editingID: "",
+        disableAllControls: false,
         searchingData: "", //FOR SEARCH COMPONENT 
+        templateName: "",
+        templateDuration: "",
         availableFonts: [],
-        currentOrientation: "",
+        imageCategories: [],
+        currentOrientation: "landscape",
         imageSelecting: false,
         templateSelecting: false,
         cropToolUsing: false,
@@ -33,8 +42,35 @@ export default {
         }
     },
     mutations: {
+        changeHostURL(state, value){
+            state.hostURL = value;
+        },
+        changeLanguage(state, value){
+            state.currentLanguage = value;
+        },
+        disableControls(state, value){
+            state.disableAllControls = value;
+        },
+        changeTemplateName(state, value){
+            state.templateName = value;
+        },
+        changeTemplateDuration(state, value){
+            state.templateDuration = value;
+        },
+        editTemplate(state, value){
+            state.editingTemplate = value;
+        },
+        changeEditingID(state, value){
+            state.editingID = value;
+        },
+        changePermissions(state, value){
+            state.permissions = value;
+        },
         changeSearchingData(state, value){
             state.searchingData = value;
+        },
+        changeImageCategories(state, value){
+            state.imageCategories = [...state.imageCategories , ...value];
         },
         hideInstructions(state){
             state.showInstructions = false;
@@ -57,18 +93,62 @@ export default {
         cropToolOpen(state, value){
             state.cropToolUsing = value;
         },
-        addNewImages(state, value){
+        changeImages(state, value){
             state.allImages = value;
         },
-        addNewTemplates(state, value){
+        deleteImage(state, id){
+            let images = state.allImages.filter((img) => {
+                if ( img.id !== id ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            state.allImages = images;
+        },
+        deleteEmptyImageElements(state){
+            let elements = state.draggableInsideCanvas.filter(elm => {
+                if ( elm.name === "image-block" && !elm.props.imageSource ) {
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            state.draggableInsideCanvas = elements;
+        },
+        addNewImages(state, value){
+            state.allImages = [...state.allImages, ...value];
+        },
+        uploadImage(state, value){
+            state.allImages = [value, ...state.allImages];
+        },
+        changeTemplates(state, value){
             state.allTemplates = value;
+        },
+        addNewTemplates(state, value){
+            state.allTemplates = [...state.allTemplates, ...value];
+        },
+        deleteTemplate(state, id){
+            let templates = state.allTemplates.filter((img) => {
+                if ( img.id !== id ) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            state.allTemplates = templates;
         },
         changeAvailableFonts(state, value){
             state.availableFonts = value;
         },
         changeOrientation(state, value){
             state.currentOrientation = value;
-            state.orientationWasSelected = true;
+            if (value) {
+                state.orientationWasSelected = true;
+            }
         },
         changeTempOrientation(state, value){
             state.tempOrientation = state.currentOrientation;
@@ -160,6 +240,38 @@ export default {
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
             element.styles.opacity = value;
         },
+        toFrontZ(state){
+            setPreviousValue(state);
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            
+            state.draggableInsideCanvas.forEach(elem => {
+                if (element.id !== elem.id) {
+                    elem.props.z = elem.props.z - 1;
+                } else {
+                    elem.props.z = state.draggableInsideCanvas.length;
+                }
+            });
+        },
+        toBackZ(state){
+            setPreviousValue(state);
+            let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+
+            let minimumLayer = 0;
+            
+            state.draggableInsideCanvas.forEach(elem => {
+                if (element.props.z < minimumLayer) {
+                    minimumLayer = elem.props.z;
+                }
+            });
+
+            state.draggableInsideCanvas.forEach(elem => {
+                if (element.id !== elem.id) {
+                    elem.props.z = elem.props.z + 1;
+                } else {
+                    elem.props.z = minimumLayer;
+                }
+            });
+        },
         changeZIndex(state, value){
             setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
@@ -168,6 +280,7 @@ export default {
         changeInputText(state, value){
             setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
+            console.log(element);
             element.props.textValue = value;
         },
         changeFontFamily(state, value){

@@ -2,10 +2,10 @@
     <div class="modalFilter" >
         <el-card class="box-card" :bodyStyle="bodyStyle">
             <div class="header">
-                <div><span class="gray_color header_text">Create new template</span></div>
+                <div><span class="gray_color header_text">{{ $t('main.createTemplate') }}</span></div>
             </div>
             <div class="body">
-                <p class="gray_color body_text">Choose the orientation type of your template</p>
+                <p class="gray_color body_text">{{ $t('main.chooseOrientation') }}</p>
                 <div class="orientations">
                     <div class="orientation" @click="radio = 'portrait'" :class="radio === 'portrait' ? 'active' : ''">
                         <img v-if="radio === 'portrait'" class="check_ico" :src="getImg('check_circle.png')"/>
@@ -13,7 +13,7 @@
                             <img class="portrait" :src="getImg('portrait.png')">
                         </div>
                         <div class="text">
-                            <p>Portrait</p>
+                            <p>{{ $t('buttons.portrait') }}</p>
                         </div>
                     </div>
                     <div class="orientation" @click="radio = 'landscape'" :class="radio === 'landscape' ? 'active' : ''">
@@ -22,19 +22,19 @@
                             <img class="landscape" :src="getImg('landscape.png')">
                         </div>
                         <div class="text">
-                            <p>Landscape</p>
+                            <p>{{ $t('buttons.landscape') }}</p>
                         </div>
                     </div>
                 </div>
-                <p class="gray_color body_text">Choose the type of your template</p>
+                <p class="gray_color body_text">{{ $t('main.chooseType') }}</p>
                 <div class="options_template">
-                    <el-button v-model="template" @click="template = 'pre-made'" class="select_button" :class="template === 'pre-made' ? 'active' : ''">Premade template</el-button>
-                    <el-button v-model="template" @click="template = 'blank'" class="select_button" :class="template === 'blank' ? 'active' : ''">Start from scratch</el-button>
+                    <el-button v-model="template" @click="template = 'pre-made'" class="select_button" size="small" :class="template === 'pre-made' ? 'active' : ''">{{ $t('buttons.preMadeTemplate') }}</el-button>
+                    <el-button v-model="template" @click="template = 'blank'" class="select_button" size="small" :class="template === 'blank' ? 'active' : ''">{{ $t('buttons.scratchTemplate') }}</el-button>
                 </div>
             </div>
             <div class="buttons">
-                <el-button type="primary" @click="chooseOrientation">CONFIRM</el-button>
-                <el-button v-if="showButtonForClose" class="button_white" plain @click="closeModal">CANCEL</el-button>
+                <el-button type="primary" class="uppercase" @click="chooseOrientation" size="small">{{ $t('buttons.confirm') }}</el-button>
+                <el-button v-if="showButtonForClose" class="button_white uppercase" plain @click="closeModal" size="small">{{ $t('buttons.cancel') }}</el-button>
             </div>
         </el-card>
     </div>
@@ -42,7 +42,6 @@
 
 <script>
     import {eventBus} from '../../main.js';
-    import messages from '../../data/messages.js';
 
     export default {
         data(){
@@ -61,6 +60,10 @@
                 this.$store.commit('selectTemplate', [] , {module: "main"});
                 this.$store.commit('createWidget', {module: "main"});
 
+                this.$http.get(this.$store.state.main.hostURL + `/getTemplates?page=1&orientation=${this.orientation}&limit=16`).then(({body}) => {
+                    this.$store.commit('changeTemplates', body, {module: "main"});
+                });
+
                 if(this.template === "blank"){
                     // IF BLANK
                 }else if(this.template === "pre-made"){
@@ -73,7 +76,7 @@
                 if(this.$store.state.main.showInstructions){
                     this.$message({
                         showClose: true,
-                        message: messages.mainPage,
+                        message: this.$t('messages.mainPage'),
                         type: 'message',
                         duration: 60000,
                         customClass: 'information-message'
@@ -271,11 +274,22 @@
         border-top: 1px solid #e6e6e6;
     }
 
+    .uppercase{
+        text-transform: uppercase;
+    }
+
     @media screen and (max-height: 900px) {
         .box-card {
             width: 40%;
             height: 70%;
             margin-top: 120px;
+        }
+    }
+
+    @media screen and (max-width: 1200px) and (min-width: 1000px) {
+        .box-card {
+            width: 55%;
+            height: 65%;
         }
     }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div class="firstColumnButton">
-    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @dragging="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
-        <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content="'Drag and drop to add an image'" placement="right">
+  <div :class="'firstColumnButton' + (disableAllControls ? ' disable' : '')">
+    <draggable :return-to-start-position="true" :setParentSizes="true" :z="2" :drop-zone="'.canvas'" :resizable="false" @activated="closeShapes" @dropInside="droppedInside" @tooltip="tooltip">
+        <el-tooltip class="item" effect="dark" :disabled="disableTooltip" :open-delay="500" :content=" $t('tooltips.imageBlock') " placement="right">
             <div class="content">
                 <md-icon class="md-size-1x">insert_photo</md-icon>
-                <h2 class="title">Images</h2>
+                <h2 class="title">{{ $t('buttons.images') }}</h2>
             </div>
         </el-tooltip>
     </draggable>
@@ -51,7 +51,7 @@
                             height,
                             x: positionObj.x,
                             y: positionObj.y,
-                            z : 1
+                            z : that.layerIndex
                         },
                         styles: {
                             background: "transparent",
@@ -140,8 +140,13 @@
                 eventBus.$emit('showElement', {value: ""});
             }
         },
-        props: {
-
+        computed: {
+            disableAllControls(){
+                return this.$store.state.main.disableAllControls;
+            },
+            layerIndex(){
+                return this.$store.state.main.draggableInsideCanvas.length;
+            }
         }
     }
 </script>
@@ -150,6 +155,7 @@
     .firstColumnButton{
         cursor: -webkit-grab;
         cursor: grab;
+        cursor: url('../../assets/cursors/openhand.cur'), move;
         position: relative;
         width: 100%;
         height: 0;
@@ -200,10 +206,15 @@
         align-items: center;
     }
 
+    .disable{
+        pointer-events: none;
+    }
+
     .title{
         text-decoration: none;
         margin-top: 5px;
         transition: color .4s cubic-bezier(.4,0,.2,1);
+        text-transform: capitalize;
     }
 
     .menuImage{
@@ -215,11 +226,12 @@
         font-size: 1em;
         text-align: center;
         line-height: 1em;
+        font-weight: normal;
     }
 
     @media screen and (max-width: 1800px) {
         .firstColumnButton h2.title{
-            font-size: 0.5em;
+            font-size: 0.6em;
             text-align: center;
             line-height: 0.8em;
         }

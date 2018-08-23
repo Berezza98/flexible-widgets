@@ -1,19 +1,17 @@
 <template>
 <div id="app">
-  <el-row class="fullscreen">
+  <div class="fullscreen">
     <custom-header></custom-header>
     <top-bar></top-bar>
-    <el-col :span="1" class="border">
-      <first-column></first-column>
-    </el-col>
-    <el-col :span="23">
-      <third-column></third-column>
-    </el-col>
+    <div class="main">
+        <first-column></first-column>
+        <third-column></third-column>
+    </div>
     <modal-orientation v-if="!orientation"></modal-orientation>
     <modal-images v-if="imageSelecting.show"></modal-images>
     <modal-templates v-if="templateSelecting"></modal-templates>
     <modal-crop v-if="cropToolUsing.show"></modal-crop>
-  </el-row>
+  </div>
 </div>
 </template>
 
@@ -28,7 +26,8 @@ import Header from './components/head/header.vue';
 import TopBar from './components/head/topBar.vue';
 
 import {eventBus} from './main.js';
-import messages from './data/messages.js';
+
+import translations from './data/translations.js';
 
 export default {
   name: 'app',
@@ -48,7 +47,17 @@ export default {
     'top-bar' : TopBar
   },
   methods: {
-
+    getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split('=');
+            if (decodeURIComponent(pair[0]) == variable) {
+                return decodeURIComponent(pair[1]);
+            }
+        }
+        console.log('Query variable %s not found', variable);
+    }
   },
   computed: {
     orientation(){
@@ -65,16 +74,39 @@ export default {
     }
   },
   mounted(){
-    this.message = this.$message({
-      showClose: true,
-      message: messages.startPage,
-      type: 'message',
-      duration: 60000,
-      customClass: 'information-message'
-    });
+    if (!this.getQueryVariable('fragmentID')) {
+      this.message = this.$message({
+        showClose: true,
+        message: this.$t('messages.startPage'),
+        type: 'message',
+        duration: 60000,
+        customClass: 'information-message'
+      });
+    }
   },
   created(){
-    this.$http.get('https://flexible-app.herokuapp.com/getFonts').then(({body}) => {
+    eventBus.$on('closeStartInformationWindow', () => {
+      this.message.close();
+    });
+
+    this.$store.commit('changeHostURL', this.getQueryVariable('server') ? this.getQueryVariable('server') : 'https://flexible-app.herokuapp.com');
+
+    // SET TRANSLATIONS
+
+    let locale = this.getQueryVariable('lang') ? this.getQueryVariable('lang') : "en";
+
+    if (Object.keys(translations[locale]).length > 0) {
+        this.$i18n.locale = locale
+    } else {
+        this.$i18n.locale = "en"
+    }
+
+    // SET TRANSLATIONS END
+    
+
+    // GET FONTS
+    
+    this.$http.get(this.$store.state.main.hostURL + '/getFonts').then(({body}) => {
       body.sort((a, b) => {
           if(a.toLowerCase() > b.toLowerCase()){ 
               return 1;
@@ -86,17 +118,56 @@ export default {
       this.$store.commit('changeAvailableFonts', body, {module: "main"});
     });
 
-    this.$http.get('https://flexible-app.herokuapp.com/getTemplates?page=6').then(({body}) => {
-        this.$store.commit('addNewTemplates', body, {module: "main"});
+    // GET FONTS END
+
+
+    // GET IMAGES
+
+    this.$http.get(this.$store.state.main.hostURL + '/getImages?category=0&page=1&limit=36').then(({body}) => {
+        this.$store.commit('changeImages', body, {module: "main"});
     });
 
-    this.$http.get('https://flexible-app.herokuapp.com/getImages?page=16').then(({body}) => {
-        this.$store.commit('addNewImages', body, {module: "main"});
+    // GET IMAGES END
+
+
+    // GET CATEGORIES
+
+    this.$http.get(this.$store.state.main.hostURL + '/getImageCategories').then(({body}) => {
+        let categories = [{id: 0, name: this.$t('main.all')}, ...body];
+        this.$store.commit('changeImageCategories', categories, {module: "main"});
+    }).catch((err) => {
+        let categories = [{id: 0, name: this.$t('main.all')}];
+        this.$store.commit('changeImageCategories', categories, {module: "main"});
     });
 
-    eventBus.$on('closeStartInformationWindow', () => {
-      this.message.close();
+    // GET CATEGORIES END
+
+
+    // GET PERMISSIONS
+
+    this.$http.get(this.$store.state.main.hostURL + '/getRights').then(({body}) => {
+        this.$store.commit('changePermissions', body, {module: "main"});
     });
+
+    // GET PERMISSIONS END
+
+
+    // EDITING TEMPLATE
+
+    if(this.getQueryVariable('fragmentID')){
+      this.$http.get(this.$store.state.main.hostURL + `/getTemplate?id=${this.getQueryVariable('fragmentID')}`).then(({body}) => {
+        this.$store.commit('editTemplate', true , {module: "main"});
+        this.$store.commit('changeEditingID', body.id , {module: "main"});
+        this.$store.commit('selectTemplate', body.data , {module: "main"});
+        this.$store.commit('changeOrientation', body.orientation, {module: "main"});
+        this.$store.commit('changeTemplateName', body.name, {module: "main"});
+        this.$store.commit('changeTemplateDuration', body.duration, {module: "main"});
+      });
+    } else {
+      this.$store.commit('changeOrientation', "", {module: "main"});
+    }
+
+    // EDITING TEMPLATE END
   }
 }
 </script>
@@ -110,14 +181,23 @@ export default {
 
 input::placeholder{
   color: #888888 !important;
+  font-size: 13px;
+}
+
+.el-button--mini, .el-button--small {
+    font-size: 10px;
 }
 
 #app {
-  height: calc(100vh - 20px);
+  height: 100vh;
   overflow: hidden;
-  border: 1px solid #e3e3e3;
-  border-radius: 5px;
   box-sizing: border-box;
+}
+
+.main{
+  height: 85vh;
+  width: 100%;
+  display: flex;
 }
 
 .fullscreen{
@@ -128,13 +208,13 @@ input::placeholder{
   border-right: 1px solid #e3e3e3;
 }
 
-.fullscreen>*{
+/* .fullscreen>*{
   height: 100%;
-}
+} */
 
 body{
   margin: 0;
-  padding: 10px;
+  padding: 0px;
   font-size: 16px;
   overflow-y: hidden;
 }
@@ -214,5 +294,13 @@ body{
 
 ::-webkit-scrollbar-thumb {
   background-color: #cfcfcf;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
 </style>
