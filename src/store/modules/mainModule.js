@@ -280,7 +280,6 @@ export default {
         changeInputText(state, value){
             setPreviousValue(state);
             let element = getActiveElement(state.draggableInsideCanvas, state.currentActiveElement);
-            console.log(element);
             element.props.textValue = value;
         },
         changeFontFamily(state, value){

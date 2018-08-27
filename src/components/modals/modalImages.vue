@@ -38,7 +38,7 @@
                     <div v-for="img in images" @click="chooseImage(img)" class="image_wrapper"  :key="img.id">
                         <img :src="img.src + '?time=' + new Date().getTime()">
                         <p class="name">{{img.name.length > 11 ? img.name.slice(0, 11) + "..." : img.name}}</p>
-                        <el-tooltip class="item" :open-delay="500" :content="$t('tooltips.deleteImage')" placement="top">
+                        <el-tooltip v-if="img.editable" class="item" :open-delay="500" :content="$t('tooltips.deleteImage')" placement="top">
                             <md-icon @click.native.stop="deleteImage(img.id)" class="delete_image">close</md-icon>
                         </el-tooltip>
                     </div>
@@ -70,7 +70,8 @@ export default {
             uploading: false,
             value: 0,
             currentPage: 2,
-            canLoad: true
+            canLoad: true,
+            request: null
         }
     },
     components: {
@@ -188,7 +189,16 @@ export default {
             this.canLoad = true;
             this.currentPage = 2;
             this.images = [];
-            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${this.value}&page=1&limit=36&search=${newValue}`).then(({body}) => {
+            this.$http.get(this.$store.state.main.hostURL + `/getImages?category=${this.value}&page=1&limit=36&search=${newValue}`, {
+                before(request) {
+                    if (this.request) {
+                        this.request.abort();
+                    }
+
+                    this.request = request;
+                }
+
+            }).then(({body}) => {
                 this.$store.commit('addNewImages', body , {module: "main"});
             }).catch(function(err){
                 console.log(err);

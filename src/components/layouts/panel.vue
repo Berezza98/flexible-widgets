@@ -173,6 +173,12 @@
             },
             copy(){
                 this.showSubPanel = 'copy';
+
+                if (this.activeElement.props.type === "text") {
+                    console.log(this.activeElement);
+                    eventBus.$emit('saveInnerText', {id: this.id},  {module: "main"});
+                }
+
                 // FOR DELETING OBSERVERS AND CREATE EMPTY OBJECT WITH NEEDED PROPERTIES
                 let element = JSON.stringify(Object.assign({}, this.activeElement));
                 element = JSON.parse(element);

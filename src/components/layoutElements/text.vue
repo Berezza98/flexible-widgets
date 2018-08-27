@@ -2,13 +2,14 @@
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="hideTooltip" @update:active="makeActive">
         <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.openEditTool') " placement="top">
             <div class="textBlock" :style="styles">
-                <p class="cursor" contenteditable="true" spellcheck="false" @mousemove.stop="selectText" @paste="paste" @mousedown="selectTextDownClick" @input="changeContent" @blur="save">{{textClone}}</p>
+                <p class="cursor" contenteditable="true" spellcheck="false" @mousemove.stop="selectText" @paste="paste" @mousedown="selectTextDownClick">{{textClone}}</p>
             </div>
         </el-tooltip>
     </draggable>
 </template>
 
 <script>
+    import { eventBus } from '../../main.js';
 
     export default {
         data(){
@@ -25,17 +26,15 @@
             makeActive(value){
                 this.hideTooltip = value;
                 if (!value) {
+                    let text = this.$el.querySelector('[contenteditable]').innerText;
+
+                    console.log("NOT active element with index: " + this.id);
                     window.getSelection().removeAllRanges();
-                    // this.$store.commit('changeInputText', this.changingText, {module: "main"});
+                    this.$store.commit('changeInputText', text, {module: "main"});
                 } else {
-                    console.log("element with index: " + this.id);
+                    console.log("active element with index: " + this.id);
                     this.$store.commit('changeCurrentActiveElement', this.id, {module: "main"});
                 }
-            },
-            save(event){
-                this.changeContent(event);
-                console.log(event.target.innerText);
-                this.$store.commit('changeInputText', this.changingText, {module: "main"});
             },
             selectText(){
                 //just for stop propogation
@@ -44,9 +43,6 @@
                 if(this.hideTooltip){
                     e.stopPropagation();
                 }
-            },
-            changeContent(e){
-                this.changingText = e.target.innerText;
             },
             paste(e){
                 e.preventDefault();
@@ -106,6 +102,13 @@
         },
         created(){
             this.textClone = this.textValue;
+
+            eventBus.$on("saveInnerText", ({ id }) => {
+                if (this.id === id) {
+                    let text = this.$el.querySelector('[contenteditable]').innerText;
+                    this.$store.commit('changeInputText', text, {module: "main"});
+                }
+            });
         }
     }
 </script>

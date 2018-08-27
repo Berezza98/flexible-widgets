@@ -2,7 +2,7 @@
     <div class="bar">
         <div class="nameBlock">
             <el-input v-model="name" :disabled="editing || disableAllControls" :maxlength="15" size="medium" class="name" :placeholder=" $t('main.templateNamePlaceholder') "></el-input>
-            <el-input v-model="duration" @keypress.native="isNumber($event)" :disabled="disableAllControls" :maxlength="6" size="medium" class="duration" :placeholder=" $t('tooltips.duration') "></el-input>
+            <el-input v-if="!adminPermissions" v-model="duration" @keypress.native="isNumber($event)" :disabled="disableAllControls" :maxlength="6" size="medium" class="duration" :placeholder=" $t('tooltips.duration') "></el-input>
         </div>
         <div class="buttons">
             <el-tooltip class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.preMadeTemplate') " placement="top">
@@ -37,15 +37,20 @@
                     return;
                 }
 
-                if(!(this.duration.toString()).trim()){
-                    this.$message.error(this.$t('messages.durationError'));
-                    return;
+                if(!this.adminPermissions){
+
+                    if(!(this.duration.toString()).trim()){
+                        this.$message.error(this.$t('messages.durationError'));
+                        return;
+                    }
+    
+                    if(Number.isNaN(+(this.duration.toString()).trim())) {
+                        this.$message.error(this.$t('messages.wrongDuration'));
+                        return;
+                    }
+
                 }
 
-                if(Number.isNaN(+(this.duration.toString()).trim())) {
-                    this.$message.error(this.$t('messages.wrongDuration'));
-                    return;
-                }
 
                 this.deleteEmptyImageElements();
 
