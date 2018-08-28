@@ -248,13 +248,71 @@
             },
             rotate(){
                 this.showSubPanel = 'rotate';
-                this.$store.commit('rotateElement', {id: this.id}, {module: 'main'});
+
+                let currentElement = this.$store.getters.getElementByID(this.id);
+
+                let width = currentElement.props.width;
+                let height = currentElement.props.height;
+
+                let position = this.getCorrectPositionForRotatingElement(this.$store.state.main.currentOrientation, currentElement);
+
+                if(position){
+                    let changes = {
+                        id: this.id,
+                        x: position.x,
+                        y: position.y,
+                        height,
+                        width
+                    };
+    
+                    this.$store.commit('rotateElement', changes, {module: 'main'});
+                } else {
+                    this.$message.error(this.$t('messages.shapeFitError'));
+                }
+
             },
             toFront(){
                 this.$store.commit('toFrontZ', {id: this.id}, {module: 'main'});
             },
             toBack(){
                 this.$store.commit('toBackZ', {id: this.id}, {module: 'main'});
+            },
+            getCorrectPositionForRotatingElement(orientation, element){
+                let x = element.props.x;
+                let y = element.props.y;
+                let height = element.props.height;
+                let width = element.props.width;
+                let canvasHeight, canvasWidth;
+
+                let returnObj = {};
+
+                if(orientation === 'portrait'){
+                    canvasHeight = 1920;
+                    canvasWidth = 1080;
+                } else if(orientation === 'landscape'){
+                    canvasHeight = 1080;
+                    canvasWidth = 1920;
+                }
+
+                if(x + height > canvasWidth){
+                    returnObj.x = canvasWidth - height;
+                    if(canvasWidth - height < 0){
+                        return null;
+                    }
+                } else{
+                    returnObj.x = x;
+                }
+
+                if(y + width > canvasHeight){
+                    returnObj.y = canvasHeight - width;
+                    if(canvasHeight - width < 0){
+                        return null;
+                    }
+                } else{
+                    returnObj.y = y;
+                }
+
+                return returnObj;
             }
         },
         computed: {

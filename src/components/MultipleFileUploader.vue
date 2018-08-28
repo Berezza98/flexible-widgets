@@ -5,7 +5,7 @@
                 <div class="form-group">
                     <div class="dropArea" @ondragover="onChange" :class="dragging ? 'dropAreaDragging' : ''" @dragenter="dragging=true" @dragend="dragging=false" @dragleave="dragging=false">
                         <md-icon class="md-size-2x color_gray">cloud_upload</md-icon>
-                        <input type="file" id="items" name="uploadFiles" accept="image/*" required @change="onChange">
+                        <input type="file" id="items" name="uploadFiles" accept="image/x-png,image/jpeg" required @change="onChange">
                         <div>
                             <p class="help-block"><span class="color_gray">{{ $t('main.uploadingFiles') }}</span></p>
                             <p class="limitation-block"><span class="color_gray">{{ $t('main.imageSize') }}</span></p>
@@ -96,6 +96,12 @@ export default {
         },
 
         onSubmit(files) {
+            console.log(files[0].type)
+            if (files[0].type !== 'image/jpeg' && files[0].type !== 'image/png') {
+                this.$message.error(this.$t('messages.formatImageError'));
+                this.removeItems();
+                return;
+            }
             this.isLoaderVisible = true;
             if ((typeof this.postMeta === 'string' && this.postMeta !== '') ||
                 (typeof this.postMeta === 'object' && Object.keys(this.postMeta).length > 0)) {

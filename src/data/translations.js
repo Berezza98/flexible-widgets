@@ -51,7 +51,9 @@ export default {
             deleteCompleted : 'Delete completed',
             warning : 'warning',
             durationError: 'Please fill in duration.',
-            wrongDuration: 'Wrong value in duration field'
+            wrongDuration: 'Wrong value in duration field',
+            formatImageError: 'image does not match criteria',
+            shapeFitError: 'Cannot rotate because shape does not fit in canvas'
         },
         tooltips : {
             textBlock : "Drag and drop to add a text",
@@ -149,7 +151,7 @@ export default {
 
             mainPage :  `Hier kun je tekst, afbeeldingen en vormen toevoegen aan je canvas. In de linkerkolom zie je de verschillende 
                         items die je toe kunt voegen. Klik er op en sleep ze naar het canvas. Als je er op klikt, 
-                        verschijnen er optie in de balk aan de bovenkant. Je kunt een afbeelding kiezen van je bibliotheek of PC door te klikken 
+                        verschijnen er opties in de balk aan de bovenkant. Je kunt een afbeelding kiezen van je bibliotheek of PC door te klikken 
                         op het afbeelding item op je canvas. Voor vormen kun je eentje kiezen uit de selectie die bovenaan verschijnt in de balk 
                         nadat je op de vorm knop hebt geklikt en je sleept deze dan op het canvas. Je kunt terug gaan naar de eerste stap door te klikken 
                         op 'verander oriëntatie' bovenaan. Je kunt deze tooltip weer openen door op uitleg rechtsonder te klikken.`,
@@ -170,7 +172,9 @@ export default {
             deleteCompleted : 'Verwijderen gelukt',
 			warning : 'let op',
             durationError: 'Vul duratie veld in.',
-            wrongDuration: 'Foutieve waarde in duratie veld'
+            wrongDuration: 'Foutieve waarde in duratie veld',
+            formatImageError: 'afbeelding voldoet niet aan eisen',
+            shapeFitError: 'Roteren niet mogelijk omdat de vorm niet in het canvas past'
         },
         tooltips : {
             textBlock : "Sleep om tekst toe te voegen",

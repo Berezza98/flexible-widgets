@@ -4,8 +4,8 @@ var webpack = require('webpack')
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './flextool'),
-    publicPath: '/flextool/',
+    path: path.resolve(__dirname, './js/plugins/flextool'),
+    publicPath: '/js/plugins/flextool/',
     filename: 'build.js'
   },
   module: {

@@ -2,6 +2,7 @@
 node_modules/
 dist/
 flextool/
+js/
 npm-debug.log
 yarn-error.log
 

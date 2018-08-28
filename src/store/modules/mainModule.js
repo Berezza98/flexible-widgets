@@ -209,16 +209,12 @@ export default {
             setPreviousValue(state);
             let element = getElementByID(state.draggableInsideCanvas, value.id);
             element.props.rotated = !element.props.rotated;
-            let width = element.props.width;
-            let height = element.props.height;
 
-            let position = getCorrectPositionForRotatingElement(state.currentOrientation, element);
+            element.props.x = value.x;
+            element.props.y = value.y;
 
-            element.props.x = position.x;
-            element.props.y = position.y;
-
-            element.props.width = height;
-            element.props.height = width;
+            element.props.width = value.height;
+            element.props.height = value.width;
         },
         changeImageSource(state, value){
             setPreviousValue(state);
@@ -353,36 +349,4 @@ function setPreviousValue(state){
         state.prevArr.shift();
     }
     state.prevArr.push(JSON.parse(JSON.stringify(state.draggableInsideCanvas)));
-}
-
-function getCorrectPositionForRotatingElement(orientation, element){
-    let x = element.props.x;
-    let y = element.props.y;
-    let height = element.props.height;
-    let width = element.props.width;
-    let canvasHeight, canvasWidth;
-
-    let returnObj = {};
-
-    if(orientation === 'portrait'){
-        canvasHeight = 1920;
-        canvasWidth = 1080;
-    } else if(orientation === 'landscape'){
-        canvasHeight = 1080;
-        canvasWidth = 1920;
-    }
-
-    if(x + height > canvasWidth){
-        returnObj.x = canvasWidth - height;
-    } else{
-        returnObj.x = x;
-    }
-
-    if(y + width > canvasHeight){
-        returnObj.y = canvasHeight - width;
-    } else{
-        returnObj.y = y;
-    }
-
-    return returnObj;
 }
