@@ -79,6 +79,7 @@
                     html2canvas(canvas, {logging: false, useCORS: true}).then(canvas => {
                         this.$store.commit('changeIdOfElements', {module: "main"});
                         // console.log(canvas.toDataURL());
+                        console.log(this.clearHTML(HTML));
                         return {
                             image: canvas.toDataURL(),
                             name,
@@ -164,8 +165,9 @@
                 badElements.forEach((element) => {
                     element.remove();
                 });
-                
-                return html.innerHTML.replace(/<!---->/g, '');
+
+                html = html.innerHTML.replace(/<!---->|contenteditable="true"/g, '');
+                return html;
             },
             deleteEmptyImageElements(){
                 this.$store.commit('deleteEmptyImageElements', null, {module: "main"});

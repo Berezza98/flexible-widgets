@@ -2,7 +2,7 @@
     <draggable :z="z" :drop-zone="'.canvas'" :parent="'.canvas'" :id="id" :w="width" :h="height" :x="x" :y="y" :active="hideTooltip" @update:active="makeActive">
         <el-tooltip :disabled="hideTooltip" class="item" effect="dark" :open-delay="500" :content=" $t('tooltips.openEditTool') " placement="top">
             <div class="textBlock" :style="styles">
-                <p class="cursor" contenteditable="true" spellcheck="false" @mousemove.stop="selectText" @paste="paste" @mousedown="selectTextDownClick">{{textClone}}</p>
+                <div class="cursor" contenteditable="true" spellcheck="false" @mousemove.stop="selectText" @paste="paste" @mousedown="selectTextDownClick" v-html="textClone"></div>
             </div>
         </el-tooltip>
     </draggable>
@@ -26,7 +26,7 @@
             makeActive(value){
                 this.hideTooltip = value;
                 if (!value) {
-                    let text = this.$el.querySelector('[contenteditable]').innerText;
+                    let text = this.$el.querySelector('[contenteditable]').innerHTML;
 
                     console.log("NOT active element with index: " + this.id);
                     window.getSelection().removeAllRanges();
@@ -46,7 +46,7 @@
             },
             paste(e){
                 e.preventDefault();
-
+                // IE 11
                 if (navigator.userAgent.indexOf('Trident/') < 0) {
                     let text = e.clipboardData.getData("text/plain");
                     document.execCommand("insertHTML", false, text);
