@@ -10,6 +10,7 @@ import VueMaterial from 'vue-material';
 import AsyncComputed from 'vue-async-computed'
 import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
+import VueCookie from 'vue-cookie';
 
 import 'element-ui/lib/theme-chalk/index.css';
 import 'vue-material/dist/vue-material.css';
@@ -28,6 +29,7 @@ Vue.use(VueI18n);
 Vue.use(VueResource);
 Vue.use(AsyncComputed);
 Vue.use(VueMaterial);
+Vue.use(VueCookie);
 
 locale.use(lang);
 Vue.use(ElementUI);

@@ -57,6 +57,9 @@ export default {
             }
         }
         console.log('Query variable %s not found', variable);
+    },
+    closeMainModalWindow() {
+      this.$cookie.set('mainModal', 1, 1);
     }
   },
   computed: {
@@ -74,19 +77,24 @@ export default {
     }
   },
   mounted(){
-    if (!this.getQueryVariable('fragmentID')) {
+    if (!this.getQueryVariable('fragmentID') && !parseInt(this.$cookie.get('mainModal'))) {
       this.message = this.$message({
         showClose: true,
         message: this.$t('messages.startPage'),
         type: 'message',
         duration: 60000,
-        customClass: 'information-message'
+        customClass: 'information-message',
+        onClose: this.closeMainModalWindow
       });
+    } else {
+      this.$store.commit("hideInstructions", null, { module: "main" });
     }
   },
   created(){
     eventBus.$on('closeStartInformationWindow', () => {
-      this.message.close();
+      if (this.message) {
+        this.message.close();
+      }
     });
 
     this.$store.commit('changeHostURL', this.getQueryVariable('server') ? this.getQueryVariable('server') : 'https://flexible-app.herokuapp.com');
