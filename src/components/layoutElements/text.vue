@@ -123,7 +123,7 @@
         display: flex;
         overflow: hidden;
     }
-    .textBlock p{
+    .textBlock .cursor{
         user-select: text;
         outline: none;
         margin: 0px;
