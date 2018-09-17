@@ -320,6 +320,9 @@ export default {
         undo(state){
             state.draggableInsideCanvas = state.prevArr[state.prevArr.length - 1];
             state.prevArr.pop();
+        },
+        deleteHistory(state){
+            state.prevArr = [];
         }
     }
 };

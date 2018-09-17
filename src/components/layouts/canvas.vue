@@ -224,7 +224,7 @@
     }
 
     .info{
-        position: absolute;
+        position: fixed;
         cursor: pointer;
         bottom: 20px;
         right: 50px;

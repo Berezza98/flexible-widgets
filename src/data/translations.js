@@ -53,7 +53,8 @@ export default {
             durationError: 'Please fill in duration.',
             wrongDuration: 'Wrong value in duration field',
             formatImageError: 'image does not match criteria',
-            shapeFitError: 'Cannot rotate because shape does not fit in canvas'
+            shapeFitError: 'Cannot rotate because shape does not fit in canvas',
+            changeOrientationWarning: 'All elements will be removed from canvas'
         },
         tooltips : {
             textBlock : "Drag and drop to add a text",
@@ -174,7 +175,8 @@ export default {
             durationError: 'Vul duratie veld in.',
             wrongDuration: 'Foutieve waarde in duratie veld',
             formatImageError: 'afbeelding voldoet niet aan eisen',
-            shapeFitError: 'Roteren niet mogelijk omdat de vorm niet in het canvas past'
+            shapeFitError: 'Roteren niet mogelijk omdat de vorm niet in het canvas past',
+            changeOrientationWarning: 'All elements will be removed from canvas'
         },
         tooltips : {
             textBlock : "Sleep om tekst toe te voegen",

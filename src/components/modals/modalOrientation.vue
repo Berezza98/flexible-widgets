@@ -56,8 +56,22 @@
         },
         methods: {
             chooseOrientation(){
+                if (this.elementsInsideCanvas.length > 0) {
+                    this.$confirm(this.$t('messages.changeOrientationWarning'), this.$t('messages.warning'), {
+                    confirmButtonText: this.$t('buttons.ok'),
+                    cancelButtonText: this.$t('buttons.cancel'),
+                    type: 'warning'
+                    }).then(() => {
+                        this.changeOrientation();
+                    })
+                } else {
+                    this.changeOrientation();
+                }
+            },
+            changeOrientation(){
                 this.$store.commit('changeOrientation', this.radio, {module: "main"});
                 this.$store.commit('selectTemplate', [] , {module: "main"});
+                this.$store.commit('deleteHistory', null , {module: "main"});
                 this.$store.commit('createWidget', {module: "main"});
 
                 this.$http.get(this.$store.state.main.hostURL + `/getTemplates?page=1&orientation=${this.orientation}&limit=16`).then(({body}) => {
@@ -101,6 +115,9 @@
             },
             showButtonForClose(){
                 return this.$store.state.main.orientationWasSelected;
+            },
+            elementsInsideCanvas(){
+                return this.$store.state.main.draggableInsideCanvas;
             }
         }
     }
